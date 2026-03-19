@@ -29,6 +29,18 @@ constexpr float kProjectileDebugRadius = 0.18F;
 constexpr float kPickupDebugRadius = 0.30F;
 constexpr float kSwordDebugRadius = 0.48F;
 
+bool area_matches(const GameSession* session, AreaKind area_kind, int cave_id) {
+    if (session->area_kind != area_kind) {
+        return false;
+    }
+
+    if (area_kind == AreaKind::Cave) {
+        return session->current_cave_id == cave_id;
+    }
+
+    return true;
+}
+
 void set_draw_color(SDL_Renderer* renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255) {
     SDL_SetRenderDrawColor(renderer, r, g, b, a);
 }
@@ -65,35 +77,6 @@ void render_tile_texture(SDL_Renderer* renderer, const DebugTileset* tileset, st
 
 bool draw_room_grid(float zoom) {
     return zoom <= 0.12F;
-}
-
-void set_draw_color_for_overworld_tile(SDL_Renderer* renderer, std::uint8_t tile) {
-    if (tile == 0x6F || (tile >= 0x70 && tile <= 0x73) || tile == 0x8D || tile == 0x91) {
-        set_draw_color(renderer, 0, 0, 0);
-        return;
-    }
-
-    if (tile >= 0x74 && tile <= 0x77) {
-        set_draw_color(renderer, 32, 56, 236);
-        return;
-    }
-
-    if (tile >= 0xBC && tile <= 0xDE) {
-        set_draw_color(renderer, 200, 76, 12);
-        return;
-    }
-
-    if (tile >= 0xE5 && tile <= 0xEA) {
-        set_draw_color(renderer, 0, 168, 0);
-        return;
-    }
-
-    if ((tile >= 0x78 && tile <= 0x80) || (tile >= 0x84 && tile <= 0x98)) {
-        set_draw_color(renderer, 116, 116, 116);
-        return;
-    }
-
-    set_draw_color(renderer, 252, 216, 168);
 }
 
 Camera make_clamped_camera(const glm::vec2& focus, const World* world, float zoom) {
@@ -152,7 +135,146 @@ void render_pickup_sprite(SDL_Renderer* renderer, const Camera* camera, const Pi
         set_draw_color(renderer, 40, 40, 40);
         fill_rect(renderer, rect);
         break;
+    case PickupKind::Boomerang:
+        set_draw_color(renderer, 120, 180, 255);
+        fill_rect(renderer, rect);
+        break;
+    case PickupKind::Bow:
+        set_draw_color(renderer, 180, 120, 40);
+        fill_rect(renderer, rect);
+        break;
+    case PickupKind::Candle:
+        set_draw_color(renderer, 255, 140, 40);
+        fill_rect(renderer, rect);
+        break;
+    case PickupKind::BluePotion:
+        set_draw_color(renderer, 64, 120, 255);
+        fill_rect(renderer, rect);
+        break;
+    case PickupKind::HeartContainer:
+        set_draw_color(renderer, 220, 40, 48);
+        fill_rect(renderer, rect);
+        set_draw_color(renderer, 252, 252, 252);
+        draw_rect_outline(renderer, rect);
+        break;
+    case PickupKind::Key:
+        set_draw_color(renderer, 240, 220, 100);
+        fill_rect(renderer, rect);
+        break;
+    case PickupKind::Recorder:
+        set_draw_color(renderer, 160, 220, 255);
+        fill_rect(renderer, rect);
+        break;
+    case PickupKind::Ladder:
+        set_draw_color(renderer, 180, 140, 80);
+        fill_rect(renderer, rect);
+        break;
+    case PickupKind::Raft:
+        set_draw_color(renderer, 170, 110, 70);
+        fill_rect(renderer, rect);
+        break;
     case PickupKind::None:
+        break;
+    }
+}
+
+void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Enemy* enemy) {
+    SDL_FRect rect = world_rect_to_screen(camera, enemy->position, glm::vec2(0.8F, 0.8F));
+
+    switch (enemy->kind) {
+    case EnemyKind::Octorok:
+        set_draw_color(renderer, enemy->hurt_seconds_remaining > 0.0F ? 252 : 216,
+                       enemy->hurt_seconds_remaining > 0.0F ? 252 : 40, 0);
+        break;
+    case EnemyKind::Moblin:
+        set_draw_color(renderer, 200, 80, 24);
+        break;
+    case EnemyKind::Tektite:
+        set_draw_color(renderer, 160, 0, 200);
+        break;
+    case EnemyKind::Leever:
+        set_draw_color(renderer, 210, 180, 96);
+        break;
+    case EnemyKind::Keese:
+        set_draw_color(renderer, 96, 96, 140);
+        break;
+    case EnemyKind::Aquamentus:
+        set_draw_color(renderer, 40, 170, 150);
+        rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.6F, 1.4F));
+        break;
+    }
+
+    fill_rect(renderer, rect);
+}
+
+void render_projectile_sprite(SDL_Renderer* renderer, const Camera* camera,
+                              const Projectile* projectile) {
+    SDL_FRect rect =
+        world_rect_to_screen(camera, projectile->position,
+                             glm::vec2(projectile->radius * 2.0F, projectile->radius * 2.0F));
+
+    switch (projectile->kind) {
+    case ProjectileKind::Rock:
+        set_draw_color(renderer, 220, 220, 220);
+        break;
+    case ProjectileKind::Arrow:
+        set_draw_color(renderer, 252, 252, 252);
+        break;
+    case ProjectileKind::Boomerang:
+        set_draw_color(renderer, 120, 180, 255);
+        break;
+    case ProjectileKind::Fire:
+        set_draw_color(renderer, 255, 132, 0);
+        break;
+    case ProjectileKind::Bomb:
+        set_draw_color(renderer, 30, 30, 30);
+        break;
+    case ProjectileKind::Explosion:
+        set_draw_color(renderer, 255, 208, 80, 220);
+        rect = world_rect_to_screen(camera, projectile->position, glm::vec2(2.2F, 2.2F));
+        break;
+    }
+
+    fill_rect(renderer, rect);
+}
+
+void render_npc_sprite(SDL_Renderer* renderer, const Camera* camera, const Npc* npc) {
+    SDL_FRect rect = world_rect_to_screen(camera, npc->position, glm::vec2(1.0F, 1.2F));
+    if (npc->kind == NpcKind::ShopKeeper) {
+        set_draw_color(renderer, 80, 200, 120);
+    } else {
+        set_draw_color(renderer, 220, 160, 60);
+    }
+
+    fill_rect(renderer, rect);
+}
+
+void render_portals(SDL_Renderer* renderer, const Camera* camera, const GameSession* session) {
+    std::array<AreaPortal, kMaxAreaPortals> portals = {};
+    const int portal_count = gather_area_portals(session, &portals);
+    for (int index = 0; index < portal_count; ++index) {
+        const AreaPortal& portal = portals[static_cast<std::size_t>(index)];
+        set_draw_color(renderer, 80, 180, 255, 255);
+        fill_rect(renderer, world_rect_to_screen(camera, portal.center, portal.half_size * 2.0F));
+    }
+}
+
+void set_draw_color_for_tile_kind(SDL_Renderer* renderer, TileKind tile_kind) {
+    switch (tile_kind) {
+    case TileKind::Ground:
+        set_draw_color(renderer, 70, 64, 54);
+        break;
+    case TileKind::Wall:
+        set_draw_color(renderer, 44, 44, 52);
+        break;
+    case TileKind::Water:
+        set_draw_color(renderer, 40, 96, 220);
+        break;
+    case TileKind::Tree:
+        set_draw_color(renderer, 36, 144, 48);
+        break;
+    case TileKind::Rock:
+        set_draw_color(renderer, 124, 112, 92);
         break;
     }
 }
@@ -234,7 +356,8 @@ void render_hitbox_overlay(SDL_Renderer* renderer, const GameSession* session, c
     }
 
     for (const Enemy& enemy : session->enemies) {
-        if (!enemy.active || enemy.room_id != session->current_room_id) {
+        if (!enemy.active || enemy.hidden ||
+            !area_matches(session, enemy.area_kind, enemy.cave_id)) {
             continue;
         }
 
@@ -245,7 +368,8 @@ void render_hitbox_overlay(SDL_Renderer* renderer, const GameSession* session, c
     }
 
     for (const Projectile& projectile : session->projectiles) {
-        if (!projectile.active || projectile.room_id != session->current_room_id) {
+        if (!projectile.active ||
+            !area_matches(session, projectile.area_kind, projectile.cave_id)) {
             continue;
         }
 
@@ -256,15 +380,7 @@ void render_hitbox_overlay(SDL_Renderer* renderer, const GameSession* session, c
     }
 
     for (const Pickup& pickup : session->pickups) {
-        if (!pickup.active) {
-            continue;
-        }
-
-        const bool visible =
-            (session->area_kind == AreaKind::Overworld &&
-             pickup.room_id == session->current_room_id) ||
-            (session->area_kind == AreaKind::Cave && pickup.cave_id == session->current_cave_id);
-        if (!visible) {
+        if (!pickup.active || !area_matches(session, pickup.area_kind, pickup.cave_id)) {
             continue;
         }
 
@@ -313,7 +429,7 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
                                  "hidden cave attr cave=" + std::to_string(warp.cave_id));
             }
         }
-    } else {
+    } else if (session->area_kind == AreaKind::Cave) {
         const CaveDef* cave = get_cave_def(session->current_cave_id);
         if (cave != nullptr) {
             set_draw_color(renderer, 64, 255, 160, 255);
@@ -324,6 +440,18 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
                                  "cave exit");
             }
         }
+    } else {
+        std::array<AreaPortal, kMaxAreaPortals> portals = {};
+        const int portal_count = gather_area_portals(session, &portals);
+        for (int index = 0; index < portal_count; ++index) {
+            const AreaPortal& portal = portals[static_cast<std::size_t>(index)];
+            set_draw_color(renderer, 96, 196, 255, 255);
+            draw_rect_outline(
+                renderer, world_rect_to_screen(&camera, portal.center, portal.half_size * 2.0F));
+            if (debug_view->show_labels) {
+                draw_debug_label(renderer, world_to_screen(&camera, portal.center), portal.label);
+            }
+        }
     }
 
     if (!debug_view->show_labels) {
@@ -331,21 +459,24 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
     }
 
     for (const Pickup& pickup : session->pickups) {
-        if (!pickup.active) {
+        if (!pickup.active || !area_matches(session, pickup.area_kind, pickup.cave_id)) {
+            continue;
+        }
+        std::string label = std::string("pickup ") + pickup_name(pickup.kind);
+        if (pickup.shop_item) {
+            label += " " + std::to_string(pickup.price_rupees) + "r";
+        }
+        draw_debug_label(
+            renderer, world_to_screen(&camera, pickup.position + glm::vec2(-0.3F, -0.7F)), label);
+    }
+
+    for (const Npc& npc : session->npcs) {
+        if (!npc.active || !area_matches(session, npc.area_kind, npc.cave_id)) {
             continue;
         }
 
-        const bool visible =
-            (session->area_kind == AreaKind::Overworld &&
-             pickup.room_id == session->current_room_id) ||
-            (session->area_kind == AreaKind::Cave && pickup.cave_id == session->current_cave_id);
-        if (!visible) {
-            continue;
-        }
-
-        draw_debug_label(renderer,
-                         world_to_screen(&camera, pickup.position + glm::vec2(-0.3F, -0.7F)),
-                         std::string("pickup ") + pickup_name(pickup.kind));
+        draw_debug_label(renderer, world_to_screen(&camera, npc.position + glm::vec2(-0.5F, -0.8F)),
+                         std::string(npc_name(npc.kind)) + " " + npc.label);
     }
 }
 
@@ -357,14 +488,17 @@ void render_scene(SDL_Renderer* renderer, const DebugTileset* tileset, const Deb
     set_draw_color(renderer, 16, 24, 34);
     SDL_RenderClear(renderer);
 
+    const World* active_world = get_active_world(session, world);
     if (session->area_kind == AreaKind::Cave) {
         render_cave(renderer, session, player, zoom);
     } else {
-        render_world(renderer, tileset, world, player, zoom);
+        render_world(renderer, tileset, active_world, player, zoom);
+        const Camera camera = make_clamped_camera(player->position, active_world, zoom);
+        render_portals(renderer, &camera, session);
     }
 
-    render_session_entities(renderer, session, get_active_world(session, world), player, zoom);
-    render_player(renderer, get_active_world(session, world), player, zoom);
+    render_session_entities(renderer, session, active_world, player, zoom);
+    render_player(renderer, active_world, player, zoom);
     render_debug_overlay(renderer, debug_view, session, world, player, zoom);
 }
 
@@ -384,7 +518,7 @@ void render_world(SDL_Renderer* renderer, const DebugTileset* tileset, const Wor
                 continue;
             }
 
-            set_draw_color_for_overworld_tile(renderer, get_world_tile(&world->overworld, x, y));
+            set_draw_color_for_tile_kind(renderer, world_tile_at(world, x, y));
             fill_rect(renderer, tile_rect);
         }
     }
@@ -435,49 +569,37 @@ void render_session_entities(SDL_Renderer* renderer, const GameSession* session,
     const Camera camera = make_clamped_camera(player->position, world, zoom);
 
     for (const Enemy& enemy : session->enemies) {
-        if (!enemy.active || enemy.room_id != session->current_room_id) {
+        if (!enemy.active || enemy.hidden ||
+            !area_matches(session, enemy.area_kind, enemy.cave_id)) {
             continue;
         }
 
-        SDL_FRect rect = world_rect_to_screen(&camera, enemy.position, glm::vec2(0.8F, 0.8F));
-        if (enemy.hurt_seconds_remaining > 0.0F) {
-            set_draw_color(renderer, 252, 252, 252);
-        } else {
-            set_draw_color(renderer, 216, 40, 0);
-        }
-
-        fill_rect(renderer, rect);
-        set_draw_color(renderer, 0, 0, 0);
-        fill_rect(renderer, make_rect(glm::vec2(rect.x + rect.w * 0.25F, rect.y + rect.h * 0.25F),
-                                      glm::vec2(rect.w * 0.18F, rect.h * 0.18F)));
-        fill_rect(renderer, make_rect(glm::vec2(rect.x + rect.w * 0.58F, rect.y + rect.h * 0.25F),
-                                      glm::vec2(rect.w * 0.18F, rect.h * 0.18F)));
+        render_enemy_sprite(renderer, &camera, &enemy);
     }
 
     for (const Projectile& projectile : session->projectiles) {
-        if (!projectile.active || projectile.room_id != session->current_room_id) {
+        if (!projectile.active ||
+            !area_matches(session, projectile.area_kind, projectile.cave_id)) {
             continue;
         }
 
-        set_draw_color(renderer, 252, 252, 252);
-        fill_rect(renderer,
-                  world_rect_to_screen(&camera, projectile.position, glm::vec2(0.35F, 0.35F)));
+        render_projectile_sprite(renderer, &camera, &projectile);
     }
 
     for (const Pickup& pickup : session->pickups) {
-        if (!pickup.active) {
-            continue;
-        }
-
-        const bool visible =
-            (session->area_kind == AreaKind::Overworld &&
-             pickup.room_id == session->current_room_id) ||
-            (session->area_kind == AreaKind::Cave && pickup.cave_id == session->current_cave_id);
-        if (!visible) {
+        if (!pickup.active || !area_matches(session, pickup.area_kind, pickup.cave_id)) {
             continue;
         }
 
         render_pickup_sprite(renderer, &camera, &pickup);
+    }
+
+    for (const Npc& npc : session->npcs) {
+        if (!npc.active || !area_matches(session, npc.area_kind, npc.cave_id)) {
+            continue;
+        }
+
+        render_npc_sprite(renderer, &camera, &npc);
     }
 }
 

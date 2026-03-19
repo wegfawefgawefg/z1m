@@ -2,6 +2,7 @@
 
 #include "backends/imgui_impl_sdl3.h"
 #include "backends/imgui_impl_sdlrenderer3.h"
+#include "content/opening_content.hpp"
 #include "content/overworld_warps.hpp"
 #include "imgui.h"
 
@@ -53,6 +54,21 @@ void render_current_room_warps(const AppState* app) {
                     warp.trigger_position.y, warp.trigger_half_size.x, warp.trigger_half_size.y);
         ImGui::Text("return=(%.2f, %.2f)", warp.return_position.x, warp.return_position.y);
         ImGui::PopID();
+    }
+}
+
+void render_travel_buttons(AppState* app) {
+    if (ImGui::Button("Overworld")) {
+        set_area_kind(&app->session, &app->player, AreaKind::Overworld, -1,
+                      get_opening_start_position());
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Enemy Zoo")) {
+        set_area_kind(&app->session, &app->player, AreaKind::EnemyZoo, -1, glm::vec2(10.0F, 10.0F));
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Item Zoo")) {
+        set_area_kind(&app->session, &app->player, AreaKind::ItemZoo, -1, glm::vec2(10.0F, 10.0F));
     }
 }
 
@@ -133,17 +149,22 @@ void render_debug_ui(AppState* app) {
             ImGui::Checkbox("Show Interactables", &app->debug_view.show_interactables);
             ImGui::Checkbox("Show Labels", &app->debug_view.show_labels);
 
-            ImGui::SeparatorText("Hotkeys");
-            ImGui::TextUnformatted("F1 UI  F2 overlay  F3 hitboxes");
-            ImGui::TextUnformatted("F4 collision  F5 interactables  F6 labels");
+            ImGui::SeparatorText("Travel");
+            render_travel_buttons(app);
 
             ImGui::SeparatorText("Session");
             ImGui::Text("area=%s room=%d cave=%d", area_name(&app->session),
                         app->session.current_room_id, app->session.current_cave_id);
             ImGui::Text("player=(%.2f, %.2f) hp=%d/%d", app->player.position.x,
                         app->player.position.y, app->player.health, app->player.max_health);
-            ImGui::Text("rupees=%d bombs=%d sword=%s", app->player.rupees, app->player.bombs,
-                        app->player.has_sword ? "yes" : "no");
+            ImGui::Text("rupees=%d bombs=%d keys=%d", app->player.rupees, app->player.bombs,
+                        app->player.keys);
+            ImGui::Text("sword=%s item=%s", app->player.has_sword ? "yes" : "no",
+                        use_item_name(app->player.selected_item));
+            ImGui::Text("boomerang=%s bow=%s candle=%s potion=%s",
+                        app->player.has_boomerang ? "yes" : "no",
+                        app->player.has_bow ? "yes" : "no", app->player.has_candle ? "yes" : "no",
+                        app->player.has_potion ? "yes" : "no");
 
             ImGui::SeparatorText("Current Room Warps");
             render_current_room_warps(app);

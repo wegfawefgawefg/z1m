@@ -208,6 +208,18 @@ void pump_app_events(AppState* app) {
                 app->attack_queued = true;
             }
 
+            if (event.key.scancode == SDL_SCANCODE_E || event.key.scancode == SDL_SCANCODE_LSHIFT) {
+                app->use_item_queued = true;
+            }
+
+            if (event.key.scancode == SDL_SCANCODE_Q) {
+                app->previous_item_queued = true;
+            }
+
+            if (event.key.scancode == SDL_SCANCODE_R || event.key.scancode == SDL_SCANCODE_TAB) {
+                app->next_item_queued = true;
+            }
+
             if (event.key.scancode == SDL_SCANCODE_EQUALS ||
                 event.key.scancode == SDL_SCANCODE_KP_PLUS) {
                 zoom_in(app);
@@ -225,31 +237,6 @@ void pump_app_events(AppState* app) {
 
             if (event.key.scancode == SDL_SCANCODE_F1) {
                 app->debug_view.show_ui = !app->debug_view.show_ui;
-                update_window_title(app);
-            }
-
-            if (event.key.scancode == SDL_SCANCODE_F2) {
-                app->debug_view.enabled = !app->debug_view.enabled;
-                update_window_title(app);
-            }
-
-            if (event.key.scancode == SDL_SCANCODE_F3) {
-                app->debug_view.show_hitboxes = !app->debug_view.show_hitboxes;
-                update_window_title(app);
-            }
-
-            if (event.key.scancode == SDL_SCANCODE_F4) {
-                app->debug_view.show_collision_tiles = !app->debug_view.show_collision_tiles;
-                update_window_title(app);
-            }
-
-            if (event.key.scancode == SDL_SCANCODE_F5) {
-                app->debug_view.show_interactables = !app->debug_view.show_interactables;
-                update_window_title(app);
-            }
-
-            if (event.key.scancode == SDL_SCANCODE_F6) {
-                app->debug_view.show_labels = !app->debug_view.show_labels;
                 update_window_title(app);
             }
         }
@@ -288,11 +275,20 @@ void update_app(AppState* app, double dt_seconds) {
     }
 
     input.attack_pressed = !ui_captures_keyboard && app->attack_queued;
+    input.use_item_pressed = !ui_captures_keyboard && app->use_item_queued;
+    input.next_item_pressed = !ui_captures_keyboard && app->next_item_queued;
+    input.previous_item_pressed = !ui_captures_keyboard && app->previous_item_queued;
     app->attack_queued = false;
+    app->use_item_queued = false;
+    app->next_item_queued = false;
+    app->previous_item_queued = false;
 
     PlayerCommand command;
     command.move_axis = input.move_axis;
     command.attack_pressed = input.attack_pressed;
+    command.use_item_pressed = input.use_item_pressed;
+    command.next_item_pressed = input.next_item_pressed;
+    command.previous_item_pressed = input.previous_item_pressed;
 
     tick_game_session(&app->session, &app->world, &app->player, &command,
                       static_cast<float>(dt_seconds));
@@ -321,6 +317,7 @@ void update_window_title(AppState* app) {
         " | hp=" + std::to_string(app->player.health) + "/" +
         std::to_string(app->player.max_health) + " | rupees=" + std::to_string(app->player.rupees) +
         " | bombs=" + std::to_string(app->player.bombs) +
+        " | item=" + std::string(use_item_name(app->player.selected_item)) +
         " | sword=" + std::string(app->player.has_sword ? "yes" : "no") +
         " | ui=" + std::string(app->debug_view.show_ui ? "on" : "off") +
         " | dbg=" + std::string(app->debug_view.enabled ? "on" : "off") +

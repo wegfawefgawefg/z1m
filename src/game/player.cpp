@@ -239,4 +239,21 @@ glm::vec2 sword_world_position(const Player* player) {
     return player->position + offset;
 }
 
+const char* use_item_name(UseItemKind kind) {
+    switch (kind) {
+    case UseItemKind::None:
+        return "none";
+    case UseItemKind::Bombs:
+        return "bombs";
+    case UseItemKind::Boomerang:
+        return "boomerang";
+    case UseItemKind::Bow:
+        return "bow";
+    case UseItemKind::Candle:
+        return "candle";
+    }
+
+    return "none";
+}
+
 } // namespace z1m

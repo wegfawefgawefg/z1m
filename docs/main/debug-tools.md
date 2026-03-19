@@ -26,15 +26,18 @@ Current panel contents:
 - label toggle
 - current session stats
 - current room warp metadata
+- quick travel buttons for overworld, enemy zoo, and item zoo
 
 Current hotkeys:
 
 - `F1`: show/hide the Dear ImGui debug panel
-- `F2`: show/hide the world debug overlay
-- `F3`: show/hide hitboxes
-- `F4`: show/hide collision tiles
-- `F5`: show/hide interactables
-- `F6`: show/hide labels
+
+Gameplay test controls:
+
+- `Space` or `F`: sword attack
+- `E` or `Left Shift`: use selected item
+- `Q`: previous item
+- `R` or `Tab`: next item
 
 ## Overlay Types
 
@@ -62,9 +65,21 @@ Shows:
 
 - overworld cave/dungeon/shortcut warp trigger boxes
 - cave exit box
+- sandbox portal pads
 - pickup labels
+- NPC labels
 - hidden cave room attributes when a room has cave metadata but no visible
   entrance tiles yet
+
+## Zoo Areas
+
+The repo now has two explicit test areas:
+
+- `enemy-zoo`: grouped pens for multiple enemy families and a boss pen
+- `item-zoo`: free item pickups, shop-style purchases, and NPCs
+
+Use them to tune behavior in isolation before pushing more content into the
+main campaign world.
 
 ## Warp Rules
 
@@ -88,4 +103,4 @@ screen-sized box.
   logic is not implemented yet.
 - Cave interiors are still placeholder logic rooms, not full ROM-authored cave
   content.
-- Overlay annotations currently focus on the active room only.
+- The zoos are test content, not canonical campaign placement.

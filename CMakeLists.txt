@@ -28,6 +28,7 @@ add_executable(z1m
     src/app/run.cpp
     src/content/opening_content.cpp
     src/content/overworld_warps.cpp
+    src/content/sandbox_content.cpp
     src/content/world_data.cpp
     src/debug/debug_ui.cpp
     src/render/camera.cpp

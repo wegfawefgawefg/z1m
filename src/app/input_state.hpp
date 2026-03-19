@@ -7,6 +7,9 @@ namespace z1m {
 struct InputState {
     glm::vec2 move_axis = glm::vec2(0.0F, 0.0F);
     bool attack_pressed = false;
+    bool use_item_pressed = false;
+    bool next_item_pressed = false;
+    bool previous_item_pressed = false;
     bool quit_requested = false;
 };
 

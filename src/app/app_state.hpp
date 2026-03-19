@@ -24,6 +24,9 @@ struct AppState {
     bool running = true;
     float zoom = 1.0F;
     bool attack_queued = false;
+    bool use_item_queued = false;
+    bool next_item_queued = false;
+    bool previous_item_queued = false;
     double fps_timer_seconds = 0.0;
     int frames_this_second = 0;
     int displayed_fps = 0;

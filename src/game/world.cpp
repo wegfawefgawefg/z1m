@@ -1,5 +1,6 @@
 #include "game/world.hpp"
 
+#include <algorithm>
 #include <cmath>
 
 namespace z1m {
@@ -14,6 +15,43 @@ int world_width(const World* world) {
 
 int world_height(const World* world) {
     return world->height;
+}
+
+void resize_world(World* world, int width, int height) {
+    world->width = width;
+    world->height = height;
+    world->use_custom_tiles = true;
+    world->overworld.loaded = false;
+    world->custom_tiles.assign(static_cast<std::size_t>(width * height), TileKind::Ground);
+}
+
+void fill_world(World* world, TileKind tile_kind) {
+    if (!world->use_custom_tiles) {
+        return;
+    }
+
+    std::fill(world->custom_tiles.begin(), world->custom_tiles.end(), tile_kind);
+}
+
+void set_world_tile(World* world, int x, int y, TileKind tile_kind) {
+    if (!world->use_custom_tiles) {
+        return;
+    }
+
+    if (x < 0 || y < 0 || x >= world->width || y >= world->height) {
+        return;
+    }
+
+    const std::size_t index = static_cast<std::size_t>(y * world->width + x);
+    world->custom_tiles[index] = tile_kind;
+}
+
+void fill_world_rect(World* world, int x, int y, int width, int height, TileKind tile_kind) {
+    for (int tile_y = y; tile_y < y + height; ++tile_y) {
+        for (int tile_x = x; tile_x < x + width; ++tile_x) {
+            set_world_tile(world, tile_x, tile_y, tile_kind);
+        }
+    }
 }
 
 bool world_is_walkable_tile(const World* world, int x, int y) {
@@ -41,6 +79,15 @@ bool world_is_walkable_tile(const World* world, const glm::vec2& position) {
 }
 
 TileKind world_tile_at(const World* world, int x, int y) {
+    if (world->use_custom_tiles) {
+        if (x < 0 || y < 0 || x >= world->width || y >= world->height) {
+            return TileKind::Wall;
+        }
+
+        const std::size_t index = static_cast<std::size_t>(y * world->width + x);
+        return world->custom_tiles[index];
+    }
+
     if (world->overworld.loaded) {
         const std::uint8_t tile = get_world_tile(&world->overworld, x, y);
         if (tile == 0x24 || tile == 0x6F) {
@@ -84,6 +131,8 @@ bool load_world_overworld(const char* path, World* world) {
 
     world->width = kWorldTileWidth;
     world->height = kWorldTileHeight;
+    world->use_custom_tiles = false;
+    world->custom_tiles.clear();
     return true;
 }
 
