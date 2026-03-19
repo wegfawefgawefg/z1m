@@ -144,6 +144,7 @@ struct GameSession {
     int current_room_id = 0;
     int previous_room_id = -1;
     int current_cave_id = -1;
+    int recorder_destination_index = -1;
     int cave_return_room_id = -1;
     glm::vec2 cave_return_position = glm::vec2(0.0F, 0.0F);
     float warp_cooldown_seconds = 0.0F;

@@ -36,6 +36,7 @@ Current hotkeys:
 Gameplay test controls:
 
 - `Space` or `F`: sword attack
+- sword throws a beam at full health
 - `E` or `Left Shift`: use selected item
 - `Q`: previous item
 - `R` or `Tab`: next item
@@ -85,6 +86,9 @@ main campaign world.
 
 The session now keeps sandbox entities alive across area changes instead of
 despawning everything outside the currently viewed room.
+
+Recorder now uses real visible dungeon warp metadata from the overworld loader
+to cycle between dungeon entrances instead of using a fake hardcoded list.
 
 ## Warp Rules
 

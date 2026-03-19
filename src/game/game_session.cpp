@@ -49,6 +49,8 @@ constexpr float kBoomerangSpeed = 9.2F;
 constexpr float kFireSpeed = 7.5F;
 constexpr int kSwordCaveId = 0x10;
 
+void update_current_room(GameSession* session, const Player* player);
+
 std::uint32_t next_random(GameSession* session) {
     session->rng_state = session->rng_state * 1664525U + 1013904223U;
     return session->rng_state;
@@ -263,6 +265,8 @@ bool has_available_item(const Player* player, UseItemKind item) {
         return player->has_bow;
     case UseItemKind::Candle:
         return player->has_candle;
+    case UseItemKind::Recorder:
+        return player->has_recorder;
     case UseItemKind::Potion:
         return player->has_potion;
     }
@@ -271,9 +275,9 @@ bool has_available_item(const Player* player, UseItemKind item) {
 }
 
 void select_next_item(Player* player, int direction) {
-    constexpr std::array<UseItemKind, 5> order = {
+    constexpr std::array<UseItemKind, 6> order = {
         UseItemKind::Bombs,  UseItemKind::Boomerang, UseItemKind::Bow,
-        UseItemKind::Candle, UseItemKind::Potion,
+        UseItemKind::Candle, UseItemKind::Recorder,  UseItemKind::Potion,
     };
 
     int selected_index = -1;
@@ -351,13 +355,90 @@ void create_sword_beam(GameSession* session, const Enemy& enemy, const glm::vec2
                     kArrowRadius, 1);
 }
 
+void create_player_sword_beam(GameSession* session, Player* player) {
+    for (const Projectile& projectile : session->projectiles) {
+        if (!projectile.active || !projectile.from_player ||
+            projectile.kind != ProjectileKind::SwordBeam ||
+            !in_area(session, projectile.area_kind, projectile.cave_id)) {
+            continue;
+        }
+
+        return;
+    }
+
+    const glm::vec2 direction = facing_vector(player->facing);
+    make_projectile(session, session->area_kind, session->current_cave_id,
+                    ProjectileKind::SwordBeam, true, player->position + direction * 0.9F,
+                    direction * kSwordBeamSpeed, kProjectileLifetimeSeconds, kArrowRadius, 1);
+}
+
+int gather_recorder_dungeons(const World* overworld_world,
+                             std::array<OverworldWarp, kScreenCount>* recorder_warps) {
+    int count = 0;
+    for (int room_id = 0; room_id < kScreenCount; ++room_id) {
+        std::array<OverworldWarp, kMaxRoomWarps> room_warps = {};
+        const int warp_count =
+            gather_overworld_warps(&overworld_world->overworld, room_id, &room_warps);
+        for (int index = 0; index < warp_count; ++index) {
+            const OverworldWarp& warp = room_warps[static_cast<std::size_t>(index)];
+            if (!warp.visible || warp.type != OverworldWarpType::Dungeon) {
+                continue;
+            }
+
+            bool duplicate = false;
+            for (int existing = 0; existing < count; ++existing) {
+                if ((*recorder_warps)[static_cast<std::size_t>(existing)].cave_id == warp.cave_id) {
+                    duplicate = true;
+                    break;
+                }
+            }
+
+            if (duplicate) {
+                continue;
+            }
+
+            (*recorder_warps)[static_cast<std::size_t>(count)] = warp;
+            ++count;
+        }
+    }
+
+    std::sort(recorder_warps->begin(), recorder_warps->begin() + count,
+              [](const OverworldWarp& a, const OverworldWarp& b) { return a.cave_id < b.cave_id; });
+    return count;
+}
+
+void use_recorder(GameSession* session, const World* overworld_world, Player* player) {
+    if (session->area_kind != AreaKind::Overworld) {
+        set_message(session, "recorder only works outside", 1.2F);
+        return;
+    }
+
+    std::array<OverworldWarp, kScreenCount> recorder_warps = {};
+    const int warp_count = gather_recorder_dungeons(overworld_world, &recorder_warps);
+    if (warp_count <= 0) {
+        set_message(session, "no recorder destination", 1.2F);
+        return;
+    }
+
+    session->recorder_destination_index =
+        (session->recorder_destination_index + 1 + warp_count) % warp_count;
+    const OverworldWarp& warp =
+        recorder_warps[static_cast<std::size_t>(session->recorder_destination_index)];
+    player->position = warp.return_position;
+    player->move_direction = MoveDirection::None;
+    player->facing = Facing::Down;
+    session->warp_cooldown_seconds = kAreaTransitionCooldownSeconds;
+    update_current_room(session, player);
+    set_message(session, "recorder -> dungeon " + std::to_string(warp.cave_id), 1.4F);
+}
+
 void create_fire(GameSession* session, const Player* player) {
     make_projectile(session, session->area_kind, session->current_cave_id, ProjectileKind::Fire,
                     true, player->position + facing_vector(player->facing) * 0.8F,
                     facing_vector(player->facing) * kFireSpeed, kFireSeconds, kFireRadius, 1);
 }
 
-void use_selected_item(GameSession* session, Player* player) {
+void use_selected_item(GameSession* session, const World* overworld_world, Player* player) {
     switch (player->selected_item) {
     case UseItemKind::Bombs:
         if (player->bombs <= 0) {
@@ -392,6 +473,13 @@ void use_selected_item(GameSession* session, Player* player) {
         }
         create_fire(session, player);
         set_message(session, "fire lit", 0.8F);
+        break;
+    case UseItemKind::Recorder:
+        if (!player->has_recorder) {
+            set_message(session, "need recorder", 1.0F);
+            return;
+        }
+        use_recorder(session, overworld_world, player);
         break;
     case UseItemKind::Potion:
         if (!player->has_potion) {
@@ -932,6 +1020,7 @@ void apply_player_pickup(Player* player, GameSession* session, Pickup* pickup) {
         break;
     case PickupKind::Recorder:
         player->has_recorder = true;
+        select_if_unset(player, UseItemKind::Recorder);
         set_message(session, pickup->shop_item ? "bought recorder" : "got recorder", 1.2F);
         break;
     case PickupKind::Ladder:
@@ -1164,7 +1253,8 @@ void try_area_portals(GameSession* session, Player* player) {
     }
 }
 
-void process_player_command(GameSession* session, Player* player, const PlayerCommand* command) {
+void process_player_command(GameSession* session, const World* overworld_world, Player* player,
+                            const PlayerCommand* command) {
     if (command->previous_item_pressed) {
         select_next_item(player, -1);
     }
@@ -1174,7 +1264,7 @@ void process_player_command(GameSession* session, Player* player, const PlayerCo
     }
 
     if (command->use_item_pressed) {
-        use_selected_item(session, player);
+        use_selected_item(session, overworld_world, player);
     }
 }
 
@@ -1272,8 +1362,12 @@ void tick_game_session(GameSession* session, const World* overworld_world, Playe
 
     const World* active_world = get_active_world(session, overworld_world);
     tick_player(player, active_world, &resolved, dt_seconds);
-    process_player_command(session, player, &resolved);
+    process_player_command(session, overworld_world, player, &resolved);
     update_current_room(session, player);
+
+    if (resolved.attack_pressed && player->has_sword && player->health == player->max_health) {
+        create_player_sword_beam(session, player);
+    }
 
     process_player_attacks(session, player);
     tick_enemies(session, overworld_world, player, dt_seconds);

@@ -272,6 +272,8 @@ const char* use_item_name(UseItemKind kind) {
         return "bow";
     case UseItemKind::Candle:
         return "candle";
+    case UseItemKind::Recorder:
+        return "recorder";
     case UseItemKind::Potion:
         return "potion";
     }

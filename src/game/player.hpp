@@ -27,6 +27,7 @@ enum class UseItemKind {
     Boomerang,
     Bow,
     Candle,
+    Recorder,
     Potion,
 };
 
