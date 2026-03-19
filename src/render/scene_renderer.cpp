@@ -5,6 +5,7 @@
 #include "game/player.hpp"
 #include "game/world.hpp"
 #include "render/camera.hpp"
+#include "render/debug_tileset.hpp"
 
 #include <SDL3/SDL.h>
 #include <algorithm>
@@ -32,187 +33,185 @@ void fill_rect(SDL_Renderer* renderer, const SDL_FRect& rect) {
     SDL_RenderFillRect(renderer, &rect);
 }
 
+void render_tile_texture(SDL_Renderer* renderer, const DebugTileset* tileset, std::uint8_t tile,
+                         std::uint8_t palette_selector, const SDL_FRect& dst_rect) {
+    const SDL_FRect src_rect = get_debug_tileset_source_rect(tileset, tile);
+    SDL_Texture* texture = get_debug_tileset_texture(tileset, palette_selector);
+    if (texture == nullptr) {
+        return;
+    }
+
+    SDL_RenderTexture(renderer, texture, &src_rect, &dst_rect);
+}
+
 Uint8 mix_channel(int value, int bias, int mul) {
     return static_cast<Uint8>((value * mul + bias) & 0xFF);
 }
 
-bool use_overworld_map_view(const World* world, float zoom) {
-    return world->overworld.loaded && zoom <= 1.0F;
+bool draw_room_grid(float zoom) {
+    return zoom <= 0.12F;
 }
 
 void set_draw_color_for_overworld_tile(SDL_Renderer* renderer, std::uint8_t tile) {
-    if (tile == 0x24 || tile == 0x6F) {
-        set_draw_color(renderer, 90, 132, 74);
+    if (tile == 0x6F || (tile >= 0x70 && tile <= 0x73) || tile == 0x8D || tile == 0x91) {
+        set_draw_color(renderer, 0, 0, 0);
         return;
     }
 
     if (tile == 0x74 || tile == 0x75 || tile == 0x76 || tile == 0x77) {
-        set_draw_color(renderer, 48, 96, 178);
+        set_draw_color(renderer, 32, 56, 236);
         return;
     }
 
     if (tile >= 0xBC && tile <= 0xDE) {
-        set_draw_color(renderer, 118, 102, 78);
+        set_draw_color(renderer, 200, 76, 12);
         return;
     }
 
     if (tile >= 0xE5 && tile <= 0xEA) {
-        set_draw_color(renderer, 34, 94, 42);
+        set_draw_color(renderer, 0, 168, 0);
         return;
     }
 
-    set_draw_color(renderer, mix_channel(tile, 40, 29), mix_channel(tile, 92, 17),
-                   mix_channel(tile, 148, 11));
+    if ((tile >= 0x78 && tile <= 0x80) || (tile >= 0x84 && tile <= 0x98)) {
+        set_draw_color(renderer, 116, 116, 116);
+        return;
+    }
+
+    if (tile >= 0x99 && tile <= 0xBB) {
+        set_draw_color(renderer, 189, 162, 126);
+        return;
+    }
+
+    if (tile == 0x24 || tile == 0x26) {
+        set_draw_color(renderer, 252, 216, 168);
+        return;
+    }
+
+    set_draw_color(renderer, mix_channel(tile, 210, 3), mix_channel(tile, 174, 5),
+                   mix_channel(tile, 132, 7));
 }
 
 } // namespace
 
-void render_scene(SDL_Renderer* renderer, const World* world, const Player* player, float zoom) {
+void render_scene(SDL_Renderer* renderer, const DebugTileset* tileset, const World* world,
+                  const Player* player, float zoom) {
     set_draw_color(renderer, 16, 24, 34);
     SDL_RenderClear(renderer);
 
-    render_world(renderer, world, player, zoom);
+    render_world(renderer, tileset, world, player, zoom);
     render_player(renderer, world, player, zoom);
 
     SDL_RenderPresent(renderer);
 }
 
-void render_world(SDL_Renderer* renderer, const World* world, const Player* player, float zoom) {
-    if (use_overworld_map_view(world, zoom)) {
-        const float fit_x =
-            static_cast<float>(app_config::kWindowWidth) / static_cast<float>(kWorldTileWidth);
-        const float fit_y =
-            static_cast<float>(app_config::kWindowHeight) / static_cast<float>(kWorldTileHeight);
-        const float tile_size = std::min(fit_x, fit_y) * zoom;
-
-        for (int tile_y = 0; tile_y < kWorldTileHeight; ++tile_y) {
-            for (int tile_x = 0; tile_x < kWorldTileWidth; ++tile_x) {
-                const std::uint8_t tile = get_world_tile(&world->overworld, tile_x, tile_y);
-                set_draw_color_for_overworld_tile(renderer, tile);
-
-                const SDL_FRect tile_rect =
-                    make_rect(glm::vec2(static_cast<float>(tile_x) * tile_size,
-                                        static_cast<float>(tile_y) * tile_size),
-                              glm::vec2(tile_size, tile_size));
-                fill_rect(renderer, tile_rect);
-            }
-        }
-
-        set_draw_color(renderer, 255, 255, 255, 72);
-        for (int screen_x = 0; screen_x <= kScreenColumns; ++screen_x) {
-            const float x = static_cast<float>(screen_x * kScreenTileWidth) * tile_size;
-            SDL_RenderLine(renderer, x, 0.0F, x, static_cast<float>(kWorldTileHeight) * tile_size);
-        }
-
-        for (int screen_y = 0; screen_y <= kScreenRows; ++screen_y) {
-            const float y = static_cast<float>(screen_y * kScreenTileHeight) * tile_size;
-            SDL_RenderLine(renderer, 0.0F, y, static_cast<float>(kWorldTileWidth) * tile_size, y);
-        }
-
-        return;
-    }
-
+void render_world(SDL_Renderer* renderer, const DebugTileset* tileset, const World* world,
+                  const Player* player, float zoom) {
     const Camera camera = make_camera(player->position,
                                       glm::vec2(static_cast<float>(app_config::kWindowWidth),
                                                 static_cast<float>(app_config::kWindowHeight)),
                                       zoom);
+    Camera clamped_camera = camera;
+    clamp_camera_to_world(&clamped_camera, glm::vec2(static_cast<float>(world_width(world)),
+                                                     static_cast<float>(world_height(world))));
 
     for (int y = 0; y < world_height(world); ++y) {
         for (int x = 0; x < world_width(world); ++x) {
-            const TileKind tile = world_tile_at(world, x, y);
+            if (world->overworld.loaded) {
+                set_draw_color_for_overworld_tile(renderer,
+                                                  get_world_tile(&world->overworld, x, y));
+            } else {
+                const TileKind tile = world_tile_at(world, x, y);
 
-            switch (tile) {
-            case TileKind::Ground:
-                set_draw_color(renderer, 78, 120, 62);
-                break;
-            case TileKind::Wall:
-                set_draw_color(renderer, 110, 90, 72);
-                break;
-            case TileKind::Water:
-                set_draw_color(renderer, 42, 94, 176);
-                break;
-            case TileKind::Tree:
-                set_draw_color(renderer, 36, 96, 44);
-                break;
-            case TileKind::Rock:
-                set_draw_color(renderer, 126, 130, 142);
-                break;
+                switch (tile) {
+                case TileKind::Ground:
+                    set_draw_color(renderer, 252, 216, 168);
+                    break;
+                case TileKind::Wall:
+                    set_draw_color(renderer, 200, 76, 12);
+                    break;
+                case TileKind::Water:
+                    set_draw_color(renderer, 32, 56, 236);
+                    break;
+                case TileKind::Tree:
+                    set_draw_color(renderer, 0, 168, 0);
+                    break;
+                case TileKind::Rock:
+                    set_draw_color(renderer, 116, 116, 116);
+                    break;
+                }
             }
 
             const glm::vec2 world_position =
                 glm::vec2(static_cast<float>(x), static_cast<float>(y));
-            const SDL_FRect tile_rect = make_rect(world_to_screen(&camera, world_position),
-                                                  glm::vec2(camera.pixels_per_world_unit));
-            fill_rect(renderer, tile_rect);
-
-            if (tile == TileKind::Ground) {
-                set_draw_color(renderer, 88, 136, 70, 150);
-                const SDL_FRect inset_rect =
-                    make_rect(glm::vec2(tile_rect.x + 2.0F, tile_rect.y + 2.0F),
-                              glm::vec2(tile_rect.w - 4.0F, tile_rect.h - 4.0F));
-                fill_rect(renderer, inset_rect);
+            const SDL_FRect tile_rect = make_rect(world_to_screen(&clamped_camera, world_position),
+                                                  glm::vec2(clamped_camera.pixels_per_world_unit));
+            if (world->overworld.loaded && tileset->loaded) {
+                render_tile_texture(renderer, tileset, get_world_tile(&world->overworld, x, y),
+                                    get_world_palette_selector(&world->overworld, x, y), tile_rect);
+            } else {
+                fill_rect(renderer, tile_rect);
             }
         }
+    }
+
+    if (!world->overworld.loaded || !draw_room_grid(zoom)) {
+        return;
+    }
+
+    set_draw_color(renderer, 255, 255, 255, 72);
+    for (int screen_x = 0; screen_x <= kScreenColumns; ++screen_x) {
+        const float world_x = static_cast<float>(screen_x * kScreenTileWidth);
+        const float screen_x0 = world_to_screen(&clamped_camera, glm::vec2(world_x, 0.0F)).x;
+        SDL_RenderLine(renderer, screen_x0, 0.0F, screen_x0,
+                       static_cast<float>(app_config::kWindowHeight));
+    }
+
+    for (int screen_y = 0; screen_y <= kScreenRows; ++screen_y) {
+        const float world_y = static_cast<float>(screen_y * kScreenTileHeight);
+        const float screen_y0 = world_to_screen(&clamped_camera, glm::vec2(0.0F, world_y)).y;
+        SDL_RenderLine(renderer, 0.0F, screen_y0, static_cast<float>(app_config::kWindowWidth),
+                       screen_y0);
     }
 }
 
 void render_player(SDL_Renderer* renderer, const World* world, const Player* player, float zoom) {
-    if (use_overworld_map_view(world, zoom)) {
-        const float fit_x =
-            static_cast<float>(app_config::kWindowWidth) / static_cast<float>(kWorldTileWidth);
-        const float fit_y =
-            static_cast<float>(app_config::kWindowHeight) / static_cast<float>(kWorldTileHeight);
-        const float tile_size = std::min(fit_x, fit_y) * zoom;
-        const glm::vec2 player_screen = player->position * tile_size;
-        const SDL_FRect player_rect =
-            make_rect(player_screen - glm::vec2(2.5F), glm::vec2(5.0F, 5.0F));
+    Camera camera = make_camera(player->position,
+                                glm::vec2(static_cast<float>(app_config::kWindowWidth),
+                                          static_cast<float>(app_config::kWindowHeight)),
+                                zoom);
+    clamp_camera_to_world(&camera, glm::vec2(static_cast<float>(world_width(world)),
+                                             static_cast<float>(world_height(world))));
 
-        set_draw_color(renderer, 232, 214, 94);
-        fill_rect(renderer, player_rect);
-
-        if (is_sword_active(player)) {
-            const glm::vec2 sword_screen = sword_world_position(player) * tile_size;
-            const SDL_FRect sword_rect =
-                make_rect(sword_screen - glm::vec2(1.5F), glm::vec2(3.0F, 3.0F));
-            set_draw_color(renderer, 220, 236, 244);
-            fill_rect(renderer, sword_rect);
-        }
-
-        return;
-    }
-
-    const Camera camera = make_camera(player->position,
-                                      glm::vec2(static_cast<float>(app_config::kWindowWidth),
-                                                static_cast<float>(app_config::kWindowHeight)),
-                                      zoom);
-
-    const float player_size = camera.pixels_per_world_unit * 0.65F;
+    const float player_size = std::max(4.0F, camera.pixels_per_world_unit * 0.65F);
     const glm::vec2 player_screen = world_to_screen(&camera, player->position);
     const SDL_FRect player_rect = make_rect(player_screen - glm::vec2(player_size * 0.5F),
                                             glm::vec2(player_size, player_size));
 
-    set_draw_color(renderer, 232, 214, 94);
+    set_draw_color(renderer, 252, 252, 252);
     fill_rect(renderer, player_rect);
 
-    const glm::vec2 eye_size(4.0F, 4.0F);
-    set_draw_color(renderer, 16, 24, 34);
-    fill_rect(renderer, make_rect(player_screen + glm::vec2(-8.0F, -4.0F), eye_size));
-    fill_rect(renderer, make_rect(player_screen + glm::vec2(4.0F, -4.0F), eye_size));
+    if (player_size >= 12.0F) {
+        const glm::vec2 eye_size(4.0F, 4.0F);
+        set_draw_color(renderer, 0, 0, 0);
+        fill_rect(renderer, make_rect(player_screen + glm::vec2(-8.0F, -4.0F), eye_size));
+        fill_rect(renderer, make_rect(player_screen + glm::vec2(4.0F, -4.0F), eye_size));
+    }
 
     if (!is_sword_active(player)) {
         return;
     }
 
     const glm::vec2 sword_position = world_to_screen(&camera, sword_world_position(player));
-    glm::vec2 sword_size(camera.pixels_per_world_unit * 0.55F,
-                         camera.pixels_per_world_unit * 0.16F);
+    glm::vec2 sword_size(std::max(3.0F, camera.pixels_per_world_unit * 0.55F),
+                         std::max(2.0F, camera.pixels_per_world_unit * 0.16F));
     glm::vec2 sword_origin = sword_position - sword_size * 0.5F;
 
     switch (player->facing) {
     case Facing::Up:
     case Facing::Down:
-        sword_size =
-            glm::vec2(camera.pixels_per_world_unit * 0.16F, camera.pixels_per_world_unit * 0.55F);
+        sword_size = glm::vec2(std::max(2.0F, camera.pixels_per_world_unit * 0.16F),
+                               std::max(3.0F, camera.pixels_per_world_unit * 0.55F));
         sword_origin = sword_position - sword_size * 0.5F;
         break;
     case Facing::Left:
@@ -220,7 +219,7 @@ void render_player(SDL_Renderer* renderer, const World* world, const Player* pla
         break;
     }
 
-    set_draw_color(renderer, 220, 236, 244);
+    set_draw_color(renderer, 252, 252, 252);
     fill_rect(renderer, make_rect(sword_origin, sword_size));
 }
 

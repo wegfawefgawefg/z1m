@@ -29,5 +29,8 @@ struct WorldData {
 bool load_world_data_text(const char* path, WorldData* world_data);
 const WorldScreen* get_world_screen(const WorldData* world_data, int room_id);
 std::uint8_t get_world_tile(const WorldData* world_data, int tile_x, int tile_y);
+std::uint8_t get_screen_palette_selector(const WorldScreen* screen, int local_tile_x,
+                                         int local_tile_y);
+std::uint8_t get_world_palette_selector(const WorldData* world_data, int tile_x, int tile_y);
 
 } // namespace z1m

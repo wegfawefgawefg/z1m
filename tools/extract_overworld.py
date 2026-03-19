@@ -50,11 +50,12 @@ def parse_byte_blocks(source: str) -> dict[str, list[int]]:
 
 def build_square_tiles(square_index: int, primary_squares: list[int], secondary_squares: list[int]) -> list[int]:
     if square_index >= 0x10:
+        primary_tile = primary_squares[square_index]
         return [
-            primary_squares[square_index],
-            square_index + 1,
-            square_index + 2,
-            square_index + 3,
+            primary_tile,
+            primary_tile + 1,
+            primary_tile + 2,
+            primary_tile + 3,
         ]
 
     base_index = square_index * 4

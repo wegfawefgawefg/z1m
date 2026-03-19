@@ -2,6 +2,7 @@
 
 #include "game/player.hpp"
 #include "game/world.hpp"
+#include "render/debug_tileset.hpp"
 
 #include <SDL3/SDL.h>
 
@@ -18,6 +19,7 @@ struct AppState {
     int displayed_fps = 0;
     int tick_count = 0;
     int current_room_id = -1;
+    DebugTileset debug_tileset = {};
     World world = make_world();
     Player player = make_player();
 };

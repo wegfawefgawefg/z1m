@@ -11,6 +11,7 @@ struct Camera {
 };
 
 Camera make_camera(const glm::vec2& center_world, const glm::vec2& viewport_pixels, float zoom);
+void clamp_camera_to_world(Camera* camera, const glm::vec2& world_size);
 glm::vec2 world_to_screen(const Camera* camera, const glm::vec2& world_position);
 
 } // namespace z1m

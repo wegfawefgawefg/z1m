@@ -36,6 +36,38 @@ bool load_overworld_content(AppState* app) {
     return load_world_overworld(fallback_path.c_str(), &app->world);
 }
 
+bool load_debug_rom_tileset(AppState* app) {
+    if (load_debug_tileset(app->renderer, "../Legend of Zelda, The (USA) (Rev 1).nes",
+                           &app->debug_tileset)) {
+        return true;
+    }
+
+    const char* base_path = SDL_GetBasePath();
+    if (base_path == nullptr) {
+        return false;
+    }
+
+    const std::string repo_relative_path =
+        std::string(base_path) + "../../Legend of Zelda, The (USA) (Rev 1).nes";
+    if (load_debug_tileset(app->renderer, repo_relative_path.c_str(), &app->debug_tileset)) {
+        return true;
+    }
+
+    const std::string workspace_relative_path =
+        std::string(base_path) + "../../../Legend of Zelda, The (USA) (Rev 1).nes";
+    return load_debug_tileset(app->renderer, workspace_relative_path.c_str(), &app->debug_tileset);
+}
+
+void zoom_in(AppState* app) {
+    app->zoom = glm::min(app_config::kMaxZoom, app->zoom * app_config::kZoomStep);
+    update_window_title(app);
+}
+
+void zoom_out(AppState* app) {
+    app->zoom = glm::max(app_config::kMinZoom, app->zoom / app_config::kZoomStep);
+    update_window_title(app);
+}
+
 int run_app(AppState* app) {
     if (!init_app(app)) {
         shutdown_app(app);
@@ -116,6 +148,10 @@ bool init_app(AppState* app) {
         SDL_Log("Failed to load content/overworld_q1.txt");
     }
 
+    if (!load_debug_rom_tileset(app)) {
+        SDL_Log("Failed to load ROM CHR debug tileset");
+    }
+
     app->player.position = glm::vec2(7.5F * static_cast<float>(kScreenTileWidth),
                                      3.5F * static_cast<float>(kScreenTileHeight));
     app->current_room_id = get_room_id_at_world_tile(static_cast<int>(app->player.position.x),
@@ -127,6 +163,8 @@ bool init_app(AppState* app) {
 }
 
 void shutdown_app(AppState* app) {
+    unload_debug_tileset(&app->debug_tileset);
+
     if (app->renderer != nullptr) {
         SDL_DestroyRenderer(app->renderer);
         app->renderer = nullptr;
@@ -164,14 +202,12 @@ void pump_app_events(AppState* app) {
 
             if (event.key.scancode == SDL_SCANCODE_EQUALS ||
                 event.key.scancode == SDL_SCANCODE_KP_PLUS) {
-                app->zoom = glm::min(app_config::kMaxZoom, app->zoom + 0.1F);
-                update_window_title(app);
+                zoom_in(app);
             }
 
             if (event.key.scancode == SDL_SCANCODE_MINUS ||
                 event.key.scancode == SDL_SCANCODE_KP_MINUS) {
-                app->zoom = glm::max(app_config::kMinZoom, app->zoom - 0.1F);
-                update_window_title(app);
+                zoom_out(app);
             }
 
             if (event.key.scancode == SDL_SCANCODE_0 || event.key.scancode == SDL_SCANCODE_KP_0) {
@@ -182,13 +218,11 @@ void pump_app_events(AppState* app) {
 
         if (event.type == SDL_EVENT_MOUSE_WHEEL) {
             if (event.wheel.y > 0.0F) {
-                app->zoom = glm::min(app_config::kMaxZoom, app->zoom + 0.1F);
-                update_window_title(app);
+                zoom_in(app);
             }
 
             if (event.wheel.y < 0.0F) {
-                app->zoom = glm::max(app_config::kMinZoom, app->zoom - 0.1F);
-                update_window_title(app);
+                zoom_out(app);
             }
         }
     }
@@ -228,7 +262,7 @@ void update_app(AppState* app, double dt_seconds) {
 }
 
 void render_app(AppState* app) {
-    render_scene(app->renderer, &app->world, &app->player, app->zoom);
+    render_scene(app->renderer, &app->debug_tileset, &app->world, &app->player, app->zoom);
 }
 
 void update_window_title(AppState* app) {

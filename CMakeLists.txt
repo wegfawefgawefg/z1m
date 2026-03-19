@@ -28,6 +28,7 @@ add_executable(z1m
     src/app/run.cpp
     src/content/world_data.cpp
     src/render/camera.cpp
+    src/render/debug_tileset.cpp
     src/render/scene_renderer.cpp
     src/game/player.cpp
     src/game/world.cpp
