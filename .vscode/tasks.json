@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "configure-debug",
+      "type": "shell",
+      "command": "cmake -S . -B build_debug -DCMAKE_BUILD_TYPE=Debug",
+      "problemMatcher": []
+    },
+    {
+      "label": "build-debug",
+      "type": "shell",
+      "command": "cmake --build build_debug -j",
+      "dependsOn": ["configure-debug"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "configure-release",
+      "type": "shell",
+      "command": "cmake -S . -B build_release -DCMAKE_BUILD_TYPE=Release",
+      "problemMatcher": []
+    },
+    {
+      "label": "build-release",
+      "type": "shell",
+      "command": "cmake --build build_release -j",
+      "dependsOn": ["configure-release"],
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}

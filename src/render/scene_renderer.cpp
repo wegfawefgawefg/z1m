@@ -1,0 +1,133 @@
+#include "render/scene_renderer.hpp"
+
+#include "app/app_config.hpp"
+#include "game/player.hpp"
+#include "game/world.hpp"
+#include "render/camera.hpp"
+
+#include <SDL3/SDL.h>
+#include <glm/vec2.hpp>
+
+namespace z1m {
+
+namespace {
+
+void set_draw_color(SDL_Renderer* renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255) {
+    SDL_SetRenderDrawColor(renderer, r, g, b, a);
+}
+
+SDL_FRect make_rect(const glm::vec2& position, const glm::vec2& size) {
+    SDL_FRect rect;
+    rect.x = position.x;
+    rect.y = position.y;
+    rect.w = size.x;
+    rect.h = size.y;
+    return rect;
+}
+
+void fill_rect(SDL_Renderer* renderer, const SDL_FRect& rect) {
+    SDL_RenderFillRect(renderer, &rect);
+}
+
+} // namespace
+
+void render_scene(SDL_Renderer* renderer, const World* world, const Player* player, float zoom) {
+    set_draw_color(renderer, 16, 24, 34);
+    SDL_RenderClear(renderer);
+
+    render_world(renderer, world, player, zoom);
+    render_player(renderer, player, zoom);
+
+    SDL_RenderPresent(renderer);
+}
+
+void render_world(SDL_Renderer* renderer, const World* world, const Player* player, float zoom) {
+    const Camera camera = make_camera(player->position,
+                                      glm::vec2(static_cast<float>(app_config::kWindowWidth),
+                                                static_cast<float>(app_config::kWindowHeight)),
+                                      zoom);
+
+    for (int y = 0; y < world_height(world); ++y) {
+        for (int x = 0; x < world_width(world); ++x) {
+            const TileKind tile = world_tile_at(world, x, y);
+
+            switch (tile) {
+            case TileKind::Ground:
+                set_draw_color(renderer, 78, 120, 62);
+                break;
+            case TileKind::Wall:
+                set_draw_color(renderer, 110, 90, 72);
+                break;
+            case TileKind::Water:
+                set_draw_color(renderer, 42, 94, 176);
+                break;
+            case TileKind::Tree:
+                set_draw_color(renderer, 36, 96, 44);
+                break;
+            case TileKind::Rock:
+                set_draw_color(renderer, 126, 130, 142);
+                break;
+            }
+
+            const glm::vec2 world_position =
+                glm::vec2(static_cast<float>(x), static_cast<float>(y));
+            const SDL_FRect tile_rect = make_rect(world_to_screen(&camera, world_position),
+                                                  glm::vec2(camera.pixels_per_world_unit));
+            fill_rect(renderer, tile_rect);
+
+            if (tile == TileKind::Ground) {
+                set_draw_color(renderer, 88, 136, 70, 150);
+                const SDL_FRect inset_rect =
+                    make_rect(glm::vec2(tile_rect.x + 2.0F, tile_rect.y + 2.0F),
+                              glm::vec2(tile_rect.w - 4.0F, tile_rect.h - 4.0F));
+                fill_rect(renderer, inset_rect);
+            }
+        }
+    }
+}
+
+void render_player(SDL_Renderer* renderer, const Player* player, float zoom) {
+    const Camera camera = make_camera(player->position,
+                                      glm::vec2(static_cast<float>(app_config::kWindowWidth),
+                                                static_cast<float>(app_config::kWindowHeight)),
+                                      zoom);
+
+    const float player_size = camera.pixels_per_world_unit * 0.65F;
+    const glm::vec2 player_screen = world_to_screen(&camera, player->position);
+    const SDL_FRect player_rect = make_rect(player_screen - glm::vec2(player_size * 0.5F),
+                                            glm::vec2(player_size, player_size));
+
+    set_draw_color(renderer, 232, 214, 94);
+    fill_rect(renderer, player_rect);
+
+    const glm::vec2 eye_size(4.0F, 4.0F);
+    set_draw_color(renderer, 16, 24, 34);
+    fill_rect(renderer, make_rect(player_screen + glm::vec2(-8.0F, -4.0F), eye_size));
+    fill_rect(renderer, make_rect(player_screen + glm::vec2(4.0F, -4.0F), eye_size));
+
+    if (!is_sword_active(player)) {
+        return;
+    }
+
+    const glm::vec2 sword_position = world_to_screen(&camera, sword_world_position(player));
+    glm::vec2 sword_size(camera.pixels_per_world_unit * 0.55F,
+                         camera.pixels_per_world_unit * 0.16F);
+    glm::vec2 sword_origin = sword_position - sword_size * 0.5F;
+
+    switch (player->facing) {
+    case Facing::Up:
+    case Facing::Down:
+        sword_size =
+            glm::vec2(camera.pixels_per_world_unit * 0.16F, camera.pixels_per_world_unit * 0.55F);
+        sword_origin = sword_position - sword_size * 0.5F;
+        break;
+    case Facing::Left:
+    case Facing::Right:
+        break;
+    }
+
+    set_draw_color(renderer, 220, 236, 244);
+    fill_rect(renderer, make_rect(sword_origin, sword_size));
+}
+
+} // namespace z1m

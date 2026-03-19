@@ -39,3 +39,14 @@
 
 # debug information files
 *.dwo
+
+# CMake
+/build_debug/
+/build_release/
+/build/
+/compile_commands.json
+/CMakeUserPresets.json
+
+# Editors
+/.idea/
+.DS_Store
