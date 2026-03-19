@@ -25,6 +25,7 @@ Current panel contents:
 - interactables toggle
 - label toggle
 - current session stats
+- current transient gameplay message
 - current room warp metadata
 - quick travel buttons for overworld, enemy zoo, and item zoo
 
@@ -65,7 +66,7 @@ Shows:
 
 - overworld cave/dungeon/shortcut warp trigger boxes
 - cave exit box
-- sandbox portal pads
+- sandbox portal pads, including raft-only docks
 - pickup labels
 - NPC labels
 - hidden cave room attributes when a room has cave metadata but no visible
@@ -75,11 +76,15 @@ Shows:
 
 The repo now has two explicit test areas:
 
-- `enemy-zoo`: grouped pens for multiple enemy families and a boss pen
+- `enemy-zoo`: grouped pens for walking enemies, flyers, water enemies, and a
+  boss pen
 - `item-zoo`: free item pickups, shop-style purchases, and NPCs
 
 Use them to tune behavior in isolation before pushing more content into the
 main campaign world.
+
+The session now keeps sandbox entities alive across area changes instead of
+despawning everything outside the currently viewed room.
 
 ## Warp Rules
 
@@ -104,3 +109,5 @@ screen-sized box.
 - Cave interiors are still placeholder logic rooms, not full ROM-authored cave
   content.
 - The zoos are test content, not canonical campaign placement.
+- The bottom message strip is still a lightweight gameplay/status layer, not a
+  final dialogue UI.

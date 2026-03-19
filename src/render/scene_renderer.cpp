@@ -189,6 +189,9 @@ void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Ene
     case EnemyKind::Moblin:
         set_draw_color(renderer, 200, 80, 24);
         break;
+    case EnemyKind::Lynel:
+        set_draw_color(renderer, 232, 120, 56);
+        break;
     case EnemyKind::Tektite:
         set_draw_color(renderer, 160, 0, 200);
         break;
@@ -197,6 +200,16 @@ void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Ene
         break;
     case EnemyKind::Keese:
         set_draw_color(renderer, 96, 96, 140);
+        break;
+    case EnemyKind::Zora:
+        set_draw_color(renderer, 72, 168, 236);
+        break;
+    case EnemyKind::Peahat:
+        if (enemy->invulnerable) {
+            set_draw_color(renderer, 48, 176, 72);
+        } else {
+            set_draw_color(renderer, 216, 216, 96);
+        }
         break;
     case EnemyKind::Aquamentus:
         set_draw_color(renderer, 40, 170, 150);
@@ -219,6 +232,10 @@ void render_projectile_sprite(SDL_Renderer* renderer, const Camera* camera,
         break;
     case ProjectileKind::Arrow:
         set_draw_color(renderer, 252, 252, 252);
+        break;
+    case ProjectileKind::SwordBeam:
+        set_draw_color(renderer, 120, 240, 255);
+        rect = world_rect_to_screen(camera, projectile->position, glm::vec2(0.36F, 0.36F));
         break;
     case ProjectileKind::Boomerang:
         set_draw_color(renderer, 120, 180, 255);
@@ -254,7 +271,11 @@ void render_portals(SDL_Renderer* renderer, const Camera* camera, const GameSess
     const int portal_count = gather_area_portals(session, &portals);
     for (int index = 0; index < portal_count; ++index) {
         const AreaPortal& portal = portals[static_cast<std::size_t>(index)];
-        set_draw_color(renderer, 80, 180, 255, 255);
+        if (portal.requires_raft) {
+            set_draw_color(renderer, 170, 110, 70, 255);
+        } else {
+            set_draw_color(renderer, 80, 180, 255, 255);
+        }
         fill_rect(renderer, world_rect_to_screen(camera, portal.center, portal.half_size * 2.0F));
     }
 }
@@ -282,6 +303,20 @@ void set_draw_color_for_tile_kind(SDL_Renderer* renderer, TileKind tile_kind) {
 void draw_debug_label(SDL_Renderer* renderer, const glm::vec2& screen_position,
                       const std::string& label) {
     SDL_RenderDebugText(renderer, screen_position.x, screen_position.y, label.c_str());
+}
+
+void render_message_box(SDL_Renderer* renderer, const GameSession* session) {
+    if (session->message_text.empty()) {
+        return;
+    }
+
+    const SDL_FRect box = SDL_FRect{24.0F, static_cast<float>(app_config::kWindowHeight) - 44.0F,
+                                    static_cast<float>(app_config::kWindowWidth) - 48.0F, 28.0F};
+    set_draw_color(renderer, 8, 12, 18, 220);
+    fill_rect(renderer, box);
+    set_draw_color(renderer, 255, 255, 255, 255);
+    draw_rect_outline(renderer, box);
+    draw_debug_label(renderer, glm::vec2(box.x + 8.0F, box.y + 9.0F), session->message_text);
 }
 
 void render_collision_overlay(SDL_Renderer* renderer, const GameSession* session,
@@ -445,11 +480,19 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
         const int portal_count = gather_area_portals(session, &portals);
         for (int index = 0; index < portal_count; ++index) {
             const AreaPortal& portal = portals[static_cast<std::size_t>(index)];
-            set_draw_color(renderer, 96, 196, 255, 255);
+            if (portal.requires_raft) {
+                set_draw_color(renderer, 180, 128, 80, 255);
+            } else {
+                set_draw_color(renderer, 96, 196, 255, 255);
+            }
             draw_rect_outline(
                 renderer, world_rect_to_screen(&camera, portal.center, portal.half_size * 2.0F));
             if (debug_view->show_labels) {
-                draw_debug_label(renderer, world_to_screen(&camera, portal.center), portal.label);
+                std::string label = portal.label;
+                if (portal.requires_raft) {
+                    label += " (raft)";
+                }
+                draw_debug_label(renderer, world_to_screen(&camera, portal.center), label);
             }
         }
     }
@@ -500,6 +543,7 @@ void render_scene(SDL_Renderer* renderer, const DebugTileset* tileset, const Deb
     render_session_entities(renderer, session, active_world, player, zoom);
     render_player(renderer, active_world, player, zoom);
     render_debug_overlay(renderer, debug_view, session, world, player, zoom);
+    render_message_box(renderer, session);
 }
 
 void render_world(SDL_Renderer* renderer, const DebugTileset* tileset, const World* world,

@@ -165,6 +165,11 @@ void render_debug_ui(AppState* app) {
                         app->player.has_boomerang ? "yes" : "no",
                         app->player.has_bow ? "yes" : "no", app->player.has_candle ? "yes" : "no",
                         app->player.has_potion ? "yes" : "no");
+            ImGui::Text("recorder=%s ladder=%s raft=%s", app->player.has_recorder ? "yes" : "no",
+                        app->player.has_ladder ? "yes" : "no", app->player.has_raft ? "yes" : "no");
+            ImGui::Text("message=%s", app->session.message_text.empty()
+                                          ? "(none)"
+                                          : app->session.message_text.c_str());
 
             ImGui::SeparatorText("Current Room Warps");
             render_current_room_warps(app);

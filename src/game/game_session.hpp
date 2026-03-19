@@ -5,6 +5,7 @@
 
 #include <array>
 #include <cstdint>
+#include <string>
 #include <vector>
 
 namespace z1m {
@@ -19,9 +20,12 @@ enum class AreaKind {
 enum class EnemyKind {
     Octorok,
     Moblin,
+    Lynel,
     Tektite,
     Leever,
     Keese,
+    Zora,
+    Peahat,
     Aquamentus,
 };
 
@@ -45,6 +49,7 @@ enum class PickupKind {
 enum class ProjectileKind {
     Rock,
     Arrow,
+    SwordBeam,
     Boomerang,
     Fire,
     Bomb,
@@ -71,6 +76,7 @@ struct Enemy {
     float hurt_seconds_remaining = 0.0F;
     float state_seconds_remaining = 0.0F;
     bool hidden = false;
+    bool invulnerable = false;
 };
 
 struct Projectile {
@@ -123,6 +129,7 @@ struct AreaPortal {
     AreaKind target_area_kind = AreaKind::Overworld;
     int target_cave_id = -1;
     glm::vec2 target_position = glm::vec2(0.0F, 0.0F);
+    bool requires_raft = false;
     const char* label = "";
 };
 
@@ -142,6 +149,8 @@ struct GameSession {
     float warp_cooldown_seconds = 0.0F;
     bool sword_cave_reward_taken = false;
     std::uint32_t rng_state = 0x13572468U;
+    float message_seconds_remaining = 0.0F;
+    std::string message_text = {};
     World cave_world = {};
     World enemy_zoo_world = {};
     World item_zoo_world = {};

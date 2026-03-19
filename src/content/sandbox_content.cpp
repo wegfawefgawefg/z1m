@@ -29,7 +29,7 @@ struct NpcSpawnSpec {
     const char* label = "";
 };
 
-constexpr std::array<EnemySpawnSpec, 13> kEnemyZooSpawns = {
+constexpr std::array<EnemySpawnSpec, 19> kEnemyZooSpawns = {
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Octorok,
                    .position = glm::vec2(16.0F, 12.0F),
@@ -46,6 +46,10 @@ constexpr std::array<EnemySpawnSpec, 13> kEnemyZooSpawns = {
                    .kind = EnemyKind::Moblin,
                    .position = glm::vec2(38.0F, 18.0F),
                    .health = 2},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Lynel,
+                   .position = glm::vec2(44.0F, 15.0F),
+                   .health = 4},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Tektite,
                    .position = glm::vec2(54.0F, 14.0F),
@@ -73,6 +77,26 @@ constexpr std::array<EnemySpawnSpec, 13> kEnemyZooSpawns = {
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Keese,
                    .position = glm::vec2(46.0F, 38.0F),
+                   .health = 1},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Peahat,
+                   .position = glm::vec2(34.0F, 42.0F),
+                   .health = 2},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Peahat,
+                   .position = glm::vec2(48.0F, 42.0F),
+                   .health = 2},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Lynel,
+                   .position = glm::vec2(64.0F, 38.0F),
+                   .health = 4},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Zora,
+                   .position = glm::vec2(69.0F, 36.0F),
+                   .health = 1},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Zora,
+                   .position = glm::vec2(76.0F, 44.0F),
                    .health = 1},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Aquamentus,
@@ -174,7 +198,7 @@ void build_box_walls(World* world) {
 
 void push_portal(std::array<AreaPortal, kMaxAreaPortals>* portals, int* count, AreaKind source_area,
                  const glm::vec2& center, const glm::vec2& half_size, AreaKind target_area,
-                 const glm::vec2& target_position, const char* label) {
+                 const glm::vec2& target_position, const char* label, bool requires_raft = false) {
     if (*count >= kMaxAreaPortals) {
         return;
     }
@@ -186,6 +210,7 @@ void push_portal(std::array<AreaPortal, kMaxAreaPortals>* portals, int* count, A
     portal.half_size = half_size;
     portal.target_area_kind = target_area;
     portal.target_position = target_position;
+    portal.requires_raft = requires_raft;
     portal.label = label;
     ++(*count);
 }
@@ -211,8 +236,8 @@ void build_enemy_zoo_world(World* world) {
     fill_world_rect(world, 58, 30, 30, 22, TileKind::Wall);
     fill_world_rect(world, 60, 32, 26, 18, TileKind::Ground);
 
-    fill_world_rect(world, 69, 34, 8, 8, TileKind::Water);
-    fill_world_rect(world, 70, 35, 6, 6, TileKind::Ground);
+    fill_world_rect(world, 66, 34, 16, 10, TileKind::Water);
+    fill_world_rect(world, 70, 36, 8, 6, TileKind::Ground);
 
     fill_world_rect(world, 16, 26, 1, 6, TileKind::Ground);
     fill_world_rect(world, 38, 26, 1, 6, TileKind::Ground);
@@ -239,8 +264,9 @@ void build_item_zoo_world(World* world) {
     fill_world_rect(world, 20, 22, 18, 1, TileKind::Tree);
     fill_world_rect(world, 20, 27, 18, 1, TileKind::Tree);
 
-    fill_world_rect(world, 54, 22, 6, 6, TileKind::Water);
-    fill_world_rect(world, 55, 23, 4, 4, TileKind::Ground);
+    fill_world_rect(world, 52, 22, 12, 6, TileKind::Water);
+    fill_world_rect(world, 52, 24, 2, 2, TileKind::Ground);
+    fill_world_rect(world, 62, 24, 2, 2, TileKind::Ground);
 }
 
 void populate_sandbox_entities(GameSession* session) {
@@ -303,6 +329,12 @@ int gather_sandbox_portals(const GameSession* session,
         push_portal(portals, &count, AreaKind::ItemZoo, glm::vec2(62.0F, 35.0F),
                     glm::vec2(2.0F, 1.5F), AreaKind::EnemyZoo, glm::vec2(10.0F, 10.0F),
                     "to enemy zoo");
+        push_portal(portals, &count, AreaKind::ItemZoo, glm::vec2(53.0F, 25.0F),
+                    glm::vec2(0.9F, 0.9F), AreaKind::ItemZoo, glm::vec2(63.0F, 25.0F), "raft dock",
+                    true);
+        push_portal(portals, &count, AreaKind::ItemZoo, glm::vec2(63.0F, 25.0F),
+                    glm::vec2(0.9F, 0.9F), AreaKind::ItemZoo, glm::vec2(53.0F, 25.0F), "raft dock",
+                    true);
     }
 
     return count;
