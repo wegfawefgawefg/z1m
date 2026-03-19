@@ -26,6 +26,7 @@ endif()
 add_executable(z1m
     src/app/main.cpp
     src/app/run.cpp
+    src/content/world_data.cpp
     src/render/camera.cpp
     src/render/scene_renderer.cpp
     src/game/player.cpp

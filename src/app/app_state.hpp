@@ -17,6 +17,7 @@ struct AppState {
     int frames_this_second = 0;
     int displayed_fps = 0;
     int tick_count = 0;
+    int current_room_id = -1;
     World world = make_world();
     Player player = make_player();
 };

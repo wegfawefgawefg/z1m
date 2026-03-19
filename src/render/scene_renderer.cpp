@@ -1,11 +1,14 @@
 #include "render/scene_renderer.hpp"
 
 #include "app/app_config.hpp"
+#include "content/world_data.hpp"
 #include "game/player.hpp"
 #include "game/world.hpp"
 #include "render/camera.hpp"
 
 #include <SDL3/SDL.h>
+#include <algorithm>
+#include <cstdint>
 #include <glm/vec2.hpp>
 
 namespace z1m {
@@ -29,6 +32,39 @@ void fill_rect(SDL_Renderer* renderer, const SDL_FRect& rect) {
     SDL_RenderFillRect(renderer, &rect);
 }
 
+Uint8 mix_channel(int value, int bias, int mul) {
+    return static_cast<Uint8>((value * mul + bias) & 0xFF);
+}
+
+bool use_overworld_map_view(const World* world, float zoom) {
+    return world->overworld.loaded && zoom <= 1.0F;
+}
+
+void set_draw_color_for_overworld_tile(SDL_Renderer* renderer, std::uint8_t tile) {
+    if (tile == 0x24 || tile == 0x6F) {
+        set_draw_color(renderer, 90, 132, 74);
+        return;
+    }
+
+    if (tile == 0x74 || tile == 0x75 || tile == 0x76 || tile == 0x77) {
+        set_draw_color(renderer, 48, 96, 178);
+        return;
+    }
+
+    if (tile >= 0xBC && tile <= 0xDE) {
+        set_draw_color(renderer, 118, 102, 78);
+        return;
+    }
+
+    if (tile >= 0xE5 && tile <= 0xEA) {
+        set_draw_color(renderer, 34, 94, 42);
+        return;
+    }
+
+    set_draw_color(renderer, mix_channel(tile, 40, 29), mix_channel(tile, 92, 17),
+                   mix_channel(tile, 148, 11));
+}
+
 } // namespace
 
 void render_scene(SDL_Renderer* renderer, const World* world, const Player* player, float zoom) {
@@ -36,12 +72,46 @@ void render_scene(SDL_Renderer* renderer, const World* world, const Player* play
     SDL_RenderClear(renderer);
 
     render_world(renderer, world, player, zoom);
-    render_player(renderer, player, zoom);
+    render_player(renderer, world, player, zoom);
 
     SDL_RenderPresent(renderer);
 }
 
 void render_world(SDL_Renderer* renderer, const World* world, const Player* player, float zoom) {
+    if (use_overworld_map_view(world, zoom)) {
+        const float fit_x =
+            static_cast<float>(app_config::kWindowWidth) / static_cast<float>(kWorldTileWidth);
+        const float fit_y =
+            static_cast<float>(app_config::kWindowHeight) / static_cast<float>(kWorldTileHeight);
+        const float tile_size = std::min(fit_x, fit_y) * zoom;
+
+        for (int tile_y = 0; tile_y < kWorldTileHeight; ++tile_y) {
+            for (int tile_x = 0; tile_x < kWorldTileWidth; ++tile_x) {
+                const std::uint8_t tile = get_world_tile(&world->overworld, tile_x, tile_y);
+                set_draw_color_for_overworld_tile(renderer, tile);
+
+                const SDL_FRect tile_rect =
+                    make_rect(glm::vec2(static_cast<float>(tile_x) * tile_size,
+                                        static_cast<float>(tile_y) * tile_size),
+                              glm::vec2(tile_size, tile_size));
+                fill_rect(renderer, tile_rect);
+            }
+        }
+
+        set_draw_color(renderer, 255, 255, 255, 72);
+        for (int screen_x = 0; screen_x <= kScreenColumns; ++screen_x) {
+            const float x = static_cast<float>(screen_x * kScreenTileWidth) * tile_size;
+            SDL_RenderLine(renderer, x, 0.0F, x, static_cast<float>(kWorldTileHeight) * tile_size);
+        }
+
+        for (int screen_y = 0; screen_y <= kScreenRows; ++screen_y) {
+            const float y = static_cast<float>(screen_y * kScreenTileHeight) * tile_size;
+            SDL_RenderLine(renderer, 0.0F, y, static_cast<float>(kWorldTileWidth) * tile_size, y);
+        }
+
+        return;
+    }
+
     const Camera camera = make_camera(player->position,
                                       glm::vec2(static_cast<float>(app_config::kWindowWidth),
                                                 static_cast<float>(app_config::kWindowHeight)),
@@ -86,7 +156,31 @@ void render_world(SDL_Renderer* renderer, const World* world, const Player* play
     }
 }
 
-void render_player(SDL_Renderer* renderer, const Player* player, float zoom) {
+void render_player(SDL_Renderer* renderer, const World* world, const Player* player, float zoom) {
+    if (use_overworld_map_view(world, zoom)) {
+        const float fit_x =
+            static_cast<float>(app_config::kWindowWidth) / static_cast<float>(kWorldTileWidth);
+        const float fit_y =
+            static_cast<float>(app_config::kWindowHeight) / static_cast<float>(kWorldTileHeight);
+        const float tile_size = std::min(fit_x, fit_y) * zoom;
+        const glm::vec2 player_screen = player->position * tile_size;
+        const SDL_FRect player_rect =
+            make_rect(player_screen - glm::vec2(2.5F), glm::vec2(5.0F, 5.0F));
+
+        set_draw_color(renderer, 232, 214, 94);
+        fill_rect(renderer, player_rect);
+
+        if (is_sword_active(player)) {
+            const glm::vec2 sword_screen = sword_world_position(player) * tile_size;
+            const SDL_FRect sword_rect =
+                make_rect(sword_screen - glm::vec2(1.5F), glm::vec2(3.0F, 3.0F));
+            set_draw_color(renderer, 220, 236, 244);
+            fill_rect(renderer, sword_rect);
+        }
+
+        return;
+    }
+
     const Camera camera = make_camera(player->position,
                                       glm::vec2(static_cast<float>(app_config::kWindowWidth),
                                                 static_cast<float>(app_config::kWindowHeight)),

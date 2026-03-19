@@ -9,6 +9,6 @@ struct World;
 
 void render_scene(SDL_Renderer* renderer, const World* world, const Player* player, float zoom);
 void render_world(SDL_Renderer* renderer, const World* world, const Player* player, float zoom);
-void render_player(SDL_Renderer* renderer, const Player* player, float zoom);
+void render_player(SDL_Renderer* renderer, const World* world, const Player* player, float zoom);
 
 } // namespace z1m

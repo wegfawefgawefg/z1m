@@ -11,8 +11,6 @@
 
 namespace z1m {
 
-namespace {
-
 constexpr Uint64 kNanosecondsPerSecond = 1000000000ULL;
 constexpr int kWindowX = 480;
 constexpr int kWindowY = 270;
@@ -24,7 +22,19 @@ void request_i3_floating_window() {
     std::system(command);
 }
 
-} // namespace
+bool load_overworld_content(AppState* app) {
+    if (load_world_overworld("content/overworld_q1.txt", &app->world)) {
+        return true;
+    }
+
+    const char* base_path = SDL_GetBasePath();
+    if (base_path == nullptr) {
+        return false;
+    }
+
+    const std::string fallback_path = std::string(base_path) + "../content/overworld_q1.txt";
+    return load_world_overworld(fallback_path.c_str(), &app->world);
+}
 
 int run_app(AppState* app) {
     if (!init_app(app)) {
@@ -101,6 +111,15 @@ bool init_app(AppState* app) {
     if (!SDL_SetRenderVSync(app->renderer, SDL_RENDERER_VSYNC_DISABLED)) {
         SDL_Log("SDL_SetRenderVSync failed: %s", SDL_GetError());
     }
+
+    if (!load_overworld_content(app)) {
+        SDL_Log("Failed to load content/overworld_q1.txt");
+    }
+
+    app->player.position = glm::vec2(7.5F * static_cast<float>(kScreenTileWidth),
+                                     3.5F * static_cast<float>(kScreenTileHeight));
+    app->current_room_id = get_room_id_at_world_tile(static_cast<int>(app->player.position.x),
+                                                     static_cast<int>(app->player.position.y));
 
     request_i3_floating_window();
     update_window_title(app);
@@ -203,6 +222,8 @@ void update_app(AppState* app, double dt_seconds) {
     command.attack_pressed = input.attack_pressed;
 
     tick_player(&app->player, &app->world, &command, static_cast<float>(dt_seconds));
+    app->current_room_id = get_room_id_at_world_tile(static_cast<int>(app->player.position.x),
+                                                     static_cast<int>(app->player.position.y));
     ++app->tick_count;
 }
 
@@ -217,7 +238,8 @@ void update_window_title(AppState* app) {
 
     const std::string title =
         "z1m | SDL3 + GLM | 960x540 | fps=" + std::to_string(app->displayed_fps) +
-        " | sim=60Hz | zoom=" + std::to_string(app->zoom);
+        " | sim=60Hz | room=" + std::to_string(app->current_room_id) +
+        " | zoom=" + std::to_string(app->zoom);
     SDL_SetWindowTitle(app->window, title.c_str());
 }
 

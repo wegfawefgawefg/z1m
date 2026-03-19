@@ -3,41 +3,172 @@
 #include "game/world.hpp"
 
 #include <array>
-#include <cmath>
 #include <glm/common.hpp>
-#include <glm/geometric.hpp>
 
 namespace z1m {
 
-namespace {
+constexpr float kMoveSpeedTilesPerSecond = 11.25F;
+constexpr float kSwordDurationSeconds = 5.0F / 60.0F;
+constexpr float kBodyHalfWidthTiles = 0.30F;
+constexpr float kFrontProbeTiles = 0.45F;
 
-constexpr float kMoveSpeedTilesPerSecond = 4.5F;
-constexpr float kCollisionRadius = 0.28F;
-constexpr float kSwordDurationSeconds = 0.16F;
+MoveDirection choose_move_direction(const Player* player, const PlayerCommand* command) {
+    bool up = command->move_axis.y < 0.0F;
+    bool down = command->move_axis.y > 0.0F;
+    bool left = command->move_axis.x < 0.0F;
+    bool right = command->move_axis.x > 0.0F;
 
-glm::vec2 normalize_move_axis(const glm::vec2& move_axis) {
-    const float length = glm::length(move_axis);
-    if (length <= 0.0F) {
+    if (up && down) {
+        up = false;
+        down = false;
+    }
+
+    if (left && right) {
+        left = false;
+        right = false;
+    }
+
+    int pressed_count = 0;
+    pressed_count += up ? 1 : 0;
+    pressed_count += down ? 1 : 0;
+    pressed_count += left ? 1 : 0;
+    pressed_count += right ? 1 : 0;
+
+    if (pressed_count == 0) {
+        return MoveDirection::None;
+    }
+
+    if (pressed_count == 1) {
+        if (up) {
+            return MoveDirection::Up;
+        }
+
+        if (down) {
+            return MoveDirection::Down;
+        }
+
+        if (left) {
+            return MoveDirection::Left;
+        }
+
+        return MoveDirection::Right;
+    }
+
+    if (player->move_direction == MoveDirection::Up && up) {
+        return MoveDirection::Up;
+    }
+
+    if (player->move_direction == MoveDirection::Down && down) {
+        return MoveDirection::Down;
+    }
+
+    if (player->move_direction == MoveDirection::Left && left) {
+        return MoveDirection::Left;
+    }
+
+    if (player->move_direction == MoveDirection::Right && right) {
+        return MoveDirection::Right;
+    }
+
+    if (player->facing == Facing::Up && up) {
+        return MoveDirection::Up;
+    }
+
+    if (player->facing == Facing::Down && down) {
+        return MoveDirection::Down;
+    }
+
+    if (player->facing == Facing::Left && left) {
+        return MoveDirection::Left;
+    }
+
+    if (player->facing == Facing::Right && right) {
+        return MoveDirection::Right;
+    }
+
+    if (up) {
+        return MoveDirection::Up;
+    }
+
+    if (down) {
+        return MoveDirection::Down;
+    }
+
+    if (left) {
+        return MoveDirection::Left;
+    }
+
+    return MoveDirection::Right;
+}
+
+Facing facing_from_move_direction(MoveDirection move_direction) {
+    switch (move_direction) {
+    case MoveDirection::Up:
+        return Facing::Up;
+    case MoveDirection::Down:
+        return Facing::Down;
+    case MoveDirection::Left:
+        return Facing::Left;
+    case MoveDirection::Right:
+        return Facing::Right;
+    case MoveDirection::None:
+        return Facing::Down;
+    }
+
+    return Facing::Down;
+}
+
+glm::vec2 move_vector(MoveDirection move_direction) {
+    switch (move_direction) {
+    case MoveDirection::Up:
+        return glm::vec2(0.0F, -1.0F);
+    case MoveDirection::Down:
+        return glm::vec2(0.0F, 1.0F);
+    case MoveDirection::Left:
+        return glm::vec2(-1.0F, 0.0F);
+    case MoveDirection::Right:
+        return glm::vec2(1.0F, 0.0F);
+    case MoveDirection::None:
         return glm::vec2(0.0F, 0.0F);
     }
 
-    if (length <= 1.0F) {
-        return move_axis;
-    }
-
-    return move_axis / length;
+    return glm::vec2(0.0F, 0.0F);
 }
 
-bool can_occupy(const World* world, const glm::vec2& position) {
-    const std::array<glm::vec2, 4> offsets = {
-        glm::vec2(-kCollisionRadius, -kCollisionRadius),
-        glm::vec2(kCollisionRadius, -kCollisionRadius),
-        glm::vec2(-kCollisionRadius, kCollisionRadius),
-        glm::vec2(kCollisionRadius, kCollisionRadius),
-    };
+bool can_move_to(const World* world, const glm::vec2& position, MoveDirection move_direction) {
+    std::array<glm::vec2, 2> probes = {};
 
-    for (const glm::vec2& offset : offsets) {
-        if (!world_is_walkable_tile(world, position + offset)) {
+    switch (move_direction) {
+    case MoveDirection::Up:
+        probes = {
+            position + glm::vec2(-kBodyHalfWidthTiles, -kFrontProbeTiles),
+            position + glm::vec2(kBodyHalfWidthTiles, -kFrontProbeTiles),
+        };
+        break;
+    case MoveDirection::Down:
+        probes = {
+            position + glm::vec2(-kBodyHalfWidthTiles, kFrontProbeTiles),
+            position + glm::vec2(kBodyHalfWidthTiles, kFrontProbeTiles),
+        };
+        break;
+    case MoveDirection::Left:
+        probes = {
+            position + glm::vec2(-kFrontProbeTiles, -kBodyHalfWidthTiles),
+            position + glm::vec2(-kFrontProbeTiles, kBodyHalfWidthTiles),
+        };
+        break;
+    case MoveDirection::Right:
+        probes = {
+            position + glm::vec2(kFrontProbeTiles, -kBodyHalfWidthTiles),
+            position + glm::vec2(kFrontProbeTiles, kBodyHalfWidthTiles),
+        };
+        break;
+    case MoveDirection::None:
+        return true;
+    }
+
+    for (const glm::vec2& probe : probes) {
+        if (!world_is_walkable_tile(world, probe)) {
             return false;
         }
     }
@@ -45,40 +176,19 @@ bool can_occupy(const World* world, const glm::vec2& position) {
     return true;
 }
 
-void face_direction(Player* player, const glm::vec2& move_axis) {
-    if (move_axis.x < 0.0F) {
-        player->facing = Facing::Left;
+void move_with_collision(Player* player, const World* world, MoveDirection move_direction,
+                         float distance) {
+    if (move_direction == MoveDirection::None) {
         return;
     }
 
-    if (move_axis.x > 0.0F) {
-        player->facing = Facing::Right;
+    const glm::vec2 candidate = player->position + move_vector(move_direction) * distance;
+    if (!can_move_to(world, candidate, move_direction)) {
         return;
     }
 
-    if (move_axis.y < 0.0F) {
-        player->facing = Facing::Up;
-        return;
-    }
-
-    if (move_axis.y > 0.0F) {
-        player->facing = Facing::Down;
-    }
+    player->position = candidate;
 }
-
-void move_with_collision(Player* player, const World* world, const glm::vec2& move_delta) {
-    const glm::vec2 candidate_x = player->position + glm::vec2(move_delta.x, 0.0F);
-    if (can_occupy(world, candidate_x)) {
-        player->position.x = candidate_x.x;
-    }
-
-    const glm::vec2 candidate_y = player->position + glm::vec2(0.0F, move_delta.y);
-    if (can_occupy(world, candidate_y)) {
-        player->position.y = candidate_y.y;
-    }
-}
-
-} // namespace
 
 Player make_player() {
     return Player{};
@@ -91,10 +201,12 @@ void tick_player(Player* player, const World* world, const PlayerCommand* comman
             glm::max(0.0F, player->sword_seconds_remaining - dt_seconds);
     }
 
-    const glm::vec2 move_axis = normalize_move_axis(command->move_axis);
-    if (move_axis != glm::vec2(0.0F, 0.0F)) {
-        face_direction(player, move_axis);
-        move_with_collision(player, world, move_axis * kMoveSpeedTilesPerSecond * dt_seconds);
+    const MoveDirection move_direction = choose_move_direction(player, command);
+    player->move_direction = move_direction;
+
+    if (move_direction != MoveDirection::None) {
+        player->facing = facing_from_move_direction(move_direction);
+        move_with_collision(player, world, move_direction, kMoveSpeedTilesPerSecond * dt_seconds);
     }
 
     if (command->attack_pressed) {
