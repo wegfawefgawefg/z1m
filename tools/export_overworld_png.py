@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 from pathlib import Path
 
 from PIL import Image, ImageDraw
@@ -10,7 +11,7 @@ from PIL import Image, ImageDraw
 REPO_ROOT = Path(__file__).resolve().parent.parent
 WORKSPACE_ROOT = REPO_ROOT.parent
 CONTENT_PATH = REPO_ROOT / "content" / "overworld_q1.txt"
-OUTPUT_PATH = REPO_ROOT / "refs" / "generated_overworld_debug.png"
+OUTPUT_PATH = REPO_ROOT / "artifacts" / "generated_overworld_debug.png"
 ROM_PATH = WORKSPACE_ROOT / "Legend of Zelda, The (USA) (Rev 1).nes"
 SCREEN_COLUMNS = 16
 SCREEN_ROWS = 8
@@ -47,6 +48,25 @@ def parse_screens() -> list[tuple[int, list[int], list[int]]]:
         screens.append((room_id, attrs, tiles))
 
     return screens
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=OUTPUT_PATH,
+    )
+    parser.add_argument(
+        "--room-id-offset",
+        type=lambda value: int(value, 0),
+        default=0,
+    )
+    parser.add_argument(
+        "--wrap-room-ids",
+        action="store_true",
+    )
+    return parser.parse_args()
 
 
 def color_for_nes_index(index: int) -> tuple[int, int, int, int]:
@@ -127,8 +147,23 @@ def load_chr_tiles() -> list[list[int]]:
     return tiles
 
 
+def get_source_screen(
+    screens_by_room_id: dict[int, tuple[int, list[int], list[int]]],
+    world_room_id: int,
+    room_id_offset: int,
+    wrap_room_ids: bool,
+) -> tuple[int, list[int], list[int]] | None:
+    source_room_id = world_room_id + room_id_offset
+    if wrap_room_ids:
+        source_room_id &= 0x7F
+
+    return screens_by_room_id.get(source_room_id)
+
+
 def main() -> None:
+    args = parse_args()
     screens = parse_screens()
+    screens_by_room_id = {room_id: (room_id, attrs, tiles) for room_id, attrs, tiles in screens}
     chr_tiles = load_chr_tiles()
     image = Image.new(
         "RGBA",
@@ -140,9 +175,19 @@ def main() -> None:
     )
     draw = ImageDraw.Draw(image)
 
-    for room_id, attrs, tiles in screens:
-        room_x = room_id % SCREEN_COLUMNS
-        room_y = room_id // SCREEN_COLUMNS
+    for world_room_id in range(SCREEN_COLUMNS * SCREEN_ROWS):
+        screen = get_source_screen(
+            screens_by_room_id,
+            world_room_id,
+            args.room_id_offset,
+            args.wrap_room_ids,
+        )
+        if screen is None:
+            continue
+
+        _, attrs, tiles = screen
+        room_x = world_room_id % SCREEN_COLUMNS
+        room_y = world_room_id // SCREEN_COLUMNS
         origin_x = room_x * SCREEN_TILE_WIDTH * CHR_TILE_SIZE
         origin_y = room_y * SCREEN_TILE_HEIGHT * CHR_TILE_SIZE
 
@@ -175,9 +220,9 @@ def main() -> None:
         y = screen_y * SCREEN_TILE_HEIGHT * CHR_TILE_SIZE
         draw.line((0, y, image.width, y), fill=(255, 255, 255, 96), width=1)
 
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    image.save(OUTPUT_PATH)
-    print(OUTPUT_PATH)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    image.save(args.output)
+    print(args.output)
 
 
 if __name__ == "__main__":

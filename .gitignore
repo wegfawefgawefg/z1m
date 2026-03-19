@@ -46,6 +46,7 @@
 /build/
 /compile_commands.json
 /CMakeUserPresets.json
+/artifacts/
 
 # Editors
 /.idea/

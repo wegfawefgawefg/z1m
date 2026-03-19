@@ -48,9 +48,12 @@ def parse_byte_blocks(source: str) -> dict[str, list[int]]:
     return blocks
 
 
-def build_square_tiles(square_index: int, primary_squares: list[int], secondary_squares: list[int]) -> list[int]:
+def build_square_tiles(square_index: int, primary_squares: list[int], secondary_squares: list[int],
+                       tile_object_primary_squares: list[int]) -> list[int]:
     if square_index >= 0x10:
         primary_tile = primary_squares[square_index]
+        if 0xE5 <= primary_tile <= 0xEA:
+            primary_tile = tile_object_primary_squares[primary_tile - 0xE5]
         return [
             primary_tile,
             primary_tile + 1,
@@ -73,10 +76,11 @@ def expand_screen(
     attrs_f: bytes,
     primary_squares: list[int],
     secondary_squares: list[int],
+    tile_object_primary_squares: list[int],
     column_heap_data: list[int],
     column_heap_offsets: list[int],
 ) -> dict[str, object]:
-    unique_room_id = attrs_d[room_id] & 0x3F
+    unique_room_id = attrs_d[room_id] & 0x7F
     room_layout_offset = unique_room_id * UNIQUE_ROOM_COLUMN_COUNT
     room_layout = room_layouts[room_layout_offset : room_layout_offset + UNIQUE_ROOM_COLUMN_COUNT]
 
@@ -106,7 +110,8 @@ def expand_screen(
 
             square_descriptor = column_heap_data[square_pointer]
             square_index = square_descriptor & 0x3F
-            tile_values = build_square_tiles(square_index, primary_squares, secondary_squares)
+            tile_values = build_square_tiles(square_index, primary_squares, secondary_squares,
+                                             tile_object_primary_squares)
 
             tile_x = column_index * 2
             tile_y = square_row * 2
@@ -182,6 +187,7 @@ def main() -> None:
 
     primary_squares = blocks["PrimarySquaresOW"]
     secondary_squares = blocks["SecondarySquaresOW"]
+    tile_object_primary_squares = blocks["TileObjectPrimarySquaresOW"]
     column_heap_labels = [f"ColumnHeapOW{value:X}" for value in range(16)]
     column_heap_offsets: list[int] = []
     column_heap_data: list[int] = []
@@ -201,6 +207,7 @@ def main() -> None:
             attrs_f,
             primary_squares,
             secondary_squares,
+            tile_object_primary_squares,
             column_heap_data,
             column_heap_offsets,
         )
