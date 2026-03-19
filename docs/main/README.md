@@ -20,6 +20,7 @@ Read these as supporting docs:
 - `open-questions.md`: a short list of items that are still intentionally open
 - `overworld-debug-status.md`: current status of the overworld loader/debug work
 - `nes-rom-offsets.md`: how ROM CPU addresses map to file offsets
+- `debug-tools.md`: runtime overlay/debug UI controls and expectations
 
 The rule for now is simple: if implementation and docs disagree, update one of
 them immediately instead of letting the mismatch sit around.

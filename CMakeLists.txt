@@ -26,15 +26,42 @@ endif()
 add_executable(z1m
     src/app/main.cpp
     src/app/run.cpp
+    src/content/opening_content.cpp
+    src/content/overworld_warps.cpp
     src/content/world_data.cpp
+    src/debug/debug_ui.cpp
     src/render/camera.cpp
     src/render/debug_tileset.cpp
     src/render/scene_renderer.cpp
+    src/game/game_session.cpp
     src/game/player.cpp
     src/game/world.cpp
+    third_party/imgui/imgui.cpp
+    third_party/imgui/imgui_draw.cpp
+    third_party/imgui/imgui_tables.cpp
+    third_party/imgui/imgui_widgets.cpp
+    third_party/imgui/backends/imgui_impl_sdl3.cpp
+    third_party/imgui/backends/imgui_impl_sdlrenderer3.cpp
 )
 
-target_include_directories(z1m PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+if (NOT MSVC)
+    set_source_files_properties(
+        third_party/imgui/imgui.cpp
+        third_party/imgui/imgui_draw.cpp
+        third_party/imgui/imgui_tables.cpp
+        third_party/imgui/imgui_widgets.cpp
+        third_party/imgui/backends/imgui_impl_sdl3.cpp
+        third_party/imgui/backends/imgui_impl_sdlrenderer3.cpp
+        PROPERTIES COMPILE_OPTIONS "-w"
+    )
+endif()
+
+target_include_directories(z1m PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party/imgui
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party/imgui/backends
+)
+
 target_link_libraries(z1m PRIVATE glm::glm)
 
 if (TARGET SDL3::SDL3)

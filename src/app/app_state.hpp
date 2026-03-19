@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/game_session.hpp"
 #include "game/player.hpp"
 #include "game/world.hpp"
 #include "render/debug_tileset.hpp"
@@ -7,6 +8,15 @@
 #include <SDL3/SDL.h>
 
 namespace z1m {
+
+struct DebugView {
+    bool show_ui = true;
+    bool enabled = true;
+    bool show_hitboxes = true;
+    bool show_collision_tiles = true;
+    bool show_interactables = true;
+    bool show_labels = true;
+};
 
 struct AppState {
     SDL_Window* window = nullptr;
@@ -19,8 +29,10 @@ struct AppState {
     int displayed_fps = 0;
     int tick_count = 0;
     int current_room_id = -1;
+    DebugView debug_view = {};
     DebugTileset debug_tileset = {};
     World world = make_world();
+    GameSession session = make_game_session();
     Player player = make_player();
 };
 

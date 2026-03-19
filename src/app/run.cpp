@@ -2,6 +2,8 @@
 
 #include "app/app_config.hpp"
 #include "app/input_state.hpp"
+#include "debug/debug_ui.hpp"
+#include "game/game_session.hpp"
 #include "render/scene_renderer.hpp"
 
 #include <SDL3/SDL.h>
@@ -152,10 +154,13 @@ bool init_app(AppState* app) {
         SDL_Log("Failed to load ROM CHR debug tileset");
     }
 
-    app->player.position = glm::vec2(7.5F * static_cast<float>(kScreenTileWidth),
-                                     3.5F * static_cast<float>(kScreenTileHeight));
-    app->current_room_id = get_room_id_at_world_tile(static_cast<int>(app->player.position.x),
-                                                     static_cast<int>(app->player.position.y));
+    if (!init_debug_ui(app)) {
+        SDL_Log("Failed to initialize Dear ImGui debug UI");
+        return false;
+    }
+
+    init_game_session(&app->session, &app->player);
+    app->current_room_id = app->session.current_room_id;
 
     request_i3_floating_window();
     update_window_title(app);
@@ -163,6 +168,7 @@ bool init_app(AppState* app) {
 }
 
 void shutdown_app(AppState* app) {
+    shutdown_debug_ui();
     unload_debug_tileset(&app->debug_tileset);
 
     if (app->renderer != nullptr) {
@@ -181,6 +187,8 @@ void shutdown_app(AppState* app) {
 void pump_app_events(AppState* app) {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+        debug_ui_process_event(&event);
+
         if (event.type == SDL_EVENT_QUIT) {
             app->running = false;
             return;
@@ -214,6 +222,36 @@ void pump_app_events(AppState* app) {
                 app->zoom = app_config::kDefaultZoom;
                 update_window_title(app);
             }
+
+            if (event.key.scancode == SDL_SCANCODE_F1) {
+                app->debug_view.show_ui = !app->debug_view.show_ui;
+                update_window_title(app);
+            }
+
+            if (event.key.scancode == SDL_SCANCODE_F2) {
+                app->debug_view.enabled = !app->debug_view.enabled;
+                update_window_title(app);
+            }
+
+            if (event.key.scancode == SDL_SCANCODE_F3) {
+                app->debug_view.show_hitboxes = !app->debug_view.show_hitboxes;
+                update_window_title(app);
+            }
+
+            if (event.key.scancode == SDL_SCANCODE_F4) {
+                app->debug_view.show_collision_tiles = !app->debug_view.show_collision_tiles;
+                update_window_title(app);
+            }
+
+            if (event.key.scancode == SDL_SCANCODE_F5) {
+                app->debug_view.show_interactables = !app->debug_view.show_interactables;
+                update_window_title(app);
+            }
+
+            if (event.key.scancode == SDL_SCANCODE_F6) {
+                app->debug_view.show_labels = !app->debug_view.show_labels;
+                update_window_title(app);
+            }
         }
 
         if (event.type == SDL_EVENT_MOUSE_WHEEL) {
@@ -231,38 +269,44 @@ void pump_app_events(AppState* app) {
 void update_app(AppState* app, double dt_seconds) {
     InputState input;
     const bool* keys = SDL_GetKeyboardState(nullptr);
+    const bool ui_captures_keyboard = debug_ui_wants_keyboard_capture();
 
-    if (keys[SDL_SCANCODE_W] || keys[SDL_SCANCODE_UP]) {
+    if (!ui_captures_keyboard && (keys[SDL_SCANCODE_W] || keys[SDL_SCANCODE_UP])) {
         input.move_axis.y -= 1.0F;
     }
 
-    if (keys[SDL_SCANCODE_S] || keys[SDL_SCANCODE_DOWN]) {
+    if (!ui_captures_keyboard && (keys[SDL_SCANCODE_S] || keys[SDL_SCANCODE_DOWN])) {
         input.move_axis.y += 1.0F;
     }
 
-    if (keys[SDL_SCANCODE_A] || keys[SDL_SCANCODE_LEFT]) {
+    if (!ui_captures_keyboard && (keys[SDL_SCANCODE_A] || keys[SDL_SCANCODE_LEFT])) {
         input.move_axis.x -= 1.0F;
     }
 
-    if (keys[SDL_SCANCODE_D] || keys[SDL_SCANCODE_RIGHT]) {
+    if (!ui_captures_keyboard && (keys[SDL_SCANCODE_D] || keys[SDL_SCANCODE_RIGHT])) {
         input.move_axis.x += 1.0F;
     }
 
-    input.attack_pressed = app->attack_queued;
+    input.attack_pressed = !ui_captures_keyboard && app->attack_queued;
     app->attack_queued = false;
 
     PlayerCommand command;
     command.move_axis = input.move_axis;
     command.attack_pressed = input.attack_pressed;
 
-    tick_player(&app->player, &app->world, &command, static_cast<float>(dt_seconds));
-    app->current_room_id = get_room_id_at_world_tile(static_cast<int>(app->player.position.x),
-                                                     static_cast<int>(app->player.position.y));
+    tick_game_session(&app->session, &app->world, &app->player, &command,
+                      static_cast<float>(dt_seconds));
+    app->current_room_id = app->session.current_room_id;
     ++app->tick_count;
+    update_window_title(app);
 }
 
 void render_app(AppState* app) {
-    render_scene(app->renderer, &app->debug_tileset, &app->world, &app->player, app->zoom);
+    begin_debug_ui_frame();
+    render_scene(app->renderer, &app->debug_tileset, &app->debug_view, &app->session, &app->world,
+                 &app->player, app->zoom);
+    render_debug_ui(app);
+    SDL_RenderPresent(app->renderer);
 }
 
 void update_window_title(AppState* app) {
@@ -272,7 +316,14 @@ void update_window_title(AppState* app) {
 
     const std::string title =
         "z1m | SDL3 + GLM | 960x540 | fps=" + std::to_string(app->displayed_fps) +
-        " | sim=60Hz | room=" + std::to_string(app->current_room_id) +
+        " | sim=60Hz | area=" + std::string(area_name(&app->session)) +
+        " | room=" + std::to_string(app->current_room_id) +
+        " | hp=" + std::to_string(app->player.health) + "/" +
+        std::to_string(app->player.max_health) + " | rupees=" + std::to_string(app->player.rupees) +
+        " | bombs=" + std::to_string(app->player.bombs) +
+        " | sword=" + std::string(app->player.has_sword ? "yes" : "no") +
+        " | ui=" + std::string(app->debug_view.show_ui ? "on" : "off") +
+        " | dbg=" + std::string(app->debug_view.enabled ? "on" : "off") +
         " | zoom=" + std::to_string(app->zoom);
     SDL_SetWindowTitle(app->window, title.c_str());
 }
