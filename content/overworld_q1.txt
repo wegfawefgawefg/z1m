@@ -6,484 +6,8 @@ screen_tile_width 32
 screen_tile_height 22
 
 screen 00
-attrs ff b3 73 5a 6b 1e
-unique_room 5a
-tiles
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-end
-
-screen 01
-attrs ff 53 87 83 6c 00
-unique_room 03
-tiles
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da dc de d4 d6 d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db dd df d5 d7 d9 db d9 db d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 d4 d6 d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d5 d7 d9 db d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da dc de 26 26 26 26 26 26 d4 d6 d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db dd df 26 26 26 26 26 26 d5 d7 d9 db d9 db
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-ce d0 ce d0 ce d0 74 75 ce d0 ce d0 ce d0 ce d0 ce d0 d0 d2 26 26 26 26 26 26 26 26 26 26 26 26
-cf d1 cf d1 cf d1 74 75 cf d1 cf d1 cf d1 cf d1 cf d1 d1 d3 26 26 26 26 26 26 26 26 26 26 26 26
-d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26
-d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26
-d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d0 d2 26 26 26 26 26 26 26 26 26 26
-d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d1 d3 26 26 26 26 26 26 26 26 26 26
-d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da ce d0 ce d0 ce d0 ce d0 ce d0
-d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db cf d1 cf d1 cf d1 cf d1 cf d1
-d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-end
-
-screen 02
-attrs ff 43 5f 62 ed 00
-unique_room 62
-tiles
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da f3 f3 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db 24 24 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db
-26 26 26 26 26 26 c8 ca c8 ca c8 ca c8 ca 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6
-26 26 26 26 26 26 c9 cb c9 cb c9 cb c9 cb 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c8 ca c8 ca c8 ca 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c9 cb c9 cb c9 cb 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 c8 ca c8 ca c8 ca c8 ca 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 c9 cb c9 cb c9 cb c9 cb 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c8 ca c8 ca c8 ca 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c9 cb c9 cb c9 cb 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 c8 ca c8 ca c8 ca c8 ca 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce
-26 26 26 26 26 26 c9 cb c9 cb c9 cb c9 cb 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db
-ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 d0 d2 26 26 26 26 d8 da d8 da
-cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 d1 d3 26 26 26 26 d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db
-end
-
-screen 03
-attrs ff 03 03 43 6e 64
-unique_room 43
-tiles
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
-95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 96 96 96 96 96 96 96 96 96 96 96 96 96 96 96 96
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 78 7a 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-95 95 95 95 95 95 95 95 95 95 95 95 95 95 79 7b 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-end
-
-screen 04
-attrs ff 82 0f 0e 6f 00
-unique_room 0e
-tiles
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 90 90 90 90 90 90 90 90 90 90 90 90
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 95 95 95 95 95 95 95 95 95 95 95 95
-d8 da d8 da d8 da d8 da d8 da f3 f3 d8 da d8 da d8 da d8 da 90 90 90 90 90 90 90 90 90 90 90 90
-d9 db d9 db d9 db d9 db d9 db 24 24 d9 db d9 db d9 db d9 db 95 95 95 95 95 95 95 95 95 95 95 95
-d8 da d8 da d8 da d8 da d8 da 26 26 d8 da d8 da d8 da d8 da 90 90 90 90 90 90 90 90 90 90 90 90
-d9 db d9 db d9 db d9 db d9 db 26 26 d9 db d9 db d9 db d9 db 95 95 95 95 95 95 95 95 95 95 95 95
-d8 da d8 da d8 da d8 da d8 da 26 26 d8 da d8 da d8 da d8 da 90 90 90 90 90 90 90 90 90 90 90 90
-d9 db d9 db d9 db d9 db d9 db 26 26 d9 db d9 db d9 db d9 db 95 95 95 95 95 95 95 95 95 95 95 95
-d8 da d8 da d8 da d8 da d8 da 26 26 d8 da d8 da d8 da d8 da 90 90 90 90 90 90 90 90 90 90 90 90
-d9 db d9 db d9 db d9 db d9 db 26 26 d9 db d9 db d9 db d9 db 95 95 95 95 95 95 95 95 95 95 95 95
-d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da 90 90 90 90 90 90 90 90 90 90 90 90
-d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db 95 95 95 95 95 95 95 95 95 95 95 95
-d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da 90 90 90 90 90 90 90 90 90 90 90 90
-d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db 95 95 95 95 95 95 95 95 95 95 95 95
-d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da 90 90 90 90 90 90 90 90 90 90 90 90
-d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db 95 95 95 95 95 95 95 95 95 95 95 95
-end
-
-screen 05
-attrs ff 2a 66 e7 f0 00
-unique_room 67
-tiles
-c4 c6 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 c4 c6
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 c5 c7
-26 26 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 c4 c6
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 c5 c7 c5 c7
-end
-
-screen 06
-attrs ff 62 5a 4e 71 0a
-unique_room 4e
-tiles
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26
-c5 c7 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26
-c5 c7 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-end
-
-screen 07
-attrs ff 42 42 00 72 00
-unique_room 00
-tiles
-d8 da d8 da 26 26 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 84 86 d8 da c4 c6
-d9 db d9 db 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 85 87 d9 db c5 c7
-d8 da dc de 26 26 dc de d8 da d8 da d8 da d4 d6 d8 da d8 da d8 da d8 da d8 da 84 86 d8 da c4 c6
-d9 db dd df 26 26 dd df d9 db d9 db d9 db d5 d7 d9 db d9 db d9 db d9 db d9 db 85 87 d9 db c5 c7
-d4 d6 26 26 26 26 26 26 d4 d6 26 26 26 26 26 26 26 26 26 26 26 26 d8 da 26 26 84 86 d8 da 26 26
-d5 d7 26 26 26 26 26 26 d5 d7 26 26 26 26 26 26 26 26 26 26 26 26 d9 db 26 26 85 87 d9 db 26 26
-26 26 26 26 26 26 26 26 26 26 8f 8f 26 26 26 26 26 26 26 26 26 26 d8 da 26 26 84 86 d8 da 26 26
-26 26 26 26 26 26 26 26 26 26 90 90 26 26 26 26 26 26 26 26 26 26 d9 db 26 26 85 87 d9 db 26 26
-26 26 26 26 26 26 26 26 26 26 90 90 26 26 26 26 26 26 cc ce 26 26 d8 da 26 26 84 86 d8 da 26 26
-26 26 26 26 26 26 26 26 26 26 95 95 26 26 26 26 26 26 cd cf 26 26 d9 db 26 26 85 87 d9 db 26 26
-26 26 c8 ca 26 26 26 26 26 26 90 90 26 26 26 26 26 26 d8 da 26 26 dc de 26 26 84 86 26 26 26 26
-26 26 c9 cb 26 26 26 26 26 26 95 95 26 26 26 26 26 26 d9 db 26 26 dd df 26 26 85 87 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 90 90 26 26 26 26 26 26 d4 d6 26 26 26 26 26 26 84 86 26 26 8f 91
-26 26 26 26 26 26 26 26 26 26 95 95 26 26 26 26 26 26 d5 d7 26 26 26 26 26 26 85 87 26 26 90 92
-26 26 26 26 26 26 26 26 26 26 7a 7c 26 26 26 26 26 26 26 26 26 26 26 26 26 26 84 86 26 26 90 92
-26 26 26 26 26 26 26 26 26 26 7b 7d 26 26 26 26 26 26 26 26 26 26 26 26 26 26 85 87 26 26 95 97
-cc ce 26 26 d0 d2 26 26 cc ce 26 26 26 26 26 26 26 26 26 26 26 26 d0 d2 26 26 84 86 26 26 90 92
-cd cf 26 26 d1 d3 26 26 cd cf 26 26 26 26 26 26 26 26 26 26 26 26 d1 d3 26 26 85 87 26 26 95 97
-d8 da ce d0 d8 da ce d0 d8 da ce d0 ce d0 ce d0 ce d0 ce d0 d0 d2 d8 da 26 26 ce d0 26 26 90 92
-d9 db cf d1 d9 db cf d1 d9 db cf d1 cf d1 cf d1 cf d1 cf d1 d1 d3 d9 db 26 26 cf d1 26 26 95 97
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 d8 da 26 26 90 92
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 d9 db 26 26 95 97
-end
-
-screen 08
-attrs ff 52 6a 47 73 ff
-unique_room 47
-tiles
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-d8 da d8 da d8 da dc de d4 d6 d8 da d8 da 26 26 26 26 d8 da d8 da f3 f3 d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db dd df d5 d7 d9 db d9 db 26 26 26 26 d9 db d9 db 24 24 d9 db d9 db d9 db d9 db
-d8 da d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da d8 da
-d9 db d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db d9 db
-d4 d6 dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 dc de
-d5 d7 dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 dd df
-26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26
-cc ce d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d0 d2
-cd cf d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d1 d3
-d8 da d8 da d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da d8 da
-d9 db d9 db d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db d9 db
-d8 da d8 da d8 da d0 d2 cc ce ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 d8 da d8 da d8 da
-d9 db d9 db d9 db d1 d3 cd cf cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 d9 db d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-end
-
-screen 09
-attrs ff 63 53 8d 74 ff
-unique_room 0d
-tiles
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da dc de d4 d6 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db dd df d5 d7 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-26 26 26 26 d4 d6 d8 da d8 da dc de 26 26 26 26 26 26 26 26 d4 d6 d8 da d8 da d8 da d8 da d8 da
-26 26 26 26 d5 d7 d9 db d9 db dd df 26 26 26 26 26 26 26 26 d5 d7 d9 db d9 db d9 db d9 db d9 db
-26 26 26 26 26 26 d4 d6 dc de 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da d8 da d8 da d8 da
-26 26 26 26 26 26 d5 d7 dd df 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db d9 db d9 db d9 db
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da d8 da d8 da
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db d9 db d9 db
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
-26 26 26 26 26 26 cc ce d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
-26 26 26 26 26 26 cd cf d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
-26 26 26 26 cc ce d8 da d8 da d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da
-26 26 26 26 cd cf d9 db d9 db d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db
-ce d0 ce d0 d8 da d8 da d8 da d8 da ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 74 75 d8 da d8 da
-cf d1 cf d1 d9 db d9 db d9 db d9 db cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 74 75 d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db
-end
-
-screen 0a
-attrs ff 03 03 4d 06 ff
-unique_room 4d
-tiles
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db
-d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
-d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
-d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
-d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
-d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
-d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
-d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
-d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
-d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 ce d0 d8 da
-d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cf d1 d9 db
-d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da
-d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db
-end
-
-screen 0b
-attrs ff 9f 47 d0 75 ff
-unique_room 50
-tiles
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7
-end
-
-screen 0c
-attrs ff 6f 5b d0 76 ff
-unique_room 50
-tiles
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7
-end
-
-screen 0d
-attrs ff 6f 5f 49 76 ff
-unique_room 49
-tiles
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-d8 da d8 da dc de d4 d6 dc de d4 d6 d8 da 74 75 d8 da d8 da d8 da dc de d4 d6 d8 da d8 da d8 da
-d9 db d9 db dd df d5 d7 dd df d5 d7 d9 db 74 75 d9 db d9 db d9 db dd df d5 d7 d9 db d9 db d9 db
-d8 da d8 da 26 26 26 26 26 26 26 26 d8 da 74 75 d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da
-d9 db d9 db 26 26 26 26 26 26 26 26 d9 db 74 75 d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db
-d8 da dc de 26 26 26 26 26 26 26 26 d8 da 74 75 d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da
-d9 db dd df 26 26 26 26 26 26 26 26 d9 db 74 75 d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db
-d8 da 26 26 26 26 26 26 26 26 26 26 d4 d6 74 75 d8 da d8 da dc de 26 26 26 26 d4 d6 d8 da dc de
-d9 db 26 26 26 26 26 26 26 26 26 26 d5 d7 74 75 d9 db d9 db dd df 26 26 26 26 d5 d7 d9 db dd df
-d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce ce d0 d0 d2
-d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf cf d1 d1 d3
-d8 da d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da d8 da
-d9 db d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db d9 db
-d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da d8 da
-d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db d9 db
-d8 da d8 da d0 d2 cc ce d0 d2 cc ce ce d0 ce d0 ce d0 ce d0 ce d0 d0 d2 cc ce d8 da d8 da d8 da
-d9 db d9 db d1 d3 cd cf d1 d3 cd cf cf d1 cf d1 cf d1 cf d1 cf d1 d1 d3 cd cf d9 db d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-end
-
-screen 0e
-attrs ff 0f 03 48 77 ff
-unique_room 48
-tiles
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
-c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
-c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
-c4 c6 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
-c5 c7 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
-26 26 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
-26 26 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
-c4 c6 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
-c5 c7 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
-c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
-c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
-c4 c6 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
-c5 c7 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
-c4 c6 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
-c5 c7 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
-end
-
-screen 0f
-attrs ff 0f 03 09 78 ff
-unique_room 09
-tiles
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-d8 da dc de d4 d6 dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da d8 da
-d9 db dd df d5 d7 dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db d9 db
-d8 da 26 26 26 26 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da
-d9 db 26 26 26 26 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db
-dc de 26 26 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
-dd df 26 26 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
-26 26 26 26 26 26 26 26 c8 ca 26 26 c8 ca 26 26 c8 ca 26 26 c8 ca 26 26 c8 ca 26 26 26 26 d8 da
-26 26 26 26 26 26 26 26 c9 cb 26 26 c9 cb 26 26 c9 cb 26 26 c9 cb 26 26 c9 cb 26 26 26 26 d9 db
-d0 d2 26 26 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
-d1 d3 26 26 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
-d8 da 26 26 26 26 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da
-d9 db 26 26 26 26 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db
-d8 da d0 d2 cc ce d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da d8 da
-d9 db d1 d3 cd cf d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db d9 db
-d8 da d8 da d8 da d8 da ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 d9 db d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-end
-
-screen 10
 attrs a3 27 00 00 3f 83
 unique_room 00
-tiles
-d8 da d8 da 26 26 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 84 86 d8 da c4 c6
-d9 db d9 db 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 85 87 d9 db c5 c7
-d8 da dc de 26 26 dc de d8 da d8 da d8 da d4 d6 d8 da d8 da d8 da d8 da d8 da 84 86 d8 da c4 c6
-d9 db dd df 26 26 dd df d9 db d9 db d9 db d5 d7 d9 db d9 db d9 db d9 db d9 db 85 87 d9 db c5 c7
-d4 d6 26 26 26 26 26 26 d4 d6 26 26 26 26 26 26 26 26 26 26 26 26 d8 da 26 26 84 86 d8 da 26 26
-d5 d7 26 26 26 26 26 26 d5 d7 26 26 26 26 26 26 26 26 26 26 26 26 d9 db 26 26 85 87 d9 db 26 26
-26 26 26 26 26 26 26 26 26 26 8f 8f 26 26 26 26 26 26 26 26 26 26 d8 da 26 26 84 86 d8 da 26 26
-26 26 26 26 26 26 26 26 26 26 90 90 26 26 26 26 26 26 26 26 26 26 d9 db 26 26 85 87 d9 db 26 26
-26 26 26 26 26 26 26 26 26 26 90 90 26 26 26 26 26 26 cc ce 26 26 d8 da 26 26 84 86 d8 da 26 26
-26 26 26 26 26 26 26 26 26 26 95 95 26 26 26 26 26 26 cd cf 26 26 d9 db 26 26 85 87 d9 db 26 26
-26 26 c8 ca 26 26 26 26 26 26 90 90 26 26 26 26 26 26 d8 da 26 26 dc de 26 26 84 86 26 26 26 26
-26 26 c9 cb 26 26 26 26 26 26 95 95 26 26 26 26 26 26 d9 db 26 26 dd df 26 26 85 87 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 90 90 26 26 26 26 26 26 d4 d6 26 26 26 26 26 26 84 86 26 26 8f 91
-26 26 26 26 26 26 26 26 26 26 95 95 26 26 26 26 26 26 d5 d7 26 26 26 26 26 26 85 87 26 26 90 92
-26 26 26 26 26 26 26 26 26 26 7a 7c 26 26 26 26 26 26 26 26 26 26 26 26 26 26 84 86 26 26 90 92
-26 26 26 26 26 26 26 26 26 26 7b 7d 26 26 26 26 26 26 26 26 26 26 26 26 26 26 85 87 26 26 95 97
-cc ce 26 26 d0 d2 26 26 cc ce 26 26 26 26 26 26 26 26 26 26 26 26 d0 d2 26 26 84 86 26 26 90 92
-cd cf 26 26 d1 d3 26 26 cd cf 26 26 26 26 26 26 26 26 26 26 26 26 d1 d3 26 26 85 87 26 26 95 97
-d8 da ce d0 d8 da ce d0 d8 da ce d0 ce d0 ce d0 ce d0 ce d0 d0 d2 d8 da 26 26 ce d0 26 26 90 92
-d9 db cf d1 d9 db cf d1 d9 db cf d1 cf d1 cf d1 cf d1 cf d1 d1 d3 d9 db 26 26 cf d1 26 26 95 97
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 d8 da 26 26 90 92
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 d9 db 26 26 95 97
-end
-
-screen 11
-attrs 93 5f 42 01 01 00
-unique_room 01
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -509,9 +33,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 12
-attrs 63 6b 42 02 7f 83
-unique_room 02
+screen 01
+attrs 93 5f 42 01 01 00
+unique_room 01
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -537,9 +61,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 13
-attrs 73 5f 1f 03 20 03
-unique_room 03
+screen 02
+attrs 63 6b 42 02 7f 83
+unique_room 02
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -565,9 +89,9 @@ d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 14
-attrs c3 6b c1 04 3f 00
-unique_room 04
+screen 03
+attrs 73 5f 1f 03 20 03
+unique_room 03
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -593,9 +117,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 15
-attrs 53 27 e6 85 5a 45
-unique_room 05
+screen 04
+attrs c3 6b c1 04 3f 00
+unique_room 04
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -621,9 +145,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 16
-attrs b3 47 e4 86 7f 84
-unique_room 06
+screen 05
+attrs 53 27 e6 85 5a 45
+unique_room 05
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -649,9 +173,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 17
-attrs a3 5f 02 07 02 03
-unique_room 07
+screen 06
+attrs b3 47 e4 86 7f 84
+unique_room 06
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -677,37 +201,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 18
-attrs 03 03 1f 06 7f 00
-unique_room 06
-tiles
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-dc de d4 d6 dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da
-dd df d5 d7 dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db
-26 26 26 26 26 26 26 26 cc ce d0 d2 26 26 26 26 26 26 26 26 cc ce d0 d2 26 26 26 26 26 26 d8 da
-26 26 26 26 26 26 26 26 cd cf d1 d3 26 26 26 26 26 26 26 26 cd cf d1 d3 26 26 26 26 26 26 d9 db
-26 26 26 26 26 26 cc ce d8 da d8 da d0 d2 26 26 26 26 cc ce d8 da d8 da d0 d2 26 26 26 26 d4 d6
-26 26 26 26 26 26 cd cf d9 db d9 db d1 d3 26 26 26 26 cd cf d9 db d9 db d1 d3 26 26 26 26 d5 d7
-26 26 26 26 26 26 d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da 26 26 26 26 26 26
-26 26 26 26 26 26 d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db 26 26 26 26 26 26
-26 26 26 26 26 26 d4 d6 d8 da d8 da dc de 26 26 26 26 d4 d6 d8 da d8 da dc de 26 26 26 26 cc ce
-26 26 26 26 26 26 d5 d7 d9 db d9 db dd df 26 26 26 26 d5 d7 d9 db d9 db dd df 26 26 26 26 cd cf
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
-d0 d2 cc ce d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da
-d1 d3 cd cf d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db
-d8 da d8 da d8 da ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 d8 da d8 da
-d9 db d9 db d9 db cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-end
-
-screen 19
-attrs 93 4f 00 08 7f a4
-unique_room 08
+screen 07
+attrs a3 5f 02 07 02 03
+unique_room 07
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -733,9 +229,37 @@ d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 1a
-attrs 2b 4b 01 09 03 00
-unique_room 09
+screen 08
+attrs 03 03 1f 06 7f 00
+unique_room 06
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da dc de d4 d6 d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db dd df d5 d7 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da dc de d4 d6 dc de 26 26 26 26 d4 d6 d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db dd df d5 d7 dd df 26 26 26 26 d5 d7 d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db
+dc de d4 d6 dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 dc de d4 d6 dc de d4 d6 d8 da
+dd df d5 d7 dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 dd df d5 d7 dd df d5 d7 d9 db
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d0 d2 cc ce d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d0 d2 cc ce d0 d2 cc ce ce d0
+d1 d3 cd cf d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d1 d3 cd cf d1 d3 cd cf cf d1
+d8 da d8 da d8 da d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d0 d2 cc ce d0 d2 26 26 26 26 cc ce d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d1 d3 cd cf d1 d3 26 26 26 26 cd cf d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d0 d2 cc ce d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d1 d3 cd cf d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+end
+
+screen 09
+attrs 93 4f 00 08 7f a4
+unique_room 08
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -761,9 +285,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 1b
-attrs 73 17 10 0a 7f 03
-unique_room 0a
+screen 0a
+attrs 2b 4b 01 09 03 00
+unique_room 09
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -789,9 +313,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da 90 90 d8 da d8 da d8 da d8 da d8 da d8 da 74
 d9 db d9 db d9 db d9 db d9 db d9 db 95 95 d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db
 end
 
-screen 1c
-attrs 83 7b ce 0b 3f 00
-unique_room 0b
+screen 0b
+attrs 73 17 10 0a 7f 03
+unique_room 0a
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -817,9 +341,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 1d
-attrs 93 6b ce 0c 3f 00
-unique_room 0c
+screen 0c
+attrs 83 7b ce 0b 3f 00
+unique_room 0b
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -845,9 +369,9 @@ d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 1e
-attrs 57 63 00 0d 3f 0b
-unique_room 0d
+screen 0d
+attrs 93 6b ce 0c 3f 00
+unique_room 0c
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -873,9 +397,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db
 end
 
-screen 1f
-attrs 87 8b 00 0e 3f 03
-unique_room 0e
+screen 0e
+attrs 57 63 00 0d 3f 0b
+unique_room 0d
 tiles
 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -901,9 +425,9 @@ d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da 90 90 90 90 90 90 90
 d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
-screen 20
-attrs 93 5b 41 0f 3f 00
-unique_room 0f
+screen 0f
+attrs 87 8b 00 0e 3f 03
+unique_room 0e
 tiles
 90 90 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 90 90
 95 95 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 95 95
@@ -929,9 +453,9 @@ tiles
 95 95 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db 95 95
 end
 
-screen 21
-attrs 53 63 e4 90 3f a4
-unique_room 10
+screen 10
+attrs 93 5b 41 0f 3f 00
+unique_room 0f
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -957,9 +481,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 22
-attrs 83 7f c1 11 98 00
-unique_room 11
+screen 11
+attrs 53 63 e4 90 3f a4
+unique_room 10
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -985,9 +509,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 23
-attrs 23 87 65 92 98 00
-unique_room 12
+screen 12
+attrs 83 7f c1 11 98 00
+unique_room 11
 tiles
 d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1013,9 +537,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 24
-attrs c3 5f 42 13 d8 00
-unique_room 13
+screen 13
+attrs 23 87 65 92 98 00
+unique_room 12
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db
@@ -1041,9 +565,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 25
-attrs c3 7b e4 94 3f 80
-unique_room 14
+screen 14
+attrs c3 5f 42 13 d8 00
+unique_room 13
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1069,9 +593,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 26
-attrs 63 5b 1f 15 3f 00
-unique_room 15
+screen 15
+attrs c3 7b e4 94 3f 80
+unique_room 14
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1097,9 +621,9 @@ d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74
 d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db
 end
 
-screen 27
-attrs 0b 03 1f 16 3f 00
-unique_room 16
+screen 16
+attrs 63 5b 1f 15 3f 00
+unique_room 15
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1125,9 +649,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 28
-attrs cb 6b 1f 17 3f 82
-unique_room 17
+screen 17
+attrs 0b 03 1f 16 3f 00
+unique_room 16
 tiles
 d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1153,9 +677,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da 90 90 26 26 26 26 26 26 26 26 d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db 95 95 26 26 26 26 26 26 26 26 d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 29
-attrs 4b 1f 1f 18 15 82
-unique_room 18
+screen 18
+attrs cb 6b 1f 17 3f 82
+unique_room 17
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1181,9 +705,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 2a
-attrs 6b 6f ce 19 7f 03
-unique_room 19
+screen 19
+attrs 4b 1f 1f 18 15 82
+unique_room 18
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1209,9 +733,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 2b
-attrs 93 17 00 1a 3f a4
-unique_room 1a
+screen 1a
+attrs 6b 6f ce 19 7f 03
+unique_room 19
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da 89 8b d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db 8a 8c d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db
@@ -1237,9 +761,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 2c
-attrs 33 57 00 1b 3f 02
-unique_room 1b
+screen 1b
+attrs 93 17 00 1a 3f a4
+unique_room 1a
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1265,9 +789,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 2d
-attrs 27 53 da 1c 3f 02
-unique_room 1c
+screen 1c
+attrs 33 57 00 1b 3f 02
+unique_room 1b
 tiles
 d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1293,9 +817,9 @@ d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 2e
-attrs cf 5f ce 1d 1f 00
-unique_room 1d
+screen 1d
+attrs 27 53 da 1c 3f 02
+unique_room 1c
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db
@@ -1321,9 +845,9 @@ d8 da d8 da 74 75 d8 da d8 da d8 da d8 da 26 26 26 26 8e 90 90 90 90 90 90 90 90
 d9 db d9 db 74 75 d9 db d9 db d9 db d9 db 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
-screen 2f
-attrs 67 5a da 1e 3f 03
-unique_room 1e
+screen 1e
+attrs cf 5f ce 1d 1f 00
+unique_room 1d
 tiles
 d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1349,9 +873,9 @@ d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db 26 26 26 26 26 26 26 26 26
 95 95 95 95 95 95 95 95 95 95 95 95 95 95 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 30
-attrs 50 44 21 1f e0 b3
-unique_room 1f
+screen 1f
+attrs 67 5a da 1e 3f 03
+unique_room 1e
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 90 90
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 95 95
@@ -1377,9 +901,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 95 95
 end
 
-screen 31
-attrs 50 4c 21 20 98 62
-unique_room 20
+screen 20
+attrs 50 44 21 1f e0 b3
+unique_room 1f
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1405,9 +929,9 @@ d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
 d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db
 end
 
-screen 32
-attrs 73 18 02 21 58 03
-unique_room 21
+screen 21
+attrs 50 4c 21 20 98 62
+unique_room 20
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da c4 c6 c4 c6
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db c5 c7 c5 c7
@@ -1433,9 +957,9 @@ d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
 d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
 end
 
-screen 33
-attrs 43 53 42 22 d8 11
-unique_room 22
+screen 22
+attrs 73 18 02 21 58 03
+unique_room 21
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1461,9 +985,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 34
-attrs 03 03 00 23 98 00
-unique_room 23
+screen 23
+attrs 43 53 42 22 d8 11
+unique_room 22
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1489,9 +1013,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da 74
 d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db
 end
 
-screen 35
-attrs a3 77 5a 24 58 00
-unique_room 24
+screen 24
+attrs 03 03 00 23 98 00
+unique_room 23
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db
@@ -1517,9 +1041,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 36
-attrs 3b 7f da 25 d8 00
-unique_room 25
+screen 25
+attrs a3 77 5a 24 58 00
+unique_room 24
 tiles
 d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da
 d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db
@@ -1545,9 +1069,9 @@ d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 37
-attrs eb 6b da 26 1c 40
-unique_room 26
+screen 26
+attrs 3b 7f da 25 d8 00
+unique_room 25
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1573,9 +1097,9 @@ d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da d8 da 8e 90 90 90 90 90 90 90 90
 d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db d9 db 93 95 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
-screen 38
-attrs eb 86 da 27 00 05
-unique_room 27
+screen 27
+attrs eb 6b da 26 1c 40
+unique_room 26
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da 90 90 26 26 26 26 26 26 26 26 d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db 95 95 26 26 26 26 26 26 26 26 d9 db d9 db d9 db d9 db d9 db
@@ -1601,9 +1125,9 @@ d5 d7 d9 db dd df d5 d7 d9 db dd df 95 95 26 26 26 26 26 26 26 26 d5 d7 d9 db dd
 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
-screen 39
-attrs b3 6b 50 28 c8 84
-unique_room 28
+screen 28
+attrs eb 86 da 27 00 05
+unique_room 27
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -1629,9 +1153,9 @@ c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5
 95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 3a
-attrs 03 03 cf 29 1c 00
-unique_room 29
+screen 29
+attrs b3 6b 50 28 c8 84
+unique_room 28
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1657,9 +1181,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 3b
-attrs b3 8f e7 aa 19 84
-unique_room 2a
+screen 2a
+attrs 03 03 cf 29 1c 00
+unique_room 29
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1685,9 +1209,9 @@ d8 da d8 da 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84
 d9 db d9 db 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 d9 db
 end
 
-screen 3c
-attrs 93 47 4e 2b c6 45
-unique_room 2b
+screen 2b
+attrs b3 8f e7 aa 19 84
+unique_room 2a
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1713,9 +1237,9 @@ d8 da 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84
 d9 db 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 d9 db d9 db
 end
 
-screen 3d
-attrs 5f 87 aa ac 1c 00
-unique_room 2c
+screen 2c
+attrs 93 47 4e 2b c6 45
+unique_room 2b
 tiles
 d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1741,9 +1265,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 3e
-attrs 0f 03 49 2d 04 00
-unique_room 2d
+screen 2d
+attrs 5f 87 aa ac 1c 00
+unique_room 2c
 tiles
 d8 da d8 da 74 75 d8 da d8 da d8 da d8 da 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
 d9 db d9 db 74 75 d9 db d9 db d9 db d9 db 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -1769,9 +1293,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 3f
-attrs 60 44 00 2e e2 03
-unique_room 2e
+screen 2e
+attrs 0f 03 49 2d 04 00
+unique_room 2d
 tiles
 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -1797,9 +1321,9 @@ d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90
 d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
-screen 40
-attrs 70 18 21 2f 19 84
-unique_room 2f
+screen 2f
+attrs 60 44 00 2e e2 03
+unique_room 2e
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1825,9 +1349,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 41
-attrs 70 00 21 30 12 04
-unique_room 30
+screen 30
+attrs 70 18 21 2f 19 84
+unique_room 2f
 tiles
 d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da
 d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db
@@ -1853,9 +1377,9 @@ d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
 d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db
 end
 
-screen 42
-attrs 03 03 e4 b1 c4 00
-unique_room 31
+screen 31
+attrs 70 00 21 30 12 04
+unique_room 30
 tiles
 d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
 d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
@@ -1881,9 +1405,9 @@ d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
 d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
 end
 
-screen 43
-attrs a3 68 00 32 3f 00
-unique_room 32
+screen 32
+attrs 03 03 e4 b1 c4 00
+unique_room 31
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1909,9 +1433,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 44
-attrs 43 83 4f 33 98 02
-unique_room 33
+screen 33
+attrs a3 68 00 32 3f 00
+unique_room 32
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db
@@ -1937,9 +1461,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 45
-attrs 0b 03 00 34 7f 00
-unique_room 34
+screen 34
+attrs 43 83 4f 33 98 02
+unique_room 33
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1965,9 +1489,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 8e 90 90 90 90 90 90 90 90
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
-screen 46
-attrs 0b 03 00 35 3f 00
-unique_room 35
+screen 35
+attrs 0b 03 00 34 7f 00
+unique_room 34
 tiles
 d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -1993,9 +1517,9 @@ d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
-screen 47
-attrs 73 07 08 36 98 03
-unique_room 36
+screen 36
+attrs 0b 03 00 35 3f 00
+unique_room 35
 tiles
 d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da d8 da 90 90 90 90 90 90 90 90 90 90 90 90 90 90
 d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db d9 db 95 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -2021,9 +1545,9 @@ d5 d7 dd df 26 26 26 26 d5 d7 d9 db dd df d5 d7 dd df 95 95 95 95 95 95 95 95 95
 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
-screen 48
-attrs 0b 03 e8 b7 7f 00
-unique_room 37
+screen 37
+attrs 73 07 08 36 98 03
+unique_room 36
 tiles
 90 90 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 90 90
 95 95 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 95 95
@@ -2049,9 +1573,9 @@ tiles
 95 95 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 95 95
 end
 
-screen 49
-attrs 03 02 2f 38 3f 80
-unique_room 38
+screen 38
+attrs 0b 03 e8 b7 7f 00
+unique_room 37
 tiles
 90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -2077,9 +1601,9 @@ tiles
 95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 4a
-attrs c3 47 e7 b9 98 84
-unique_room 39
+screen 39
+attrs 03 02 2f 38 3f 80
+unique_room 38
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -2105,9 +1629,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 4b
-attrs 63 03 4f 3a 7f 02
-unique_room 3a
+screen 3a
+attrs c3 47 e7 b9 98 84
+unique_room 39
 tiles
 d8 da d8 da 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 d8 da
 d9 db d9 db 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 d9 db
@@ -2133,37 +1657,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da 84 86 84 86 d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 85 87 85 87 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 4c
-attrs 72 0a 0a 0a 00 03
-unique_room 0a
-tiles
-d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-d8 da d8 da f3 f3 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
-d9 db d9 db 24 24 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
-d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da
-d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db
-d8 da 26 26 26 26 8d 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 91 26 26 26 26 26 26 d8 da
-d9 db 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 d9 db
-d8 da 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 d8 da
-d9 db 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 d9 db
-d8 da 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 d8 da
-d9 db 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 d9 db
-d8 da 26 26 26 26 93 95 95 95 90 90 90 90 90 90 95 95 95 95 95 95 95 97 26 26 26 26 26 26 d8 da
-d9 db 26 26 26 26 94 96 96 96 95 95 95 95 95 95 96 96 96 96 96 96 96 98 26 26 26 26 26 26 d9 db
-d8 da 26 26 26 26 26 26 26 26 7a 7c 90 90 78 7a 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
-d9 db 26 26 26 26 26 26 26 26 7b 7d 95 95 79 7b 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
-d8 da d0 d2 26 26 26 26 26 26 26 26 90 90 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da
-d9 db d1 d3 26 26 26 26 26 26 26 26 95 95 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db
-d8 da d8 da ce d0 ce d0 ce d0 ce d0 90 90 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 74 75 d8 da d8 da
-d9 db d9 db cf d1 cf d1 cf d1 cf d1 95 95 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 74 75 d9 db d9 db
-d8 da d8 da d8 da d8 da d8 da d8 da 90 90 d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da
-d9 db d9 db d9 db d9 db d9 db d9 db 95 95 d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db
-end
-
-screen 4d
-attrs 92 86 43 3b 00 02
-unique_room 3b
+screen 3b
+attrs 63 03 4f 3a 7f 02
+unique_room 3a
 tiles
 d8 da 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 84 86 d8 da d8 da
 d9 db 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 85 87 d9 db d9 db
@@ -2189,9 +1685,37 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 84 86 84
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 85 87 85 87 d9 db d9 db
 end
 
-screen 4e
-attrs 0f 03 aa bc 00 00
-unique_room 3c
+screen 3c
+attrs 72 0a 0a 0a 00 03
+unique_room 0a
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da dc de d4 d6 d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db dd df d5 d7 d9 db d9 db
+d8 da d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da
+d9 db d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db
+d8 da dc de 26 26 26 26 26 26 26 26 9c 9e a6 a8 9a 9c 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
+d9 db dd df 26 26 26 26 26 26 26 26 9d 9f a7 a9 9b 9d 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
+d8 da 26 26 26 26 c0 c2 26 26 c0 c2 a2 a4 f3 f3 a0 a2 c0 c2 26 26 c0 c2 26 26 26 26 26 26 d8 da
+d9 db 26 26 26 26 c1 c3 26 26 c1 c3 a3 a5 24 24 a1 a3 c1 c3 26 26 c1 c3 26 26 26 26 26 26 d9 db
+d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
+d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
+d8 da 26 26 26 26 c0 c2 26 26 c0 c2 26 26 26 26 26 26 c0 c2 26 26 c0 c2 26 26 26 26 26 26 d8 da
+d9 db 26 26 26 26 c1 c3 26 26 c1 c3 26 26 26 26 26 26 c1 c3 26 26 c1 c3 26 26 26 26 26 26 d9 db
+d8 da d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
+d9 db d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
+d8 da d8 da d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da
+d9 db d9 db d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db
+d8 da d8 da d8 da ce d0 ce d0 ce d0 ce d0 74 75 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 d8 da d8 da
+d9 db d9 db d9 db cf d1 cf d1 cf d1 cf d1 74 75 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+end
+
+screen 3d
+attrs 92 86 43 3b 00 02
+unique_room 3b
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -2217,9 +1741,9 @@ c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4
 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7
 end
 
-screen 4f
-attrs 0f 03 09 3d 00 00
-unique_room 3d
+screen 3e
+attrs 0f 03 aa bc 00 00
+unique_room 3c
 tiles
 d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
 d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -2245,9 +1769,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 50
-attrs 00 00 21 3e 00 00
-unique_room 3e
+screen 3f
+attrs 0f 03 09 3d 00 00
+unique_room 3d
 tiles
 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -2273,9 +1797,9 @@ d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90
 d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
-screen 51
-attrs 00 00 21 3f 00 00
-unique_room 3f
+screen 40
+attrs 00 00 21 3e 00 00
+unique_room 3e
 tiles
 d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da
 d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db
@@ -2301,65 +1825,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db
 end
 
-screen 52
-attrs 63 1f 04 38 00 01
-unique_room 38
-tiles
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 c5 c7
-76 76 76 76 76 76 76 76 76 76 76 76 76 76 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-77 77 77 77 77 77 77 77 77 77 77 77 77 77 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-end
-
-screen 53
-attrs 03 02 2f 38 00 00
-unique_room 38
-tiles
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 c5 c7
-76 76 76 76 76 76 76 76 76 76 76 76 76 76 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-77 77 77 77 77 77 77 77 77 77 77 77 77 77 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-end
-
-screen 54
-attrs 4b 76 47 40 00 00
-unique_room 40
+screen 41
+attrs 00 00 21 3f 00 00
+unique_room 3f
 tiles
 d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
 d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
@@ -2385,9 +1853,65 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db c5 c7 c5 c7
 end
 
-screen 55
-attrs 83 12 1a 41 00 03
-unique_room 41
+screen 42
+attrs 63 1f 04 38 00 01
+unique_room 38
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da
+d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db
+d8 da 26 26 26 26 26 26 26 26 8d 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 91 26 26 26 26 26 26 26 26 d8 da
+d9 db 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 d9 db
+d8 da 26 26 26 26 c4 c6 26 26 8e 90 90 90 90 90 90 90 90 90 90 92 26 26 c4 c6 26 26 26 26 d8 da
+d9 db 26 26 26 26 c5 c7 26 26 93 95 95 95 95 95 95 95 95 95 95 97 26 26 c5 c7 26 26 26 26 d9 db
+d8 da 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 d8 da
+d9 db 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 d9 db
+d8 da 26 26 26 26 c4 c6 26 26 93 95 95 95 95 95 95 95 95 95 95 97 26 26 c4 c6 26 26 26 26 d8 da
+d9 db 26 26 26 26 c5 c7 26 26 94 96 96 96 96 96 96 96 96 96 96 98 26 26 c5 c7 26 26 26 26 d9 db
+d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
+d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
+d8 da d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da
+d9 db d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db
+d8 da d8 da ce d0 ce d0 ce d0 ce d0 ce d0 26 26 26 26 ce d0 ce d0 ce d0 ce d0 ce d0 d8 da d8 da
+d9 db d9 db cf d1 cf d1 cf d1 cf d1 cf d1 26 26 26 26 cf d1 cf d1 cf d1 cf d1 cf d1 d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+end
+
+screen 43
+attrs 03 02 2f 38 00 00
+unique_room 38
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da
+d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db
+d8 da 26 26 26 26 26 26 26 26 8d 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 91 26 26 26 26 26 26 26 26 d8 da
+d9 db 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 d9 db
+d8 da 26 26 26 26 c4 c6 26 26 8e 90 90 90 90 90 90 90 90 90 90 92 26 26 c4 c6 26 26 26 26 d8 da
+d9 db 26 26 26 26 c5 c7 26 26 93 95 95 95 95 95 95 95 95 95 95 97 26 26 c5 c7 26 26 26 26 d9 db
+d8 da 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 d8 da
+d9 db 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 d9 db
+d8 da 26 26 26 26 c4 c6 26 26 93 95 95 95 95 95 95 95 95 95 95 97 26 26 c4 c6 26 26 26 26 d8 da
+d9 db 26 26 26 26 c5 c7 26 26 94 96 96 96 96 96 96 96 96 96 96 98 26 26 c5 c7 26 26 26 26 d9 db
+d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
+d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
+d8 da d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da
+d9 db d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db
+d8 da d8 da ce d0 ce d0 ce d0 ce d0 ce d0 26 26 26 26 ce d0 ce d0 ce d0 ce d0 ce d0 d8 da d8 da
+d9 db d9 db cf d1 cf d1 cf d1 cf d1 cf d1 26 26 26 26 cf d1 cf d1 cf d1 cf d1 cf d1 d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+end
+
+screen 44
+attrs 4b 76 47 40 00 00
+unique_room 40
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -2413,9 +1937,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 8e 90 90 90 90 90 90 90 90
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
-screen 56
-attrs 8a 7e 00 42 00 06
-unique_room 42
+screen 45
+attrs 83 12 1a 41 00 03
+unique_room 41
 tiles
 90 90 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 90 90
 95 95 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 95 95
@@ -2441,9 +1965,9 @@ tiles
 95 95 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db 95 95
 end
 
-screen 57
-attrs ba 46 00 43 00 45
-unique_room 43
+screen 46
+attrs 8a 7e 00 42 00 06
+unique_room 42
 tiles
 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -2469,9 +1993,9 @@ tiles
 95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 58
-attrs ba 86 50 44 00 02
-unique_room 44
+screen 47
+attrs ba 46 00 43 00 45
+unique_room 43
 tiles
 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -2497,9 +2021,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 59
-attrs 32 52 e8 c5 00 02
-unique_room 45
+screen 48
+attrs ba 86 50 44 00 02
+unique_room 44
 tiles
 90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -2525,9 +2049,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 5a
-attrs b2 76 cd 46 00 00
-unique_room 46
+screen 49
+attrs 32 52 e8 c5 00 02
+unique_room 45
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -2553,9 +2077,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 5b
-attrs c2 6a c4 47 00 09
-unique_room 47
+screen 4a
+attrs b2 76 cd 46 00 00
+unique_room 46
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -2581,9 +2105,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 5c
-attrs 02 02 aa c8 00 00
-unique_room 48
+screen 4b
+attrs c2 6a c4 47 00 09
+unique_room 47
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
@@ -2609,9 +2133,9 @@ c4 c6 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6 26 26 26
 c5 c7 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
 end
 
-screen 5d
-attrs c2 7e 43 49 00 0c
-unique_room 49
+screen 4c
+attrs 02 02 aa c8 00 00
+unique_room 48
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -2637,9 +2161,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 5e
-attrs 72 8e 43 4a 0a 0a
-unique_room 4a
+screen 4d
+attrs c2 7e 43 49 00 0c
+unique_room 49
 tiles
 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6
 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7
@@ -2665,9 +2189,9 @@ c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4
 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
 end
 
-screen 5f
-attrs 0f 03 ab cb 0a 00
-unique_room 4b
+screen 4e
+attrs 72 8e 43 4a 0a 0a
+unique_room 4a
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -2693,9 +2217,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 60
-attrs 00 00 82 4c 0a 00
-unique_room 4c
+screen 4f
+attrs 0f 03 ab cb 0a 00
+unique_room 4b
 tiles
 d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
 d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -2721,9 +2245,9 @@ d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90
 d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
-screen 61
-attrs a3 8f 83 4d 00 05
-unique_room 4d
+screen 50
+attrs 00 00 82 4c 0a 00
+unique_room 4c
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 74 75 d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 74 75 d9 db
@@ -2749,9 +2273,9 @@ d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
 d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db
 end
 
-screen 62
-attrs 03 03 63 ce 00 08
-unique_room 4e
+screen 51
+attrs a3 8f 83 4d 00 05
+unique_room 4d
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -2777,9 +2301,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 63
-attrs 83 8a a2 cf 00 85
-unique_room 4f
+screen 52
+attrs 03 03 63 ce 00 08
+unique_room 4e
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -2805,9 +2329,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 26 26 26 26 26 26 26 26 26
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
 end
 
-screen 64
-attrs 0a 02 69 d0 00 00
-unique_room 50
+screen 53
+attrs 83 8a a2 cf 00 85
+unique_room 4f
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -2833,9 +2357,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26
 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7
 end
 
-screen 65
-attrs 0a 02 07 51 00 00
-unique_room 51
+screen 54
+attrs 0a 02 69 d0 00 00
+unique_room 50
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -2861,9 +2385,9 @@ c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 26
 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 26 26 d9 db d9 db
 end
 
-screen 66
-attrs ba 8e 47 52 00 06
-unique_room 52
+screen 55
+attrs 0a 02 07 51 00 00
+unique_room 51
 tiles
 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -2889,9 +2413,9 @@ d8 da d8 da 26 26 26 26 26 26 90 90 90 90 26 26 26 26 26 26 d8 da 26 26 d8 da 26
 d9 db d9 db 26 26 26 26 26 26 95 95 95 95 26 26 26 26 26 26 d9 db 26 26 d9 db 26 26 d9 db d9 db
 end
 
-screen 67
-attrs 02 02 69 d3 00 08
-unique_room 53
+screen 56
+attrs ba 8e 47 52 00 06
+unique_room 52
 tiles
 90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -2917,9 +2441,9 @@ d8 da d8 da d8 da c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4
 d9 db d9 db d9 db c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 68
-attrs c2 86 69 d4 00 8c
-unique_room 54
+screen 57
+attrs 02 02 69 d3 00 08
+unique_room 53
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -2945,9 +2469,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 69
-attrs 0a 02 5a 55 00 00
-unique_room 55
+screen 58
+attrs c2 86 69 d4 00 8c
+unique_room 54
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -2973,9 +2497,9 @@ c4 c6 c4 c6 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4
 c5 c7 c5 c7 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7
 end
 
-screen 6a
-attrs 0a 02 47 56 28 00
-unique_room 56
+screen 59
+attrs 0a 02 5a 55 00 00
+unique_room 55
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -3001,9 +2525,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 8e 90 90 90 90 90 90 90 90
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
-screen 6b
-attrs 32 8e 63 d7 00 0d
-unique_room 57
+screen 5a
+attrs 0a 02 47 56 28 00
+unique_room 56
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -3029,9 +2553,9 @@ c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
 95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 c5 c7 c5 c7 c5 c7 26 26 c5 c7
 end
 
-screen 6c
-attrs 02 02 43 58 44 08
-unique_room 58
+screen 5b
+attrs 32 8e 63 d7 00 0d
+unique_room 57
 tiles
 c4 c6 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6
 c5 c7 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7
@@ -3057,9 +2581,9 @@ c4 c6 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6 26 26 c4
 c5 c7 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
 end
 
-screen 6d
-attrs 02 02 43 59 05 08
-unique_room 59
+screen 5c
+attrs 02 02 43 58 44 08
+unique_room 58
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -3085,65 +2609,37 @@ c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4
 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
 end
 
-screen 6e
+screen 5d
+attrs 02 02 43 59 05 08
+unique_room 59
+tiles
+c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
+end
+
+screen 5e
 attrs 72 7a 83 5a 0a 00
 unique_room 5a
-tiles
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
-end
-
-screen 6f
-attrs 0f 03 aa cb 14 00
-unique_room 4b
-tiles
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
-c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-26 26 26 26 26 26 26 26 26 26 c0 c2 26 26 26 26 26 26 26 26 c0 c2 26 26 26 26 26 26 26 26 c4 c6
-26 26 26 26 26 26 26 26 26 26 c1 c3 26 26 26 26 26 26 26 26 c1 c3 26 26 26 26 26 26 26 26 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-end
-
-screen 70
-attrs c3 5b e4 db 0a 84
-unique_room 5b
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -3169,65 +2665,93 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 71
+screen 5f
+attrs 0f 03 aa cb 14 00
+unique_room 4b
+tiles
+d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d8 da d8 da dc de 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db dd df 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d8 da dc de 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db dd df 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 76 76 90 90 76 76 90 90 90 90 90 90
+d9 db d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 93 95 77 77 95 95 77 77 95 95 95 95 95 95
+d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d8 da ce d0 d0 d2 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db cf d1 d1 d3 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+end
+
+screen 60
+attrs c3 5b e4 db 0a 84
+unique_room 5b
+tiles
+c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
+c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
+c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
+c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
+c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
+c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
+c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
+c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
+c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
+c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
+c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
+c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+end
+
+screen 61
 attrs 03 03 83 5c 1e 08
 unique_room 5c
 tiles
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
-c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
-c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 72
+screen 62
 attrs 63 8b 83 5d 32 4b
 unique_room 5d
-tiles
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6
-c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7
-end
-
-screen 73
-attrs 73 5f ec de 82 05
-unique_room 5e
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
@@ -3253,9 +2777,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 74
-attrs 72 6a aa df 14 00
-unique_room 5f
+screen 63
+attrs 73 5f ec de 82 05
+unique_room 5e
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7
@@ -3281,9 +2805,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7
 end
 
-screen 75
-attrs 0a 03 69 e0 50 00
-unique_room 60
+screen 64
+attrs 72 6a aa df 14 00
+unique_room 5f
 tiles
 d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da 26 26 d8 da d8 da
 d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db 26 26 d9 db d9 db
@@ -3309,9 +2833,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 76
-attrs 72 7b 69 e1 a0 00
-unique_room 61
+screen 65
+attrs 0a 03 69 e0 50 00
+unique_room 60
 tiles
 d8 da d8 da 26 26 26 26 26 26 90 90 90 90 26 26 26 26 26 26 d8 da 26 26 d8 da 26 26 d8 da d8 da
 d9 db d9 db 26 26 26 26 26 26 95 95 95 95 26 26 26 26 26 26 d9 db 26 26 d9 db 26 26 d9 db d9 db
@@ -3337,9 +2861,9 @@ d8 da d8 da d8 da d8 da 26 26 90 90 90 90 d8 da d8 da d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db 26 26 95 95 95 95 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 77
-attrs 72 86 47 62 64 40
-unique_room 62
+screen 66
+attrs 72 7b 69 e1 a0 00
+unique_room 61
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -3365,9 +2889,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db
 end
 
-screen 78
-attrs 32 5e 47 63 3c 0c
-unique_room 63
+screen 67
+attrs 72 86 47 62 64 40
+unique_room 62
 tiles
 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
@@ -3393,9 +2917,9 @@ d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da d8
 d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
 end
 
-screen 79
-attrs 0a 02 47 64 5a 00
-unique_room 64
+screen 68
+attrs 32 5e 47 63 3c 0c
+unique_room 63
 tiles
 d8 da d8 da c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6
 d9 db d9 db c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7
@@ -3421,9 +2945,9 @@ d8 da d8 da c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4
 d9 db d9 db c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7
 end
 
-screen 7a
-attrs da 5e 69 e5 64 05
-unique_room 65
+screen 69
+attrs 0a 02 47 64 5a 00
+unique_room 64
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
@@ -3449,9 +2973,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 7b
-attrs 52 8a ec e6 0a 4d
-unique_room 66
+screen 6a
+attrs da 5e 69 e5 64 05
+unique_room 65
 tiles
 90 90 90 90 90 90 90 90 90 90 90 90 90 92 26 26 26 26 26 26 26 26 c4 c6 c4 c6 c4 c6 26 26 c4 c6
 95 95 95 95 95 95 95 95 95 95 95 95 95 97 26 26 26 26 26 26 26 26 c5 c7 c5 c7 c5 c7 26 26 c5 c7
@@ -3477,9 +3001,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 7c
-attrs 42 22 44 67 50 89
-unique_room 67
+screen 6b
+attrs 52 8a ec e6 0a 4d
+unique_room 66
 tiles
 c4 c6 26 26 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
 c5 c7 26 26 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
@@ -3505,9 +3029,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 26
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 c5 c7 c5 c7
 end
 
-screen 7d
-attrs 62 22 44 68 fa 49
-unique_room 68
+screen 6c
+attrs 42 22 44 67 50 89
+unique_room 67
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
@@ -3533,9 +3057,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 7e
-attrs c2 8e ec e9 3c 84
-unique_room 69
+screen 6d
+attrs 62 22 44 68 fa 49
+unique_room 68
 tiles
 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 c5 c7 c5 c7 c5 c7
@@ -3561,9 +3085,9 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 end
 
-screen 7f
-attrs 3f 77 a8 ea 00 00
-unique_room 6a
+screen 6e
+attrs c2 8e ec e9 3c 84
+unique_room 69
 tiles
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
@@ -3587,5 +3111,481 @@ c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+end
+
+screen 6f
+attrs 3f 77 a8 ea 00 00
+unique_room 6a
+tiles
+d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d4 d6 d8 da d8 da f3 f3 dc de 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d5 d7 d9 db d9 db 24 24 dd df 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+cc ce ce d0 ce d0 ce d0 d0 d2 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+cd cf cf d1 cf d1 cf d1 d1 d3 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+end
+
+screen 70
+attrs b3 73 5a 6b 1e 00
+unique_room 6b
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da f3 f3 d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 24 24 d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d9 db d9 db d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d8 da d8 da dc de 26 26 26 26 b0 b2 aa ac 26 26 b0 b2 aa ac 26 26 26 26 26 26 26 26 26 26 26 26
+d9 db d9 db dd df 26 26 26 26 b1 b3 ab ad 26 26 b1 b3 ab ad 26 26 26 26 26 26 26 26 26 26 26 26
+d8 da dc de 26 26 26 26 26 26 ac ae b8 ba 26 26 ac ae b8 ba 26 26 26 26 26 26 26 26 26 26 26 26
+d9 db dd df 26 26 26 26 26 26 ad af b9 bb 26 26 ad af b9 bb 26 26 26 26 26 26 26 26 26 26 26 26
+d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d8 da d0 d2 26 26 26 26 26 26 26 26 b0 b2 aa ac 26 26 b0 b2 aa ac 26 26 26 26 26 26 26 26 26 26
+d9 db d1 d3 26 26 26 26 26 26 26 26 b1 b3 ab ad 26 26 b1 b3 ab ad 26 26 26 26 26 26 26 26 26 26
+d8 da d8 da d0 d2 26 26 26 26 26 26 ac ae b8 ba 26 26 ac ae b8 ba 26 26 26 26 26 26 26 26 26 26
+d9 db d9 db d1 d3 26 26 26 26 26 26 ad af b9 bb 26 26 ad af b9 bb 26 26 26 26 26 26 26 26 26 26
+d8 da d8 da d8 da d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d9 db d9 db d9 db d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d8 da d8 da d8 da d8 da ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0
+d9 db d9 db d9 db d9 db cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+end
+
+screen 71
+attrs 53 87 83 6c 00 48
+unique_room 6c
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da dc de d4 d6 d8 da d8 da d8 da d8 da dc de 26 26 26 26 d4 d6 d8 da d8 da d8 da
+d9 db d9 db d9 db dd df d5 d7 d9 db d9 db d9 db d9 db dd df 26 26 26 26 d5 d7 d9 db d9 db d9 db
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da d8 da
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db d9 db
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 dc de
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 dd df
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d0 d2
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d1 d3
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da d8 da
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db d9 db
+ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 d8 da d8 da d8 da
+cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+end
+
+screen 72
+attrs 43 5f 62 ed 00 8c
+unique_room 6d
+tiles
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 26 26 26 26 26 26 26 26 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 26 26 26 26 26 26 26 26 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+end
+
+screen 73
+attrs 03 03 43 6e 64 08
+unique_room 6e
+tiles
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 c5 c7
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 c4 c6
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+end
+
+screen 74
+attrs 82 0f 0e 6f 00 03
+unique_room 6f
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da
+d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db
+dc de 26 26 26 26 26 26 26 26 26 26 26 26 9c 9e e0 e2 9a 9c 26 26 26 26 26 26 26 26 26 26 d8 da
+dd df 26 26 26 26 26 26 26 26 26 26 26 26 9d 9f e1 e3 9b 9d 26 26 26 26 26 26 26 26 26 26 d9 db
+26 26 26 26 26 26 26 26 c0 c2 26 26 c0 c2 a2 a4 f3 f3 a0 a2 c0 c2 26 26 c0 c2 26 26 26 26 d8 da
+26 26 26 26 26 26 26 26 c1 c3 26 26 c1 c3 a3 a5 24 24 a1 a3 c1 c3 26 26 c1 c3 26 26 26 26 d9 db
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
+26 26 26 26 26 26 26 26 c0 c2 26 26 c0 c2 26 26 26 26 26 26 c0 c2 26 26 c0 c2 26 26 26 26 d8 da
+26 26 26 26 26 26 26 26 c1 c3 26 26 c1 c3 26 26 26 26 26 26 c1 c3 26 26 c1 c3 26 26 26 26 d9 db
+d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da
+d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db
+d8 da d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da
+d9 db d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db
+d8 da d8 da ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 d8 da d8 da
+d9 db d9 db cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+end
+
+screen 75
+attrs 2a 66 e7 f0 00 00
+unique_room 70
+tiles
+d8 da d8 da d8 da d8 da 26 26 90 90 90 90 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db 26 26 95 95 95 95 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da f3 f3 dc de 26 26 90 90 90 90 d4 d6 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db 24 24 dd df 26 26 95 95 95 95 d5 d7 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da dc de 26 26 26 26 26 26 90 90 90 90 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d9 db dd df 26 26 26 26 26 26 95 95 95 95 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d8 da 26 26 26 26 26 26 26 26 90 90 90 90 26 26 c8 ca 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26
+d9 db 26 26 26 26 26 26 26 26 95 95 95 95 26 26 c9 cb 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26
+d8 da 26 26 26 26 26 26 26 26 90 90 90 90 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26 26 26 26 26
+d9 db 26 26 26 26 26 26 26 26 95 95 95 95 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26 26 26 26 26
+d8 da 26 26 26 26 c8 ca 26 26 90 90 90 90 26 26 c8 ca 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26
+d9 db 26 26 26 26 c9 cb 26 26 95 95 95 95 26 26 c9 cb 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26
+d8 da 26 26 26 26 26 26 26 26 90 90 90 90 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26 26 26 26 26
+d9 db 26 26 26 26 26 26 26 26 95 95 95 95 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26 26 26 26 26
+d8 da 26 26 26 26 26 26 26 26 90 90 90 90 26 26 c8 ca 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26
+d9 db 26 26 26 26 26 26 26 26 95 95 95 95 26 26 c9 cb 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26
+d8 da d0 d2 26 26 26 26 26 26 90 90 90 90 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d9 db d1 d3 26 26 26 26 26 26 95 95 95 95 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d8 da d8 da ce d0 ce d0 d0 d2 90 90 90 90 cc ce ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0
+d9 db d9 db cf d1 cf d1 d1 d3 95 95 95 95 cd cf cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1
+d8 da d8 da d8 da d8 da d8 da 90 90 90 90 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db 95 95 95 95 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+end
+
+screen 76
+attrs 62 5a 4e 71 0a 00
+unique_room 71
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da dc de 26 26 26 26 d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db dd df 26 26 26 26 d9 db d9 db
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26 26 26 d4 d6
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26 26 26 d5 d7
+26 26 26 26 c8 ca 26 26 26 26 c8 ca 26 26 26 26 c8 ca 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 c9 cb 26 26 26 26 c9 cb 26 26 26 26 c9 cb 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26 26 26 cc ce
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26 26 26 cd cf
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26 26 26 26 26 cc ce d8 da
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26 26 26 26 26 cd cf d9 db
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db
+ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 d8 da d8 da
+cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+end
+
+screen 77
+attrs 42 42 00 72 00 00
+unique_room 72
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da f3 f3 d8 da dc de 26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db 24 24 d9 db dd df 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da dc de 26 26 26 26 26 26 26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db dd df 26 26 26 26 26 26 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db d9 db d9 db d9 db d9 db d9 db
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+ce d0 d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 ce d0 ce d0
+cf d1 d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cf d1 cf d1
+d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da
+d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db
+d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da
+d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db
+d8 da d8 da ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 ce d0 d8 da d8 da
+d9 db d9 db cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 cf d1 d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+end
+
+screen 78
+attrs 52 6a 47 73 ff 0c
+unique_room 73
+tiles
+d8 da d8 da c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6
+d9 db d9 db c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7
+d8 da d8 da c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6
+d9 db d9 db c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7
+d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d8 da dc de 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 26 26
+d9 db dd df 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 26 26
+dc de 26 26 c4 c6 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+dd df 26 26 c5 c7 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 26 26
+d0 d2 26 26 c4 c6 26 26 c4 c6 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d1 d3 26 26 c5 c7 26 26 c5 c7 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d8 da d0 d2 26 26 26 26 26 26 26 26 c4 c6 26 26 26 26 c4 c6 26 26 c4 c6 26 26 c4 c6 26 26 26 26
+d9 db d1 d3 26 26 26 26 26 26 26 26 c5 c7 26 26 26 26 c5 c7 26 26 c5 c7 26 26 c5 c7 26 26 26 26
+d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d8 da d8 da c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+d9 db d9 db c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+d8 da d8 da c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6 c4 c6
+d9 db d9 db c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7 c5 c7
+end
+
+screen 79
+attrs 63 53 8d 74 ff 22
+unique_room 74
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d4 d6 d8 da d8 da d8 da d8 da d8 da dc de d4 d6 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d5 d7 d9 db d9 db d9 db d9 db d9 db dd df d5 d7 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+26 26 d4 d6 d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 d8 da d8 da d8 da
+26 26 d5 d7 d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 d9 db d9 db d9 db
+26 26 26 26 d4 d6 d8 da d8 da d8 da 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da d8 da
+26 26 26 26 d5 d7 d9 db d9 db d9 db 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db d9 db
+26 26 26 26 26 26 d4 d6 d8 da d8 da 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26 d4 d6 d8 da d8 da
+26 26 26 26 26 26 d5 d7 d9 db d9 db 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26 d5 d7 d9 db d9 db
+26 26 26 26 26 26 26 26 d4 d6 dc de 26 26 26 26 c8 ca 26 26 c8 ca 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 d5 d7 dd df 26 26 26 26 c9 cb 26 26 c9 cb 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c8 ca 26 26 26 26 26 26 cc ce ce d0 ce d0
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 c9 cb 26 26 26 26 26 26 cd cf cf d1 cf d1
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da d8 da
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db d9 db
+26 26 26 26 26 26 26 26 cc ce d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d8 da d8 da d8 da
+26 26 26 26 26 26 26 26 cd cf d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d9 db d9 db d9 db
+cc ce ce d0 ce d0 ce d0 d8 da d8 da d0 d2 cc ce ce d0 ce d0 ce d0 ce d0 d8 da d8 da d8 da d8 da
+cd cf cf d1 cf d1 cf d1 d9 db d9 db d1 d3 cd cf cf d1 cf d1 cf d1 cf d1 d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+end
+
+screen 7a
+attrs 03 03 4d 06 ff 00
+unique_room 06
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da dc de d4 d6 d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db dd df d5 d7 d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da dc de d4 d6 dc de 26 26 26 26 d4 d6 d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db dd df d5 d7 dd df 26 26 26 26 d5 d7 d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db
+dc de d4 d6 dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d4 d6 dc de d4 d6 dc de d4 d6 d8 da
+dd df d5 d7 dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 d5 d7 dd df d5 d7 dd df d5 d7 d9 db
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d0 d2 cc ce d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cc ce d0 d2 cc ce d0 d2 cc ce ce d0
+d1 d3 cd cf d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 26 26 cd cf d1 d3 cd cf d1 d3 cd cf cf d1
+d8 da d8 da d8 da d0 d2 26 26 26 26 26 26 26 26 26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d1 d3 26 26 26 26 26 26 26 26 26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d0 d2 cc ce d0 d2 26 26 26 26 cc ce d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d1 d3 cd cf d1 d3 26 26 26 26 cd cf d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d0 d2 cc ce d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d1 d3 cd cf d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+end
+
+screen 7b
+attrs 9f 47 d0 75 ff 40
+unique_room 75
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d9 db d9 db d9 db d9 db d9 db d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d8 da d8 da d8 da d8 da d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d9 db d9 db d9 db d9 db d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d8 da dc de d4 d6 d8 da dc de 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+d9 db dd df d5 d7 d9 db dd df 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+ce d0 d0 d2 cc ce ce d0 d0 d2 26 26 26 26 8d 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f
+cf d1 d1 d3 cd cf cf d1 d1 d3 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+d8 da d8 da d8 da d8 da d8 da d0 d2 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db d9 db d1 d3 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d8 da d8 da d8 da d8 da d0 d2 8e 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db d9 db d9 db d1 d3 93 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da 8e 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db 93 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da 8e 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db 93 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+end
+
+screen 7c
+attrs 6f 5b d0 76 ff 00
+unique_room 76
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+end
+
+screen 7d
+attrs 6f 5f 49 76 ff 00
+unique_room 76
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+end
+
+screen 7e
+attrs 0f 03 48 77 ff 00
+unique_room 77
+tiles
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+26 26 26 26 d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da d8 da
+26 26 26 26 d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db d9 db
+26 26 26 26 d4 d6 d8 da dc de d4 d6 d8 da d8 da d8 da dc de d4 d6 d8 da dc de d4 d6 dc de d4 d6
+26 26 26 26 d5 d7 d9 db dd df d5 d7 d9 db d9 db d9 db dd df d5 d7 d9 db dd df d5 d7 dd df d5 d7
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26
+8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+end
+
+screen 7f
+attrs 0f 03 09 78 ff 00
+unique_room 78
+tiles
+d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+d8 da d8 da d8 da d8 da d8 da 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+d9 db d9 db d9 db d9 db d9 db 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+dc de d4 d6 d8 da d8 da dc de 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+dd df d5 d7 d9 db d9 db dd df 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 8e 90 90 90 90 90 90 90 90 90 90 90 90 90
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 93 95 95 95 95 95 95 95 95 95 95 95 95 95
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 80 82 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 81 83 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 8f 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
 end
 
