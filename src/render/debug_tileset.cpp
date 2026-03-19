@@ -13,11 +13,11 @@ constexpr int kTileCount = 256;
 constexpr int kBytesPerTile = 16;
 constexpr int kAtlasColumns = 16;
 constexpr int kAtlasTileSize = 8;
-constexpr int kCommonBackgroundOffset = 34687;
+constexpr int kCommonBackgroundOffset = 34703;
 constexpr int kCommonBackgroundLength = 1792;
-constexpr int kCommonMiscOffset = 36479;
+constexpr int kCommonMiscOffset = 36495;
 constexpr int kCommonMiscLength = 224;
-constexpr int kOverworldBackgroundOffset = 51515;
+constexpr int kOverworldBackgroundOffset = 51531;
 constexpr int kOverworldBackgroundLength = 2080;
 
 struct TilePalette {
