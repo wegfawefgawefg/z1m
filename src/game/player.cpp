@@ -135,7 +135,28 @@ glm::vec2 move_vector(MoveDirection move_direction) {
     return glm::vec2(0.0F, 0.0F);
 }
 
-bool can_move_to(const World* world, const glm::vec2& position, MoveDirection move_direction) {
+bool probe_is_walkable(const Player* player, const World* world, const glm::vec2& probe,
+                       MoveDirection move_direction) {
+    if (world_is_walkable_tile(world, probe)) {
+        return true;
+    }
+
+    if (!player->has_ladder) {
+        return false;
+    }
+
+    const int tile_x = static_cast<int>(probe.x);
+    const int tile_y = static_cast<int>(probe.y);
+    if (world_tile_at(world, tile_x, tile_y) != TileKind::Water) {
+        return false;
+    }
+
+    const glm::vec2 landing = probe + move_vector(move_direction);
+    return world_is_walkable_tile(world, landing);
+}
+
+bool can_move_to(const Player* player, const World* world, const glm::vec2& position,
+                 MoveDirection move_direction) {
     std::array<glm::vec2, 2> probes = {};
 
     switch (move_direction) {
@@ -168,7 +189,7 @@ bool can_move_to(const World* world, const glm::vec2& position, MoveDirection mo
     }
 
     for (const glm::vec2& probe : probes) {
-        if (!world_is_walkable_tile(world, probe)) {
+        if (!probe_is_walkable(player, world, probe, move_direction)) {
             return false;
         }
     }
@@ -183,7 +204,7 @@ void move_with_collision(Player* player, const World* world, MoveDirection move_
     }
 
     const glm::vec2 candidate = player->position + move_vector(move_direction) * distance;
-    if (!can_move_to(world, candidate, move_direction)) {
+    if (!can_move_to(player, world, candidate, move_direction)) {
         return;
     }
 
