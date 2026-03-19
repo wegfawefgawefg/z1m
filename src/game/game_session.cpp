@@ -221,17 +221,17 @@ bool has_available_item(const Player* player, UseItemKind item) {
         return player->has_bow;
     case UseItemKind::Candle:
         return player->has_candle;
+    case UseItemKind::Potion:
+        return player->has_potion;
     }
 
     return false;
 }
 
 void select_next_item(Player* player, int direction) {
-    constexpr std::array<UseItemKind, 4> order = {
-        UseItemKind::Bombs,
-        UseItemKind::Boomerang,
-        UseItemKind::Bow,
-        UseItemKind::Candle,
+    constexpr std::array<UseItemKind, 5> order = {
+        UseItemKind::Bombs,  UseItemKind::Boomerang, UseItemKind::Bow,
+        UseItemKind::Candle, UseItemKind::Potion,
     };
 
     int selected_index = -1;
@@ -331,6 +331,16 @@ void use_selected_item(GameSession* session, Player* player) {
             return;
         }
         create_fire(session, player);
+        break;
+    case UseItemKind::Potion:
+        if (!player->has_potion) {
+            return;
+        }
+        player->has_potion = false;
+        player->health = player->max_health;
+        if (player->selected_item == UseItemKind::Potion) {
+            select_next_item(player, 1);
+        }
         break;
     case UseItemKind::None:
         break;
@@ -703,7 +713,7 @@ void apply_player_pickup(Player* player, GameSession* session, Pickup* pickup) {
         break;
     case PickupKind::BluePotion:
         player->has_potion = true;
-        player->health = player->max_health;
+        select_if_unset(player, UseItemKind::Potion);
         break;
     case PickupKind::HeartContainer:
         player->max_health += 1;
