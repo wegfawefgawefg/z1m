@@ -23,7 +23,7 @@ void choose_cardinal_direction(GameState* play, const World* world, Enemy* enemy
     for (int attempt = 0; attempt < 8; ++attempt) {
         const Facing facing = facings[static_cast<std::size_t>(random_int(play, 4))];
         const glm::vec2 probe = enemy->position + facing_vector(facing) * 0.8F;
-        if (!world_is_walkable_tile(world, probe)) {
+        if (!enemy_can_move_to(enemy, world, probe)) {
             continue;
         }
 

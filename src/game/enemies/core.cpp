@@ -35,6 +35,55 @@ bool try_set_walkable_facing(const World* world, const Enemy& enemy, Facing faci
     return enemy_can_move_to(&enemy, world, probe);
 }
 
+Facing opposite_facing(Facing facing) {
+    switch (facing) {
+    case Facing::Up:
+        return Facing::Down;
+    case Facing::Down:
+        return Facing::Up;
+    case Facing::Left:
+        return Facing::Right;
+    case Facing::Right:
+        return Facing::Left;
+    }
+
+    return Facing::Down;
+}
+
+bool choose_wanderer_turn_toward_player(const World* world, const Enemy& enemy, const Player& player,
+                                        Facing* facing_out) {
+    const glm::vec2 delta = player.position - enemy.position;
+    if (std::abs(delta.x) < kWandererTargetThreshold) {
+        const Facing facing = axis_facing_toward(enemy.position, player.position, true);
+        if (try_set_walkable_facing(world, enemy, facing)) {
+            *facing_out = facing;
+            return true;
+        }
+    }
+
+    if (std::abs(delta.y) < kWandererTargetThreshold) {
+        const Facing facing = axis_facing_toward(enemy.position, player.position, false);
+        if (try_set_walkable_facing(world, enemy, facing)) {
+            *facing_out = facing;
+            return true;
+        }
+    }
+
+    const Facing perpendicular = perpendicular_facing_toward_player(enemy, player);
+    if (try_set_walkable_facing(world, enemy, perpendicular)) {
+        *facing_out = perpendicular;
+        return true;
+    }
+
+    const Facing opposite = opposite_facing(perpendicular);
+    if (try_set_walkable_facing(world, enemy, opposite)) {
+        *facing_out = opposite;
+        return true;
+    }
+
+    return false;
+}
+
 } // namespace
 
 bool enemy_can_move_to(const Enemy* enemy, const World* world, const glm::vec2& position) {
@@ -156,21 +205,22 @@ void tick_rom_wanderer_shooter(GameState* play, const World* world, Enemy* enemy
         if (player != nullptr) {
             const bool can_turn_toward_player = random_byte(play) <= turn_rate;
             if (can_turn_toward_player) {
-                const glm::vec2 delta = player->position - enemy->position;
-                if (std::abs(delta.x) < kWandererTargetThreshold) {
-                    enemy->facing = axis_facing_toward(enemy->position, player->position, true);
-                    enemy->move_seconds_remaining = random_turn_timer_seconds(play);
-                    enemy->special_counter = allow_shoot ? 1 : 0;
-                } else if (std::abs(delta.y) < kWandererTargetThreshold) {
-                    enemy->facing = axis_facing_toward(enemy->position, player->position, false);
+                Facing new_facing = enemy->facing;
+                if (choose_wanderer_turn_toward_player(world, *enemy, *player, &new_facing)) {
+                    enemy->facing = new_facing;
                     enemy->move_seconds_remaining = random_turn_timer_seconds(play);
                     enemy->special_counter = allow_shoot ? 1 : 0;
                 } else if (enemy->move_seconds_remaining <= 0.0F) {
-                    enemy->facing = perpendicular_facing_toward_player(*enemy, *player);
+                    choose_cardinal_direction(play, world, enemy);
                     enemy->move_seconds_remaining = random_turn_timer_seconds(play);
                 }
             } else if (enemy->move_seconds_remaining <= 0.0F) {
-                enemy->facing = perpendicular_facing_toward_player(*enemy, *player);
+                Facing new_facing = enemy->facing;
+                if (choose_wanderer_turn_toward_player(world, *enemy, *player, &new_facing)) {
+                    enemy->facing = new_facing;
+                } else {
+                    choose_cardinal_direction(play, world, enemy);
+                }
                 enemy->move_seconds_remaining = random_turn_timer_seconds(play);
             }
         } else if (enemy->move_seconds_remaining <= 0.0F) {
@@ -183,6 +233,16 @@ void tick_rom_wanderer_shooter(GameState* play, const World* world, Enemy* enemy
         enemy->position = candidate;
     } else {
         enemy->move_seconds_remaining = 0.0F;
+        if (player != nullptr) {
+            Facing new_facing = enemy->facing;
+            if (choose_wanderer_turn_toward_player(world, *enemy, *player, &new_facing)) {
+                enemy->facing = new_facing;
+            } else {
+                choose_cardinal_direction(play, world, enemy);
+            }
+        } else {
+            choose_cardinal_direction(play, world, enemy);
+        }
     }
 
     try_begin_monster_shot_windup(play, enemy, blue_walker);
