@@ -36,6 +36,8 @@ constexpr float kRockRadius = 0.30F;
 constexpr float kBombRadius = 0.42F;
 constexpr float kExplosionRadius = 1.10F;
 constexpr float kShootAlignThreshold = 1.0F;
+constexpr float kWandererTargetThreshold = 1.125F;
+constexpr float kGridCenterTolerance = 0.12F;
 constexpr float kShootMaxDistance = 14.0F;
 constexpr float kOctorokSpeed = 4.5F;
 constexpr float kMoblinSpeed = 5.0F;
@@ -118,6 +120,50 @@ glm::vec2 facing_vector(Facing facing) {
     }
 
     return glm::vec2(0.0F, 1.0F);
+}
+
+float qspeed_to_speed(int qspeed) {
+    return static_cast<float>(qspeed) * 7.5F / 64.0F;
+}
+
+bool near_tile_center(const glm::vec2& position) {
+    const float cell_x = std::abs(position.x - (std::floor(position.x) + 0.5F));
+    const float cell_y = std::abs(position.y - (std::floor(position.y) + 0.5F));
+    return cell_x <= kGridCenterTolerance && cell_y <= kGridCenterTolerance;
+}
+
+void snap_to_tile_center(glm::vec2* position) {
+    position->x = std::floor(position->x) + 0.5F;
+    position->y = std::floor(position->y) + 0.5F;
+}
+
+Facing axis_facing_toward(const glm::vec2& from, const glm::vec2& to, bool vertical) {
+    if (vertical) {
+        return to.y < from.y ? Facing::Up : Facing::Down;
+    }
+    return to.x < from.x ? Facing::Left : Facing::Right;
+}
+
+glm::vec2 eight_way_direction_toward(const glm::vec2& from, const glm::vec2& to) {
+    glm::vec2 delta = to - from;
+    glm::vec2 direction(0.0F);
+
+    if (std::abs(delta.x) > 0.2F) {
+        direction.x = delta.x < 0.0F ? -1.0F : 1.0F;
+    }
+    if (std::abs(delta.y) > 0.2F) {
+        direction.y = delta.y < 0.0F ? -1.0F : 1.0F;
+    }
+
+    if (direction.x == 0.0F && direction.y == 0.0F) {
+        direction.y = 1.0F;
+    }
+
+    if (direction.x == 0.0F) {
+        direction.x = delta.x < 0.0F ? -1.0F : 1.0F;
+    }
+
+    return glm::normalize(direction);
 }
 
 bool choose_cardinal_shot_direction(const GameSession* session, const Enemy& enemy,
@@ -1132,18 +1178,110 @@ void bounce_velocity(const World* world, glm::vec2* position, glm::vec2* velocit
     }
 }
 
-void tick_octorok_like(GameSession* session, const World* world, Enemy* enemy, const Player* player,
-                       float dt_seconds, float speed, float shoot_period_min,
-                       float shoot_period_random, ProjectileKind shot_kind) {
-    enemy->move_seconds_remaining -= dt_seconds;
-    enemy->action_seconds_remaining -= dt_seconds;
+float random_turn_timer_seconds(GameSession* session) {
+    return static_cast<float>(random_int(session, 256)) / 60.0F;
+}
 
-    if (enemy->move_seconds_remaining <= 0.0F) {
-        choose_cardinal_direction(session, world, enemy);
-        const Projectile* food = find_active_food(session, enemy->area_kind, enemy->cave_id);
-        if (food != nullptr) {
-            const Player bait_player = Player{.position = food->position};
-            choose_player_axis_direction(*enemy, bait_player, &enemy->facing);
+int random_byte(GameSession* session) {
+    return random_int(session, 256);
+}
+
+float frames_to_seconds(int frames) {
+    return static_cast<float>(frames) / 60.0F;
+}
+
+bool try_fire_monster_projectile(GameSession* session, Enemy* enemy, ProjectileKind shot_kind) {
+    if (shot_kind == ProjectileKind::SwordBeam) {
+        create_sword_beam(session, *enemy, facing_vector(enemy->facing));
+        return true;
+    }
+
+    if (shot_kind == ProjectileKind::Arrow) {
+        make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Arrow, false,
+                        enemy->position + facing_vector(enemy->facing) * 0.9F,
+                        facing_vector(enemy->facing) * kArrowSpeed, kProjectileLifetimeSeconds,
+                        kArrowRadius, 1);
+        return true;
+    }
+
+    if (shot_kind == ProjectileKind::Boomerang) {
+        make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Boomerang, false,
+                        enemy->position + facing_vector(enemy->facing) * 0.8F,
+                        facing_vector(enemy->facing) * kBoomerangSpeed, 0.85F, kBoomerangRadius, 1);
+        return true;
+    }
+
+    const glm::vec2 velocity = facing_vector(enemy->facing) * kRockSpeed;
+    throw_enemy_rock(session, *enemy, velocity);
+    return true;
+}
+
+bool tick_monster_shot_windup(GameSession* session, Enemy* enemy, ProjectileKind shot_kind,
+                              float dt_seconds) {
+    if (enemy->action_seconds_remaining > 0.0F) {
+        const float previous = enemy->action_seconds_remaining;
+        enemy->action_seconds_remaining = glm::max(0.0F, previous - dt_seconds);
+        if (previous > frames_to_seconds(16) &&
+            enemy->action_seconds_remaining <= frames_to_seconds(16)) {
+            try_fire_monster_projectile(session, enemy, shot_kind);
+            enemy->action_seconds_remaining = 0.0F;
+            enemy->special_counter = 0;
+        }
+        return true;
+    }
+
+    return false;
+}
+
+void try_begin_monster_shot_windup(GameSession* session, Enemy* enemy, bool blue_walker) {
+    if (enemy->special_counter == 0 || enemy->action_seconds_remaining > 0.0F) {
+        return;
+    }
+
+    if (!blue_walker && random_byte(session) < 0xF8) {
+        return;
+    }
+
+    enemy->action_seconds_remaining = frames_to_seconds(48);
+}
+
+void tick_rom_wanderer_shooter(GameSession* session, const World* world, Enemy* enemy,
+                               const Player* player, float dt_seconds, float speed, int turn_rate,
+                               ProjectileKind shot_kind, bool allow_shoot, bool blue_walker) {
+    if (tick_monster_shot_windup(session, enemy, shot_kind, dt_seconds)) {
+        return;
+    }
+
+    enemy->move_seconds_remaining = glm::max(0.0F, enemy->move_seconds_remaining - dt_seconds);
+
+    if (near_tile_center(enemy->position)) {
+        snap_to_tile_center(&enemy->position);
+        enemy->special_counter = 0;
+
+        if (player != nullptr) {
+            const bool can_turn_toward_player = random_byte(session) <= turn_rate;
+            if (can_turn_toward_player) {
+                const glm::vec2 delta = player->position - enemy->position;
+                if (std::abs(delta.x) < kWandererTargetThreshold) {
+                    enemy->facing = axis_facing_toward(enemy->position, player->position, true);
+                    enemy->move_seconds_remaining = random_turn_timer_seconds(session);
+                    enemy->special_counter = allow_shoot ? 1 : 0;
+                } else if (std::abs(delta.y) < kWandererTargetThreshold) {
+                    enemy->facing = axis_facing_toward(enemy->position, player->position, false);
+                    enemy->move_seconds_remaining = random_turn_timer_seconds(session);
+                    enemy->special_counter = allow_shoot ? 1 : 0;
+                } else if (enemy->move_seconds_remaining <= 0.0F) {
+                    const bool facing_vertical =
+                        enemy->facing == Facing::Up || enemy->facing == Facing::Down;
+                    enemy->facing =
+                        axis_facing_toward(enemy->position, player->position, facing_vertical);
+                }
+            } else if (enemy->move_seconds_remaining <= 0.0F) {
+                const bool facing_vertical =
+                    enemy->facing == Facing::Up || enemy->facing == Facing::Down;
+                enemy->facing =
+                    axis_facing_toward(enemy->position, player->position, facing_vertical);
+            }
         }
     }
 
@@ -1154,33 +1292,118 @@ void tick_octorok_like(GameSession* session, const World* world, Enemy* enemy, c
         enemy->move_seconds_remaining = 0.0F;
     }
 
-    if (enemy->action_seconds_remaining > 0.0F) {
-        return;
-    }
+    try_begin_monster_shot_windup(session, enemy, blue_walker);
+}
 
-    if (player != nullptr) {
-        Facing shot_facing = enemy->facing;
-        if (choose_cardinal_shot_direction(session, *enemy, *player, &shot_facing)) {
-            enemy->facing = shot_facing;
-            if (shot_kind == ProjectileKind::SwordBeam) {
-                create_sword_beam(session, *enemy, facing_vector(enemy->facing));
-            } else if (shot_kind == ProjectileKind::Arrow) {
-                make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Arrow,
-                                false, enemy->position + facing_vector(enemy->facing) * 0.9F,
-                                facing_vector(enemy->facing) * kArrowSpeed,
-                                kProjectileLifetimeSeconds, kArrowRadius, 1);
-            } else {
-                const glm::vec2 velocity = facing_vector(enemy->facing) * kRockSpeed;
-                throw_enemy_rock(session, *enemy, velocity);
+void face_goriya_toward_player(Enemy* enemy, const Player* player) {
+    const float vertical_distance = std::abs(player->position.y - enemy->position.y);
+    const float horizontal_distance = std::abs(player->position.x - enemy->position.x);
+    if (vertical_distance >= horizontal_distance) {
+        enemy->facing = axis_facing_toward(enemy->position, player->position, true);
+    } else {
+        enemy->facing = axis_facing_toward(enemy->position, player->position, false);
+    }
+}
+
+void tick_rom_goriya_movement(GameSession* session, const World* world, Enemy* enemy,
+                              const Player* player, float dt_seconds, float speed) {
+    if (near_tile_center(enemy->position)) {
+        snap_to_tile_center(&enemy->position);
+        enemy->special_counter = 0;
+
+        if (player != nullptr) {
+            const float vertical_distance = std::abs(player->position.y - enemy->position.y);
+            const float horizontal_distance = std::abs(player->position.x - enemy->position.x);
+            const bool use_horizontal = horizontal_distance > vertical_distance;
+            const float chosen_distance = use_horizontal ? horizontal_distance : vertical_distance;
+            if (chosen_distance < 10.125F) {
+                enemy->facing =
+                    axis_facing_toward(enemy->position, player->position, !use_horizontal);
+                enemy->special_counter = 1;
             }
         }
+    }
+
+    const glm::vec2 candidate = enemy->position + facing_vector(enemy->facing) * speed * dt_seconds;
+    if (world_is_walkable_tile(world, candidate)) {
+        enemy->position = candidate;
     } else {
-        enemy->action_seconds_remaining =
-            shoot_period_min + random_unit(session) * shoot_period_random;
+        const Facing previous_facing = enemy->facing;
+        if (player != nullptr) {
+            face_goriya_toward_player(enemy, player);
+            if (enemy->facing == previous_facing) {
+                enemy->facing = axis_facing_toward(enemy->position, player->position,
+                                                   previous_facing == Facing::Left ||
+                                                       previous_facing == Facing::Right);
+            }
+        } else {
+            choose_cardinal_direction(session, world, enemy);
+        }
+    }
+}
+
+void tick_rom_goriya_like(GameSession* session, const World* world, Enemy* enemy,
+                          const Player* player, float dt_seconds, float speed,
+                          ProjectileKind shot_kind) {
+    if (tick_monster_shot_windup(session, enemy, shot_kind, dt_seconds)) {
         return;
     }
 
-    enemy->action_seconds_remaining = shoot_period_min + random_unit(session) * shoot_period_random;
+    tick_rom_goriya_movement(session, world, enemy, player, dt_seconds, speed);
+    if (enemy->special_counter == 0) {
+        return;
+    }
+
+    if (enemy->subtype != 0) {
+        const int roll = random_byte(session);
+        if (roll != 0x23 && roll != 0x77) {
+            return;
+        }
+    }
+
+    enemy->action_seconds_remaining = frames_to_seconds(48);
+}
+
+void tick_rom_lynel(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                    float dt_seconds) {
+    if (tick_monster_shot_windup(session, enemy, ProjectileKind::SwordBeam, dt_seconds)) {
+        return;
+    }
+
+    tick_rom_goriya_movement(session, world, enemy, player, dt_seconds, kLynelSpeed);
+    try_begin_monster_shot_windup(session, enemy, enemy->subtype == 0);
+}
+
+void tick_rom_darknut(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                      float dt_seconds) {
+    const float speed = enemy->subtype == 0 ? qspeed_to_speed(0x20) : qspeed_to_speed(0x28);
+    tick_rom_wanderer_shooter(session, world, enemy, player, dt_seconds, speed, 0x80,
+                              ProjectileKind::Rock, false, false);
+}
+
+void tick_octorok_like(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                       float dt_seconds, float speed, float shoot_period_min,
+                       float shoot_period_random, ProjectileKind shot_kind) {
+    static_cast<void>(speed);
+    static_cast<void>(shoot_period_min);
+    static_cast<void>(shoot_period_random);
+
+    int turn_rate = 0x70;
+    bool blue_walker = false;
+    float actual_speed = qspeed_to_speed(0x20);
+
+    if (enemy->kind == EnemyKind::Moblin) {
+        turn_rate = 0xA0;
+        blue_walker = true;
+        actual_speed = qspeed_to_speed(0x20);
+    } else if (enemy->subtype > 0) {
+        turn_rate = 0xA0;
+        blue_walker = true;
+        actual_speed = qspeed_to_speed(0x30);
+    }
+
+    tick_rom_wanderer_shooter(session, world, enemy, player, dt_seconds, actual_speed, turn_rate,
+                              shot_kind, true, blue_walker);
 }
 
 void tick_basic_walker(GameSession* session, const World* world, Enemy* enemy, const Player* player,
@@ -1211,30 +1434,8 @@ void tick_basic_walker(GameSession* session, const World* world, Enemy* enemy, c
 
 void tick_goriya(GameSession* session, const World* world, Enemy* enemy, const Player* player,
                  float dt_seconds) {
-    const Projectile* food = find_active_food(session, enemy->area_kind, enemy->cave_id);
-    const Player* move_target = player;
-    Player bait_player = {};
-    if (food != nullptr) {
-        bait_player.position = food->position;
-        move_target = &bait_player;
-    }
-
-    tick_basic_walker(session, world, enemy, move_target, dt_seconds, kGoriyaSpeed, true);
-    if (enemy->action_seconds_remaining > 0.0F || player == nullptr) {
-        return;
-    }
-
-    Facing shot_facing = enemy->facing;
-    if (!choose_cardinal_shot_direction(session, *enemy, *player, &shot_facing)) {
-        enemy->action_seconds_remaining = 0.5F;
-        return;
-    }
-
-    enemy->facing = shot_facing;
-    make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Boomerang, false,
-                    enemy->position + facing_vector(enemy->facing) * 0.8F,
-                    facing_vector(enemy->facing) * kBoomerangSpeed, 0.85F, kBoomerangRadius, 1);
-    enemy->action_seconds_remaining = 1.1F + random_unit(session) * 0.5F;
+    tick_rom_goriya_like(session, world, enemy, player, dt_seconds, kGoriyaSpeed,
+                         ProjectileKind::Boomerang);
 }
 
 void tick_rope(GameSession* session, const World* world, Enemy* enemy, const Player* player,
@@ -1477,21 +1678,52 @@ void tick_armos(GameSession* session, const World* world, Enemy* enemy, const Pl
     tick_basic_walker(session, world, enemy, player, dt_seconds, kArmosSpeed, true);
 }
 
-void tick_tektite(GameSession* session, const World* world, Enemy* enemy, float dt_seconds) {
-    enemy->action_seconds_remaining -= dt_seconds;
-    enemy->move_seconds_remaining -= dt_seconds;
-
-    if (enemy->move_seconds_remaining <= 0.0F && enemy->action_seconds_remaining <= 0.0F) {
-        const glm::vec2 direction = glm::normalize(
-            glm::vec2(random_unit(session) * 2.0F - 1.0F, random_unit(session) * 2.0F - 1.0F));
-        enemy->velocity = direction * kTektiteHopSpeed;
-        enemy->move_seconds_remaining = 0.28F + random_unit(session) * 0.10F;
-        enemy->action_seconds_remaining = 0.45F + random_unit(session) * 0.35F;
-    }
-
+void tick_tektite(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                  float dt_seconds) {
     if (enemy->move_seconds_remaining > 0.0F) {
-        bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+        enemy->move_seconds_remaining = glm::max(0.0F, enemy->move_seconds_remaining - dt_seconds);
+        const glm::vec2 previous = enemy->position;
+        const glm::vec2 candidate = enemy->position + enemy->velocity * dt_seconds;
+        if (!world_is_walkable_tile(world, candidate)) {
+            enemy->special_counter += 1;
+            enemy->velocity *= -1.0F;
+            if (enemy->special_counter >= 2) {
+                enemy->velocity.x *= -1.0F;
+                enemy->special_counter = 0;
+            }
+        } else {
+            enemy->special_counter = 0;
+            enemy->position = candidate;
+        }
+
+        if (enemy->move_seconds_remaining <= 0.0F) {
+            enemy->action_seconds_remaining = 0.18F + random_unit(session) * 0.50F;
+            enemy->velocity = glm::vec2(0.0F);
+        } else if (glm::length(enemy->position - previous) <= 0.001F) {
+            enemy->move_seconds_remaining = 0.0F;
+            enemy->action_seconds_remaining = 0.2F;
+        }
+        return;
     }
+
+    enemy->action_seconds_remaining = glm::max(0.0F, enemy->action_seconds_remaining - dt_seconds);
+    if (enemy->action_seconds_remaining > 0.0F) {
+        return;
+    }
+
+    glm::vec2 target = enemy->position + glm::vec2(0.0F, 1.0F);
+    if (player != nullptr) {
+        target = player->position;
+    } else {
+        target += glm::vec2(random_unit(session) * 2.0F - 1.0F, random_unit(session) * 2.0F - 1.0F);
+    }
+    glm::vec2 jump_direction = eight_way_direction_toward(enemy->position, target);
+    if (std::abs(jump_direction.x) < 0.001F) {
+        jump_direction.x = target.x < enemy->position.x ? -1.0F : 1.0F;
+        jump_direction = glm::normalize(jump_direction);
+    }
+    enemy->velocity = jump_direction * kTektiteHopSpeed;
+    enemy->move_seconds_remaining = 0.34F + random_unit(session) * 0.08F;
 }
 
 void tick_leever(GameSession* session, const World* world, Enemy* enemy, const Player* player,
@@ -1990,18 +2222,16 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
                               0.7F, ProjectileKind::Arrow);
             break;
         case EnemyKind::Lynel:
-            tick_octorok_like(session, world, &enemy, target_player, dt_seconds, kLynelSpeed, 0.65F,
-                              0.45F, ProjectileKind::SwordBeam);
+            tick_rom_lynel(session, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Goriya:
             tick_goriya(session, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Darknut:
-            tick_basic_walker(session, world, &enemy, target_player, dt_seconds, kDarknutSpeed,
-                              true);
+            tick_rom_darknut(session, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Tektite:
-            tick_tektite(session, world, &enemy, dt_seconds);
+            tick_tektite(session, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Leever:
             tick_leever(session, world, &enemy, target_player, dt_seconds);
