@@ -65,8 +65,8 @@ void tick_trap(const World* world, Enemy* enemy, const Player* player, float dt_
 void tick_tektite(GameState* play, const World* world, Enemy* enemy, const Player* player,
                   float dt_seconds);
 void tick_rom_flyer(GameState* play, const World* world, Enemy* enemy, const Player* player,
-                    float dt_seconds, float speed, int random_turn_roll,
-                    bool invulnerable_when_moving);
+                    float dt_seconds, float speed, int chase_threshold,
+                    int wander_threshold, bool invulnerable_when_moving);
 void tick_leever(GameState* play, const World* world, Enemy* enemy, const Player* player,
                  float dt_seconds);
 void tick_keese(GameState* play, const World* world, Enemy* enemy, float dt_seconds);

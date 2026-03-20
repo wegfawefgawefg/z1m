@@ -186,7 +186,7 @@ void tick_bubble(GameState* play, const World* world, Enemy* enemy, const Player
 }
 
 void tick_keese(GameState* play, const World* world, Enemy* enemy, float dt_seconds) {
-    tick_rom_flyer(play, world, enemy, nullptr, dt_seconds, kKeeseSpeed, 0xA0, false);
+    tick_rom_flyer(play, world, enemy, nullptr, dt_seconds, kKeeseSpeed, 0xA0, 0x20, false);
 }
 
 void tick_pols_voice(GameState* play, const World* world, Enemy* enemy, float dt_seconds) {

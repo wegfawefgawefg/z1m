@@ -129,7 +129,7 @@ void tick_gleeok(GameState* play, const World* world, Enemy* enemy, const Player
 void tick_patra(GameState* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
     enemy->respawn_seconds_remaining += dt_seconds;
-    tick_rom_flyer(play, world, enemy, player, dt_seconds, kPatraSpeed, 0x40, false);
+    tick_rom_flyer(play, world, enemy, player, dt_seconds, kPatraSpeed, 0x40, 0x00, false);
     enemy->state_seconds_remaining = glm::max(0.0F, enemy->state_seconds_remaining - dt_seconds);
     if (enemy->state_seconds_remaining <= 0.0F) {
         enemy->subtype = enemy->subtype == 0 ? 1 : 0;
@@ -256,7 +256,7 @@ void tick_zora(GameState* play, const World* world, Enemy* enemy, const Player* 
 }
 
 void tick_peahat(GameState* play, const World* world, Enemy* enemy, float dt_seconds) {
-    tick_rom_flyer(play, world, enemy, nullptr, dt_seconds, kPeahatSpeed, 0xB0, true);
+    tick_rom_flyer(play, world, enemy, nullptr, dt_seconds, kPeahatSpeed, 0xB0, 0x20, true);
 }
 
 void tick_aquamentus(GameState* play, const World* world, Enemy* enemy, const Player* player,

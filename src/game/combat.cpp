@@ -164,6 +164,25 @@ void damage_enemy(GameState* play, Enemy* enemy, int damage) {
     }
 
     enemy->health -= damage;
+    if (enemy->kind == EnemyKind::Vire && enemy->health > 0) {
+        enemy->active = false;
+        for (int index = 0; index < 2; ++index) {
+            Enemy child;
+            child.active = true;
+            child.kind = EnemyKind::Keese;
+            child.area_kind = enemy->area_kind;
+            child.cave_id = enemy->cave_id;
+            child.position = enemy->position + glm::vec2(index == 0 ? -0.6F : 0.6F, 0.0F);
+            child.spawn_position = child.position;
+            child.origin = child.position;
+            child.max_health = 1;
+            child.health = 1;
+            reset_enemy_state(play, &child);
+            play->enemies.push_back(child);
+        }
+        return;
+    }
+
     if (enemy->health > 0) {
         if (enemy->kind == EnemyKind::Gleeok && previous_special_counter > 1 &&
             enemy->special_counter > 0) {
@@ -198,6 +217,16 @@ void damage_enemy(GameState* play, Enemy* enemy, int damage) {
             child.health = 1;
             reset_enemy_state(play, &child);
             play->enemies.push_back(child);
+        }
+    }
+
+    if (enemy->kind == EnemyKind::Ghini) {
+        for (Enemy& other : play->enemies) {
+            if (!other.active || other.kind != EnemyKind::FlyingGhini ||
+                other.area_kind != enemy->area_kind || other.cave_id != enemy->cave_id) {
+                continue;
+            }
+            other.active = false;
         }
     }
 
