@@ -6,6 +6,7 @@
 #include "game/areas.hpp"
 #include "game/game_state.hpp"
 #include "render/scene_renderer.hpp"
+#include "render/sprite_assets.hpp"
 
 #include <SDL3/SDL.h>
 #include <cstdlib>
@@ -59,6 +60,25 @@ bool load_debug_rom_tileset(AppState* app) {
     const std::string workspace_relative_path =
         std::string(base_path) + "../../../Legend of Zelda, The (USA) (Rev 1).nes";
     return load_debug_tileset(app->renderer, workspace_relative_path.c_str(), &app->debug_tileset);
+}
+
+bool load_loose_sprite_assets(AppState* app) {
+    if (load_sprite_assets(app->renderer, "assets/sprites", &app->sprite_assets)) {
+        return true;
+    }
+
+    const char* base_path = SDL_GetBasePath();
+    if (base_path == nullptr) {
+        return false;
+    }
+
+    const std::string fallback_path = std::string(base_path) + "../assets/sprites";
+    if (load_sprite_assets(app->renderer, fallback_path.c_str(), &app->sprite_assets)) {
+        return true;
+    }
+
+    const std::string source_path = std::string(base_path) + "../../assets/sprites";
+    return load_sprite_assets(app->renderer, source_path.c_str(), &app->sprite_assets);
 }
 
 void zoom_in(AppState* app) {
@@ -155,6 +175,10 @@ bool init_app(AppState* app) {
         SDL_Log("Failed to load ROM CHR debug tileset");
     }
 
+    if (!load_loose_sprite_assets(app)) {
+        SDL_Log("Failed to load loose sprite assets");
+    }
+
     if (!init_debug_ui(app)) {
         SDL_Log("Failed to initialize Dear ImGui debug UI");
         return false;
@@ -171,6 +195,7 @@ bool init_app(AppState* app) {
 void shutdown_app(AppState* app) {
     shutdown_debug_ui();
     unload_debug_tileset(&app->debug_tileset);
+    unload_sprite_assets(&app->sprite_assets);
 
     if (app->renderer != nullptr) {
         SDL_DestroyRenderer(app->renderer);
@@ -300,8 +325,8 @@ void update_app(AppState* app, double dt_seconds) {
 
 void render_app(AppState* app) {
     begin_debug_ui_frame();
-    render_scene(app->renderer, &app->debug_tileset, &app->debug_view, &app->game_state,
-                 &app->world, &app->player, app->zoom);
+    render_scene(app->renderer, &app->debug_tileset, &app->sprite_assets, &app->debug_view,
+                 &app->game_state, &app->world, &app->player, app->zoom);
     render_debug_ui(app);
     SDL_RenderPresent(app->renderer);
 }

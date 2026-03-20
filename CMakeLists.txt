@@ -8,6 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(glm CONFIG REQUIRED)
+find_package(PNG REQUIRED)
 
 find_package(SDL3 CONFIG QUIET)
 if (NOT TARGET SDL3::SDL3 AND NOT TARGET SDL3::SDL3-shared AND NOT TARGET SDL3::SDL3-static)
@@ -34,6 +35,8 @@ add_executable(z1m
     src/render/camera.cpp
     src/render/debug_tileset.cpp
     src/render/scene_renderer.cpp
+    src/render/sprite_assets.cpp
+    src/render/sprite_visuals.cpp
     src/game/rng.cpp
     src/game/geometry.cpp
     src/game/area_state.cpp
@@ -82,6 +85,7 @@ target_include_directories(z1m PRIVATE
 )
 
 target_link_libraries(z1m PRIVATE glm::glm)
+target_link_libraries(z1m PRIVATE PNG::PNG)
 
 if (TARGET SDL3::SDL3)
     target_link_libraries(z1m PRIVATE SDL3::SDL3)

@@ -4,6 +4,7 @@
 #include "game/player.hpp"
 #include "game/world.hpp"
 #include "render/debug_tileset.hpp"
+#include "render/sprite_assets.hpp"
 
 #include <SDL3/SDL.h>
 
@@ -34,6 +35,7 @@ struct AppState {
     int current_room_id = -1;
     DebugView debug_view = {};
     DebugTileset debug_tileset = {};
+    SpriteAssets sprite_assets = {};
     World world = make_world();
     GameState game_state = make_game_state();
     Player player = make_player();

@@ -425,8 +425,8 @@ SDL_Texture* get_debug_sprite_texture(const DebugTileset* tileset, std::uint8_t 
     return tileset->sprite_textures[palette_selector & 0x03];
 }
 
-bool lookup_debug_object_frame(std::uint8_t animation_index, std::uint8_t frame,
-                               std::uint8_t* left_tile_out, std::uint8_t* attributes_out) {
+bool lookup_debug_animation_frame(std::uint8_t animation_index, std::uint8_t frame,
+                                  std::uint8_t* left_tile_out, std::uint8_t* attributes_out) {
     if (animation_index >= kObjAnimations.size()) {
         return false;
     }
@@ -444,6 +444,12 @@ bool lookup_debug_object_frame(std::uint8_t animation_index, std::uint8_t frame,
         *attributes_out = kObjAnimAttrHeap[heap_index];
     }
     return true;
+}
+
+bool lookup_debug_object_frame(std::uint8_t object_type, std::uint8_t frame,
+                               std::uint8_t* left_tile_out, std::uint8_t* attributes_out) {
+    return lookup_debug_animation_frame(static_cast<std::uint8_t>(object_type + 1), frame,
+                                        left_tile_out, attributes_out);
 }
 
 } // namespace z1m

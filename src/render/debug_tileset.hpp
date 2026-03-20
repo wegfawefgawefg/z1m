@@ -22,6 +22,8 @@ SDL_FRect get_debug_tileset_source_rect(const DebugTileset* tileset, std::uint8_
 SDL_Texture* get_debug_tileset_texture(const DebugTileset* tileset, std::uint8_t palette_selector);
 SDL_FRect get_debug_sprite_source_rect(const DebugTileset* tileset, std::uint8_t tile);
 SDL_Texture* get_debug_sprite_texture(const DebugTileset* tileset, std::uint8_t palette_selector);
+bool lookup_debug_animation_frame(std::uint8_t animation_index, std::uint8_t frame,
+                                  std::uint8_t* left_tile_out, std::uint8_t* attributes_out);
 bool lookup_debug_object_frame(std::uint8_t animation_index, std::uint8_t frame,
                                std::uint8_t* left_tile_out, std::uint8_t* attributes_out);
 

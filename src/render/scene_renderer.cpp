@@ -12,6 +12,8 @@
 #include "game/world.hpp"
 #include "render/camera.hpp"
 #include "render/debug_tileset.hpp"
+#include "render/sprite_assets.hpp"
+#include "render/sprite_visuals.hpp"
 
 #include <SDL3/SDL.h>
 #include <algorithm>
@@ -31,6 +33,21 @@ constexpr float kEnemyDebugRadius = 0.40F;
 constexpr float kProjectileDebugRadius = 0.18F;
 constexpr float kPickupDebugRadius = 0.30F;
 constexpr float kSwordDebugRadius = 0.48F;
+constexpr std::array<std::uint8_t, 4> kLinkHeadTiles = {0x02, 0x06, 0x08, 0x0A};
+constexpr std::array<std::uint8_t, 4> kLinkHeadMagicShieldTiles = {0x80, 0x54, 0x60, 0x60};
+
+enum class SpritePairMode {
+    Flippable,
+    Mirrored,
+};
+
+struct SpritePair {
+    std::uint8_t left_tile = 0;
+    std::uint8_t right_tile = 0;
+    std::uint8_t left_attributes = 0;
+    std::uint8_t right_attributes = 0;
+    bool two_sided = true;
+};
 
 bool area_matches(const GameState* play, AreaKind area_kind, int cave_id) {
     if (play->area_kind != area_kind) {
@@ -90,18 +107,116 @@ std::uint8_t player_walk_frame(const Player* player) {
     return toggle_frame((player->position.x + player->position.y) * 2.0F);
 }
 
+std::uint8_t walker_frame_for_facing(Facing facing, std::uint8_t walk_frame, bool* flip_h_out) {
+    bool flip_h = false;
+    std::uint8_t frame = 0;
+
+    switch (facing) {
+    case Facing::Right:
+        frame = walk_frame;
+        break;
+    case Facing::Left:
+        frame = walk_frame;
+        flip_h = true;
+        break;
+    case Facing::Down:
+        frame = 2;
+        flip_h = walk_frame != 0;
+        break;
+    case Facing::Up:
+        frame = 3;
+        flip_h = walk_frame != 0;
+        break;
+    }
+
+    if (flip_h_out != nullptr) {
+        *flip_h_out = flip_h;
+    }
+    return frame;
+}
+
+SpritePair build_sprite_pair(std::uint8_t left_tile, std::uint8_t attributes, bool two_sided,
+                             SpritePairMode mode, bool flip_h) {
+    SpritePair pair;
+    pair.left_tile = left_tile;
+    pair.right_tile = two_sided ? static_cast<std::uint8_t>(left_tile + 2) : left_tile;
+    pair.left_attributes = attributes;
+    pair.right_attributes = attributes;
+    pair.two_sided = two_sided;
+
+    if (!two_sided) {
+        if (flip_h) {
+            pair.left_attributes ^= 0x40U;
+        }
+        return pair;
+    }
+
+    if (mode == SpritePairMode::Mirrored) {
+        pair.right_tile = left_tile;
+        pair.right_attributes ^= 0x40U;
+        return pair;
+    }
+
+    if (flip_h) {
+        std::swap(pair.left_tile, pair.right_tile);
+        pair.left_attributes ^= 0x40U;
+        pair.right_attributes ^= 0x40U;
+    }
+
+    return pair;
+}
+
+void patch_link_shield_tiles(const Player* player, SpritePair* pair) {
+    if (player == nullptr || pair == nullptr || !pair->two_sided) {
+        return;
+    }
+
+    if (!player->has_magic_shield) {
+        if (player->facing != Facing::Down || pair->left_tile >= 0x0B) {
+            return;
+        }
+
+        const std::uint8_t original_tile = pair->left_tile;
+        pair->left_tile = static_cast<std::uint8_t>(pair->left_tile + 0x50);
+        if (original_tile == 0x0A) {
+            pair->left_attributes &= 0x0FU;
+        }
+        return;
+    }
+
+    std::uint8_t* tile = &pair->left_tile;
+    std::uint8_t* attributes = &pair->left_attributes;
+    if (player->facing == Facing::Right) {
+        tile = &pair->right_tile;
+        attributes = &pair->right_attributes;
+    }
+
+    for (std::size_t index = 0; index < kLinkHeadTiles.size(); ++index) {
+        if (*tile != kLinkHeadTiles[index]) {
+            continue;
+        }
+
+        const std::uint8_t original_tile = *tile;
+        *tile = kLinkHeadMagicShieldTiles[index];
+        if (original_tile == 0x0A) {
+            *attributes &= 0x0FU;
+        }
+        return;
+    }
+}
+
 std::uint8_t octorok_family_object_type(const Enemy& enemy) {
     switch (enemy.kind) {
     case EnemyKind::Octorok:
-        return enemy.max_health > 1 || enemy.subtype > 0 ? 0x09 : 0x07;
+        return enemy.subtype > 0 ? 0x0A : enemy.max_health > 1 ? 0x09 : 0x07;
     case EnemyKind::Moblin:
         return enemy.max_health > 1 || enemy.subtype > 0 ? 0x03 : 0x04;
     case EnemyKind::Lynel:
-        return enemy.max_health > 3 || enemy.subtype > 0 ? 0x01 : 0x02;
+        return enemy.subtype == 0 && enemy.max_health > 0 ? 0x01 : 0x02;
     case EnemyKind::Goriya:
-        return enemy.max_health > 2 || enemy.subtype > 0 ? 0x06 : 0x05;
+        return enemy.subtype == 0 ? 0x05 : 0x06;
     case EnemyKind::Darknut:
-        return enemy.max_health > 3 || enemy.subtype > 0 ? 0x0C : 0x0B;
+        return enemy.subtype > 0 || enemy.max_health > 3 ? 0x0C : 0x0B;
     default:
         return 0x00;
     }
@@ -230,10 +345,25 @@ std::uint8_t frame_for_enemy(const Enemy& enemy, bool* flip_h_out) {
 
     switch (enemy.kind) {
     case EnemyKind::Octorok:
+        switch (enemy.facing) {
+        case Facing::Left:
+            frame = static_cast<std::uint8_t>(walk_frame == 0 ? 0 : 3);
+            break;
+        case Facing::Right:
+            frame = static_cast<std::uint8_t>(walk_frame == 0 ? 0 : 3);
+            flip_h = true;
+            break;
+        case Facing::Up:
+            frame = static_cast<std::uint8_t>(walk_frame == 0 ? 1 : 4);
+            break;
+        case Facing::Down:
+            frame = static_cast<std::uint8_t>(walk_frame == 0 ? 2 : 5);
+            break;
+        }
+        break;
     case EnemyKind::Moblin:
     case EnemyKind::Lynel:
     case EnemyKind::Goriya:
-    case EnemyKind::Darknut:
     case EnemyKind::BlueWizzrobe:
     case EnemyKind::RedWizzrobe:
     case EnemyKind::Stalfos:
@@ -242,23 +372,22 @@ std::uint8_t frame_for_enemy(const Enemy& enemy, bool* flip_h_out) {
     case EnemyKind::PolsVoice:
     case EnemyKind::Wallmaster:
     case EnemyKind::Rope:
-        // NES 4-frame walking layout: 0/1 = side walk poses, 2 = down, 3 = up.
-        // Right is the base side sprite; left is h-flipped.
-        // Up/down walk animation is achieved by toggling h-flip (swaps sprite halves).
+        frame = walker_frame_for_facing(enemy.facing, walk_frame, &flip_h);
+        break;
+    case EnemyKind::Darknut:
         switch (enemy.facing) {
-        case Facing::Right:
-            frame = walk_frame;
-            break;
         case Facing::Left:
-            frame = walk_frame;
+            frame = walk_frame == 0 ? 0 : 3;
             flip_h = true;
             break;
+        case Facing::Right:
+            frame = walk_frame == 0 ? 0 : 3;
+            break;
         case Facing::Down:
-            frame = 2;
-            flip_h = walk_frame != 0;
+            frame = walk_frame == 0 ? 1 : 4;
             break;
         case Facing::Up:
-            frame = 3;
+            frame = walk_frame == 0 ? 2 : 5;
             flip_h = walk_frame != 0;
             break;
         }
@@ -296,45 +425,46 @@ std::uint8_t frame_for_enemy(const Enemy& enemy, bool* flip_h_out) {
 }
 
 void render_debug_sprite_pair(SDL_Renderer* renderer, const DebugTileset* tileset,
-                              std::uint8_t left_tile, std::uint8_t attributes,
-                              const SDL_FRect& dst_rect, bool final_flip_h, bool final_flip_v,
-                              bool two_sided) {
-    SDL_Texture* texture = get_debug_sprite_texture(tileset, attributes & 0x03);
-    if (texture == nullptr) {
+                              const SpritePair& pair, const SDL_FRect& dst_rect) {
+    SDL_Texture* left_texture = get_debug_sprite_texture(tileset, pair.left_attributes & 0x03);
+    if (left_texture == nullptr) {
         return;
     }
 
-    SDL_FlipMode flip_mode = SDL_FLIP_NONE;
-    if (final_flip_h) {
-        flip_mode = static_cast<SDL_FlipMode>(flip_mode | SDL_FLIP_HORIZONTAL);
-    }
-    if (final_flip_v) {
-        flip_mode = static_cast<SDL_FlipMode>(flip_mode | SDL_FLIP_VERTICAL);
-    }
+    auto flip_mode_for_attributes = [](std::uint8_t attributes) {
+        SDL_FlipMode flip_mode = SDL_FLIP_NONE;
+        if ((attributes & 0x40U) != 0) {
+            flip_mode = static_cast<SDL_FlipMode>(flip_mode | SDL_FLIP_HORIZONTAL);
+        }
+        if ((attributes & 0x80U) != 0) {
+            flip_mode = static_cast<SDL_FlipMode>(flip_mode | SDL_FLIP_VERTICAL);
+        }
+        return flip_mode;
+    };
 
-    const SDL_FRect left_src = get_debug_sprite_source_rect(tileset, left_tile);
-    const SDL_FRect right_src = get_debug_sprite_source_rect(tileset, static_cast<std::uint8_t>(left_tile + 2));
-
-    if (!two_sided) {
-        SDL_RenderTextureRotated(renderer, texture, &left_src, &dst_rect, 0.0, nullptr, flip_mode);
+    const SDL_FRect left_src = get_debug_sprite_source_rect(tileset, pair.left_tile);
+    if (!pair.two_sided) {
+        SDL_RenderTextureRotated(renderer, left_texture, &left_src, &dst_rect, 0.0, nullptr,
+                                 flip_mode_for_attributes(pair.left_attributes));
         return;
     }
 
+    SDL_Texture* right_texture = get_debug_sprite_texture(tileset, pair.right_attributes & 0x03);
+    if (right_texture == nullptr) {
+        return;
+    }
+
+    const SDL_FRect right_src = get_debug_sprite_source_rect(tileset, pair.right_tile);
     SDL_FRect left_dst = dst_rect;
     SDL_FRect right_dst = dst_rect;
     left_dst.w *= 0.5F;
     right_dst.w *= 0.5F;
     right_dst.x += right_dst.w;
 
-    const SDL_FRect* first_src = &left_src;
-    const SDL_FRect* second_src = &right_src;
-    if (final_flip_h) {
-        first_src = &right_src;
-        second_src = &left_src;
-    }
-
-    SDL_RenderTextureRotated(renderer, texture, first_src, &left_dst, 0.0, nullptr, flip_mode);
-    SDL_RenderTextureRotated(renderer, texture, second_src, &right_dst, 0.0, nullptr, flip_mode);
+    SDL_RenderTextureRotated(renderer, left_texture, &left_src, &left_dst, 0.0, nullptr,
+                             flip_mode_for_attributes(pair.left_attributes));
+    SDL_RenderTextureRotated(renderer, right_texture, &right_src, &right_dst, 0.0, nullptr,
+                             flip_mode_for_attributes(pair.right_attributes));
 }
 
 bool render_enemy_rom_sprite(SDL_Renderer* renderer, const DebugTileset* tileset,
@@ -347,6 +477,8 @@ bool render_enemy_rom_sprite(SDL_Renderer* renderer, const DebugTileset* tileset
     const std::uint8_t animation_index = static_cast<std::uint8_t>(object_type + 1);
     bool flip_h = false;
     const std::uint8_t frame = frame_for_enemy(*enemy, &flip_h);
+    const bool mirrored = enemy->kind == EnemyKind::Octorok &&
+                          (enemy->facing == Facing::Up || enemy->facing == Facing::Down);
 
     std::uint8_t left_tile = 0;
     std::uint8_t attributes = 0;
@@ -354,12 +486,12 @@ bool render_enemy_rom_sprite(SDL_Renderer* renderer, const DebugTileset* tileset
         return false;
     }
 
-    const bool attr_flip_h = (attributes & 0x40U) != 0;
-    const bool attr_flip_v = (attributes & 0x80U) != 0;
+    const SpritePair pair =
+        build_sprite_pair(left_tile, attributes, enemy_uses_pair_sprite(enemy->kind),
+                          mirrored ? SpritePairMode::Mirrored : SpritePairMode::Flippable, flip_h);
     const SDL_FRect dst_rect =
         world_rect_to_screen(camera, enemy->position, sprite_size_for_enemy(*enemy));
-    render_debug_sprite_pair(renderer, tileset, left_tile, attributes, dst_rect, flip_h ^ attr_flip_h,
-                             attr_flip_v, enemy_uses_pair_sprite(enemy->kind));
+    render_debug_sprite_pair(renderer, tileset, pair, dst_rect);
     return true;
 }
 
@@ -374,32 +506,25 @@ bool render_player_rom_sprite(SDL_Renderer* renderer, const DebugTileset* tilese
     const std::uint8_t walk = player_walk_frame(player);
     switch (player->facing) {
     case Facing::Right:
-        frame = walk;
-        break;
     case Facing::Left:
-        frame = walk;
-        flip_h = true;
-        break;
     case Facing::Down:
-        frame = 2;
-        flip_h = walk != 0;
-        break;
     case Facing::Up:
-        frame = 3;
-        flip_h = walk != 0;
+        frame = walker_frame_for_facing(player->facing, walk, &flip_h);
         break;
     }
 
     std::uint8_t left_tile = 0;
     std::uint8_t attributes = 0;
-    if (!lookup_debug_object_frame(0, frame, &left_tile, &attributes)) {
+    if (!lookup_debug_animation_frame(0, frame, &left_tile, &attributes)) {
         return false;
     }
 
-    const bool attr_flip_v = (attributes & 0x80U) != 0;
+    SpritePair pair =
+        build_sprite_pair(left_tile, attributes, true, SpritePairMode::Flippable, flip_h);
+    patch_link_shield_tiles(player, &pair);
     const SDL_FRect dst_rect =
         world_rect_to_screen(camera, player->position + glm::vec2(0.0F, -0.04F), glm::vec2(1.0F, 1.0F));
-    render_debug_sprite_pair(renderer, tileset, left_tile, attributes, dst_rect, flip_h, attr_flip_v, true);
+    render_debug_sprite_pair(renderer, tileset, pair, dst_rect);
     return true;
 }
 
@@ -526,8 +651,13 @@ void render_pickup_sprite(SDL_Renderer* renderer, const Camera* camera, const Pi
     }
 }
 
-void render_enemy_sprite(SDL_Renderer* renderer, const DebugTileset* tileset, const Camera* camera,
+void render_enemy_sprite(SDL_Renderer* renderer, const DebugTileset* tileset,
+                         const SpriteAssets* sprite_assets, const Camera* camera,
                          const Enemy* enemy) {
+    if (render_enemy_asset_sprite(renderer, sprite_assets, camera, enemy)) {
+        return;
+    }
+
     if (render_enemy_rom_sprite(renderer, tileset, camera, enemy)) {
         return;
     }
@@ -1068,7 +1198,8 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
 
 } // namespace
 
-void render_scene(SDL_Renderer* renderer, const DebugTileset* tileset, const DebugView* debug_view,
+void render_scene(SDL_Renderer* renderer, const DebugTileset* tileset,
+                  const SpriteAssets* sprite_assets, const DebugView* debug_view,
                   const GameState* play, const World* world, const Player* player, float zoom) {
     set_draw_color(renderer, 16, 24, 34);
     SDL_RenderClear(renderer);
@@ -1082,8 +1213,8 @@ void render_scene(SDL_Renderer* renderer, const DebugTileset* tileset, const Deb
         render_portals(renderer, &camera, play);
     }
 
-    render_game_entities(renderer, tileset, play, active_world, player, zoom);
-    render_player(renderer, tileset, active_world, player, zoom);
+    render_game_entities(renderer, tileset, sprite_assets, play, active_world, player, zoom);
+    render_player(renderer, tileset, sprite_assets, active_world, player, zoom);
     render_debug_overlay(renderer, debug_view, play, world, player, zoom);
     render_message_box(renderer, play);
 }
@@ -1150,8 +1281,8 @@ void render_cave(SDL_Renderer* renderer, const GameState* play, const Player* pl
 }
 
 void render_game_entities(SDL_Renderer* renderer, const DebugTileset* tileset,
-                          const GameState* play, const World* world, const Player* player,
-                          float zoom) {
+                          const SpriteAssets* sprite_assets, const GameState* play,
+                          const World* world, const Player* player, float zoom) {
     const Camera camera = make_clamped_camera(player->position, world, zoom);
 
     for (const Enemy& enemy : play->enemies) {
@@ -1159,7 +1290,7 @@ void render_game_entities(SDL_Renderer* renderer, const DebugTileset* tileset,
             continue;
         }
 
-        render_enemy_sprite(renderer, tileset, &camera, &enemy);
+        render_enemy_sprite(renderer, tileset, sprite_assets, &camera, &enemy);
     }
 
     for (const Projectile& projectile : play->projectiles) {
@@ -1187,10 +1318,12 @@ void render_game_entities(SDL_Renderer* renderer, const DebugTileset* tileset,
     }
 }
 
-void render_player(SDL_Renderer* renderer, const DebugTileset* tileset, const World* world,
-                   const Player* player, float zoom) {
+void render_player(SDL_Renderer* renderer, const DebugTileset* tileset,
+                   const SpriteAssets* sprite_assets, const World* world, const Player* player,
+                   float zoom) {
     const Camera camera = make_clamped_camera(player->position, world, zoom);
-    if (render_player_rom_sprite(renderer, tileset, &camera, player)) {
+    if (render_player_asset_sprite(renderer, sprite_assets, &camera, player) ||
+        render_player_rom_sprite(renderer, tileset, &camera, player)) {
         if (!player->has_sword || !is_sword_active(player)) {
             return;
         }
