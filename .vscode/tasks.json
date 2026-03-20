@@ -11,7 +11,6 @@
       "label": "build-debug",
       "type": "shell",
       "command": "cmake --build build_debug -j",
-      "dependsOn": ["configure-debug"],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -28,7 +27,6 @@
       "label": "build-release",
       "type": "shell",
       "command": "cmake --build build_release -j",
-      "dependsOn": ["configure-release"],
       "problemMatcher": ["$gcc"]
     }
   ]

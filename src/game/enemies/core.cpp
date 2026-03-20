@@ -50,8 +50,8 @@ Facing opposite_facing(Facing facing) {
     return Facing::Down;
 }
 
-bool choose_wanderer_turn_toward_player(const World* world, const Enemy& enemy, const Player& player,
-                                        Facing* facing_out) {
+bool choose_wanderer_axis_turn_toward_player(const World* world, const Enemy& enemy,
+                                             const Player& player, Facing* facing_out) {
     const glm::vec2 delta = player.position - enemy.position;
     if (std::abs(delta.x) < kWandererTargetThreshold) {
         const Facing facing = axis_facing_toward(enemy.position, player.position, true);
@@ -69,6 +69,11 @@ bool choose_wanderer_turn_toward_player(const World* world, const Enemy& enemy, 
         }
     }
 
+    return false;
+}
+
+bool choose_wanderer_perpendicular_turn(const World* world, const Enemy& enemy,
+                                        const Player& player, Facing* facing_out) {
     const Facing perpendicular = perpendicular_facing_toward_player(enemy, player);
     if (try_set_walkable_facing(world, enemy, perpendicular)) {
         *facing_out = perpendicular;
@@ -192,31 +197,43 @@ void try_begin_monster_shot_windup(GameState* play, Enemy* enemy, bool blue_walk
 void tick_rom_wanderer_shooter(GameState* play, const World* world, Enemy* enemy,
                                const Player* player, float dt_seconds, float speed, int turn_rate,
                                ProjectileKind shot_kind, bool allow_shoot, bool blue_walker) {
+    enemy->state_seconds_remaining = glm::max(0.0F, enemy->state_seconds_remaining - dt_seconds);
+
     if (tick_monster_shot_windup(play, enemy, shot_kind, dt_seconds)) {
         return;
     }
 
     enemy->move_seconds_remaining = glm::max(0.0F, enemy->move_seconds_remaining - dt_seconds);
 
-    if (near_tile_center(enemy->position)) {
+    // Cooldown prevents re-entering tile-center logic until the enemy has moved past
+    // the tolerance zone. Matches NES behavior where grid offset != 0 skips decisions.
+    const float tile_center_cooldown =
+        speed > 0.0F ? (kGridCenterTolerance / speed + dt_seconds) : 0.0F;
+
+    if (near_tile_center(enemy->position) && enemy->state_seconds_remaining <= 0.0F) {
         snap_to_tile_center(&enemy->position);
         enemy->special_counter = 0;
+        enemy->state_seconds_remaining = tile_center_cooldown;
 
         if (player != nullptr) {
             const bool can_turn_toward_player = random_byte(play) <= turn_rate;
             if (can_turn_toward_player) {
                 Facing new_facing = enemy->facing;
-                if (choose_wanderer_turn_toward_player(world, *enemy, *player, &new_facing)) {
+                if (choose_wanderer_axis_turn_toward_player(world, *enemy, *player, &new_facing)) {
                     enemy->facing = new_facing;
                     enemy->move_seconds_remaining = random_turn_timer_seconds(play);
                     enemy->special_counter = allow_shoot ? 1 : 0;
                 } else if (enemy->move_seconds_remaining <= 0.0F) {
-                    choose_cardinal_direction(play, world, enemy);
+                    if (!choose_wanderer_perpendicular_turn(world, *enemy, *player, &new_facing)) {
+                        choose_cardinal_direction(play, world, enemy);
+                    } else {
+                        enemy->facing = new_facing;
+                    }
                     enemy->move_seconds_remaining = random_turn_timer_seconds(play);
                 }
             } else if (enemy->move_seconds_remaining <= 0.0F) {
                 Facing new_facing = enemy->facing;
-                if (choose_wanderer_turn_toward_player(world, *enemy, *player, &new_facing)) {
+                if (choose_wanderer_perpendicular_turn(world, *enemy, *player, &new_facing)) {
                     enemy->facing = new_facing;
                 } else {
                     choose_cardinal_direction(play, world, enemy);
@@ -232,10 +249,12 @@ void tick_rom_wanderer_shooter(GameState* play, const World* world, Enemy* enemy
     if (enemy_can_move_to(enemy, world, candidate)) {
         enemy->position = candidate;
     } else {
+        snap_to_tile_center(&enemy->position);
         enemy->move_seconds_remaining = 0.0F;
+        enemy->state_seconds_remaining = tile_center_cooldown;
         if (player != nullptr) {
             Facing new_facing = enemy->facing;
-            if (choose_wanderer_turn_toward_player(world, *enemy, *player, &new_facing)) {
+            if (choose_wanderer_perpendicular_turn(world, *enemy, *player, &new_facing)) {
                 enemy->facing = new_facing;
             } else {
                 choose_cardinal_direction(play, world, enemy);
@@ -250,9 +269,15 @@ void tick_rom_wanderer_shooter(GameState* play, const World* world, Enemy* enemy
 
 void tick_rom_goriya_movement(GameState* play, const World* world, Enemy* enemy,
                               const Player* player, float dt_seconds, float speed) {
-    if (near_tile_center(enemy->position)) {
+    enemy->state_seconds_remaining = glm::max(0.0F, enemy->state_seconds_remaining - dt_seconds);
+
+    const float tile_center_cooldown =
+        speed > 0.0F ? (kGridCenterTolerance / speed + dt_seconds) : 0.0F;
+
+    if (near_tile_center(enemy->position) && enemy->state_seconds_remaining <= 0.0F) {
         snap_to_tile_center(&enemy->position);
         enemy->special_counter = 0;
+        enemy->state_seconds_remaining = tile_center_cooldown;
 
         if (player != nullptr) {
             const float vertical_distance = std::abs(player->position.y - enemy->position.y);
@@ -278,6 +303,7 @@ void tick_rom_goriya_movement(GameState* play, const World* world, Enemy* enemy,
     if (enemy_can_move_to(enemy, world, candidate)) {
         enemy->position = candidate;
     } else {
+        enemy->state_seconds_remaining = tile_center_cooldown;
         if (player != nullptr) {
             const Facing primary = goriya_primary_facing(*enemy, *player);
             const Facing secondary = goriya_secondary_facing(*enemy, *player);

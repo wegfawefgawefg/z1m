@@ -1,6 +1,7 @@
 #include "game/enemies/state.hpp"
 
 #include "content/sandbox_content.hpp"
+#include "game/geometry.hpp"
 #include "game/enemies/ticks.hpp"
 #include "game/rng.hpp"
 #include "game/tuning.hpp"
@@ -24,6 +25,28 @@ Facing random_reset_facing(GameState* play) {
     }
 }
 
+bool uses_grid_center_turns(EnemyKind kind) {
+    switch (kind) {
+    case EnemyKind::Octorok:
+    case EnemyKind::Moblin:
+    case EnemyKind::Lynel:
+    case EnemyKind::Goriya:
+    case EnemyKind::Darknut:
+    case EnemyKind::Zol:
+    case EnemyKind::Gel:
+    case EnemyKind::Rope:
+    case EnemyKind::Stalfos:
+    case EnemyKind::Gibdo:
+    case EnemyKind::LikeLike:
+    case EnemyKind::PolsVoice:
+    case EnemyKind::Wallmaster:
+    case EnemyKind::Armos:
+        return true;
+    default:
+        return false;
+    }
+}
+
 } // namespace
 
 void clamp_enemy_to_zoo_pen(Enemy* enemy) {
@@ -42,6 +65,12 @@ void clamp_enemy_to_zoo_pen(Enemy* enemy) {
 }
 
 void reset_enemy_state(GameState* play, Enemy* enemy) {
+    if (uses_grid_center_turns(enemy->kind)) {
+        snap_to_tile_center(&enemy->position);
+        enemy->spawn_position = enemy->position;
+        enemy->origin = enemy->position;
+    }
+
     enemy->health = glm::max(enemy->max_health, 1);
     enemy->hurt_seconds_remaining = 0.0F;
     enemy->hidden = false;
@@ -54,16 +83,19 @@ void reset_enemy_state(GameState* play, Enemy* enemy) {
     case EnemyKind::Octorok:
         enemy->move_seconds_remaining = 0.25F + random_unit(play) * 0.40F;
         enemy->action_seconds_remaining = 0.70F + random_unit(play) * 0.90F;
+        enemy->state_seconds_remaining = 0.0F;
         break;
     case EnemyKind::Moblin:
         enemy->move_seconds_remaining = 0.25F + random_unit(play) * 0.45F;
         enemy->action_seconds_remaining = 0.55F + random_unit(play) * 0.80F;
+        enemy->state_seconds_remaining = 0.0F;
         break;
     case EnemyKind::Lynel:
     case EnemyKind::Goriya:
     case EnemyKind::Darknut:
         enemy->move_seconds_remaining = 0.25F + random_unit(play) * 0.35F;
         enemy->action_seconds_remaining = 0.45F + random_unit(play) * 0.65F;
+        enemy->state_seconds_remaining = 0.0F;
         break;
     case EnemyKind::Tektite:
         enemy->move_seconds_remaining = 0.0F;

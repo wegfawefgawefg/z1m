@@ -10,6 +10,22 @@
 
 namespace z1m {
 
+namespace {
+
+const Player* enemy_target_player(const GameState* play, const Enemy& enemy, const Player* player) {
+    if (!in_area(play, enemy.area_kind, enemy.cave_id)) {
+        return nullptr;
+    }
+
+    if (enemy.area_kind == AreaKind::Overworld && enemy.room_id != play->current_room_id) {
+        return nullptr;
+    }
+
+    return player;
+}
+
+} // namespace
+
 void tick_enemies(GameState* play, const World* overworld_world, Player* player, float dt_seconds) {
     for (Enemy& enemy : play->enemies) {
         if (!enemy.active) {
@@ -18,10 +34,9 @@ void tick_enemies(GameState* play, const World* overworld_world, Player* player,
 
         const World* world =
             get_world_for_area(play, overworld_world, enemy.area_kind, enemy.cave_id);
-        const Player* target_player =
-            in_area(play, enemy.area_kind, enemy.cave_id) ? player : nullptr;
         enemy.room_id =
             enemy.area_kind == AreaKind::Overworld ? get_room_from_position(enemy.position) : -1;
+        const Player* target_player = enemy_target_player(play, enemy, player);
         enemy.hurt_seconds_remaining = glm::max(0.0F, enemy.hurt_seconds_remaining - dt_seconds);
         switch (enemy.kind) {
         case EnemyKind::Octorok:

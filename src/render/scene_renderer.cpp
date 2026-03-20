@@ -78,6 +78,331 @@ void render_tile_texture(SDL_Renderer* renderer, const DebugTileset* tileset, st
     SDL_RenderTexture(renderer, texture, &src_rect, &dst_rect);
 }
 
+std::uint8_t toggle_frame(float seed) {
+    return static_cast<std::uint8_t>(static_cast<int>(std::floor(seed)) & 0x01);
+}
+
+std::uint8_t player_walk_frame(const Player* player) {
+    if (player->move_direction == MoveDirection::None) {
+        return 0;
+    }
+
+    return toggle_frame((player->position.x + player->position.y) * 2.0F);
+}
+
+std::uint8_t octorok_family_object_type(const Enemy& enemy) {
+    switch (enemy.kind) {
+    case EnemyKind::Octorok:
+        return enemy.max_health > 1 || enemy.subtype > 0 ? 0x09 : 0x07;
+    case EnemyKind::Moblin:
+        return enemy.max_health > 1 || enemy.subtype > 0 ? 0x03 : 0x04;
+    case EnemyKind::Lynel:
+        return enemy.max_health > 3 || enemy.subtype > 0 ? 0x01 : 0x02;
+    case EnemyKind::Goriya:
+        return enemy.max_health > 2 || enemy.subtype > 0 ? 0x06 : 0x05;
+    case EnemyKind::Darknut:
+        return enemy.max_health > 3 || enemy.subtype > 0 ? 0x0C : 0x0B;
+    default:
+        return 0x00;
+    }
+}
+
+std::uint8_t object_type_for_enemy(const Enemy& enemy) {
+    switch (enemy.kind) {
+    case EnemyKind::Octorok:
+    case EnemyKind::Moblin:
+    case EnemyKind::Lynel:
+    case EnemyKind::Goriya:
+    case EnemyKind::Darknut:
+        return octorok_family_object_type(enemy);
+    case EnemyKind::Tektite:
+        return enemy.subtype > 0 ? 0x0D : 0x0E;
+    case EnemyKind::Leever:
+        return enemy.subtype == 0 ? 0x10 : 0x0F;
+    case EnemyKind::Zora:
+        return 0x11;
+    case EnemyKind::Vire:
+        return 0x12;
+    case EnemyKind::Zol:
+        return 0x13;
+    case EnemyKind::Gel:
+        return enemy.subtype > 0 ? 0x15 : 0x14;
+    case EnemyKind::PolsVoice:
+        return 0x16;
+    case EnemyKind::LikeLike:
+        return 0x17;
+    case EnemyKind::Peahat:
+        return 0x1A;
+    case EnemyKind::Keese:
+        return 0x1B;
+    case EnemyKind::Armos:
+        return 0x1E;
+    case EnemyKind::Ghini:
+        return 0x21;
+    case EnemyKind::FlyingGhini:
+        return 0x22;
+    case EnemyKind::BlueWizzrobe:
+        return 0x23;
+    case EnemyKind::RedWizzrobe:
+        return 0x24;
+    case EnemyKind::Wallmaster:
+        return 0x27;
+    case EnemyKind::Rope:
+        return 0x28;
+    case EnemyKind::Stalfos:
+        return 0x2A;
+    case EnemyKind::Bubble:
+        return static_cast<std::uint8_t>(0x2B + std::clamp(enemy.subtype, 0, 2));
+    case EnemyKind::Gibdo:
+        return 0x30;
+    case EnemyKind::Dodongo:
+        return 0x31;
+    case EnemyKind::Gohma:
+        return enemy.subtype == 0 ? 0x33 : 0x34;
+    case EnemyKind::Digdogger:
+        return enemy.subtype == 0 ? 0x38 : 0x39;
+    case EnemyKind::Moldorm:
+        return 0x41;
+    case EnemyKind::Aquamentus:
+        return 0x3D;
+    case EnemyKind::Gleeok:
+        return 0x42;
+    case EnemyKind::Patra:
+        return 0x47;
+    case EnemyKind::Trap:
+        return 0x49;
+    case EnemyKind::Manhandla:
+        return 0x3C;
+    case EnemyKind::Ganon:
+        return 0x3E;
+    }
+
+    return 0x00;
+}
+
+bool enemy_uses_pair_sprite(EnemyKind kind) {
+    switch (kind) {
+    case EnemyKind::Gel:
+    case EnemyKind::Bubble:
+    case EnemyKind::Trap:
+        return false;
+    default:
+        return true;
+    }
+}
+
+glm::vec2 sprite_size_for_enemy(const Enemy& enemy) {
+    switch (enemy.kind) {
+    case EnemyKind::Gel:
+        return glm::vec2(0.5F, 0.5F);
+    case EnemyKind::Bubble:
+        return glm::vec2(0.6F, 0.6F);
+    case EnemyKind::Trap:
+        return glm::vec2(0.7F, 0.7F);
+    case EnemyKind::Dodongo:
+        return glm::vec2(1.4F, 1.0F);
+    case EnemyKind::Digdogger:
+        return enemy.subtype == 0 ? glm::vec2(1.8F, 1.8F) : glm::vec2(0.95F, 0.95F);
+    case EnemyKind::Manhandla:
+        return glm::vec2(1.5F, 1.5F);
+    case EnemyKind::Gohma:
+        return glm::vec2(1.3F, 1.1F);
+    case EnemyKind::Moldorm:
+        return enemy.subtype == 0 ? glm::vec2(1.2F, 0.9F) : glm::vec2(0.8F, 0.65F);
+    case EnemyKind::Aquamentus:
+        return glm::vec2(1.6F, 1.4F);
+    case EnemyKind::Gleeok:
+        return glm::vec2(1.8F, 1.4F);
+    case EnemyKind::Patra:
+        return glm::vec2(1.1F, 1.1F);
+    case EnemyKind::Ganon:
+        return glm::vec2(1.2F, 1.4F);
+    default:
+        return glm::vec2(0.8F, 0.8F);
+    }
+}
+
+std::uint8_t frame_for_enemy(const Enemy& enemy, bool* flip_h_out) {
+    bool flip_h = false;
+    std::uint8_t frame = 0;
+    const std::uint8_t walk_frame =
+        toggle_frame((enemy.position.x + enemy.position.y + enemy.action_seconds_remaining) * 2.0F);
+
+    switch (enemy.kind) {
+    case EnemyKind::Octorok:
+    case EnemyKind::Moblin:
+    case EnemyKind::Lynel:
+    case EnemyKind::Goriya:
+    case EnemyKind::Darknut:
+    case EnemyKind::BlueWizzrobe:
+    case EnemyKind::RedWizzrobe:
+    case EnemyKind::Stalfos:
+    case EnemyKind::Gibdo:
+    case EnemyKind::LikeLike:
+    case EnemyKind::PolsVoice:
+    case EnemyKind::Wallmaster:
+    case EnemyKind::Rope:
+        // NES 4-frame walking layout: 0/1 = side walk poses, 2 = down, 3 = up.
+        // Right is the base side sprite; left is h-flipped.
+        // Up/down walk animation is achieved by toggling h-flip (swaps sprite halves).
+        switch (enemy.facing) {
+        case Facing::Right:
+            frame = walk_frame;
+            break;
+        case Facing::Left:
+            frame = walk_frame;
+            flip_h = true;
+            break;
+        case Facing::Down:
+            frame = 2;
+            flip_h = walk_frame != 0;
+            break;
+        case Facing::Up:
+            frame = 3;
+            flip_h = walk_frame != 0;
+            break;
+        }
+        break;
+    case EnemyKind::Tektite:
+    case EnemyKind::Keese:
+    case EnemyKind::Ghini:
+    case EnemyKind::FlyingGhini:
+    case EnemyKind::Peahat:
+    case EnemyKind::Vire:
+        frame = walk_frame;
+        flip_h = enemy.velocity.x > 0.0F;
+        break;
+    case EnemyKind::Leever:
+        frame = walk_frame;
+        break;
+    case EnemyKind::Armos:
+        frame = static_cast<std::uint8_t>(walk_frame * 2);
+        if (enemy.facing == Facing::Up) {
+            ++frame;
+        }
+        break;
+    case EnemyKind::Zora:
+        frame = enemy.hidden ? 0 : static_cast<std::uint8_t>(2 + walk_frame);
+        break;
+    default:
+        frame = walk_frame;
+        break;
+    }
+
+    if (flip_h_out != nullptr) {
+        *flip_h_out = flip_h;
+    }
+    return frame;
+}
+
+void render_debug_sprite_pair(SDL_Renderer* renderer, const DebugTileset* tileset,
+                              std::uint8_t left_tile, std::uint8_t attributes,
+                              const SDL_FRect& dst_rect, bool final_flip_h, bool final_flip_v,
+                              bool two_sided) {
+    SDL_Texture* texture = get_debug_sprite_texture(tileset, attributes & 0x03);
+    if (texture == nullptr) {
+        return;
+    }
+
+    SDL_FlipMode flip_mode = SDL_FLIP_NONE;
+    if (final_flip_h) {
+        flip_mode = static_cast<SDL_FlipMode>(flip_mode | SDL_FLIP_HORIZONTAL);
+    }
+    if (final_flip_v) {
+        flip_mode = static_cast<SDL_FlipMode>(flip_mode | SDL_FLIP_VERTICAL);
+    }
+
+    const SDL_FRect left_src = get_debug_sprite_source_rect(tileset, left_tile);
+    const SDL_FRect right_src = get_debug_sprite_source_rect(tileset, static_cast<std::uint8_t>(left_tile + 2));
+
+    if (!two_sided) {
+        SDL_RenderTextureRotated(renderer, texture, &left_src, &dst_rect, 0.0, nullptr, flip_mode);
+        return;
+    }
+
+    SDL_FRect left_dst = dst_rect;
+    SDL_FRect right_dst = dst_rect;
+    left_dst.w *= 0.5F;
+    right_dst.w *= 0.5F;
+    right_dst.x += right_dst.w;
+
+    const SDL_FRect* first_src = &left_src;
+    const SDL_FRect* second_src = &right_src;
+    if (final_flip_h) {
+        first_src = &right_src;
+        second_src = &left_src;
+    }
+
+    SDL_RenderTextureRotated(renderer, texture, first_src, &left_dst, 0.0, nullptr, flip_mode);
+    SDL_RenderTextureRotated(renderer, texture, second_src, &right_dst, 0.0, nullptr, flip_mode);
+}
+
+bool render_enemy_rom_sprite(SDL_Renderer* renderer, const DebugTileset* tileset,
+                             const Camera* camera, const Enemy* enemy) {
+    if (tileset == nullptr || !tileset->loaded) {
+        return false;
+    }
+
+    const std::uint8_t object_type = object_type_for_enemy(*enemy);
+    const std::uint8_t animation_index = static_cast<std::uint8_t>(object_type + 1);
+    bool flip_h = false;
+    const std::uint8_t frame = frame_for_enemy(*enemy, &flip_h);
+
+    std::uint8_t left_tile = 0;
+    std::uint8_t attributes = 0;
+    if (!lookup_debug_object_frame(animation_index, frame, &left_tile, &attributes)) {
+        return false;
+    }
+
+    const bool attr_flip_h = (attributes & 0x40U) != 0;
+    const bool attr_flip_v = (attributes & 0x80U) != 0;
+    const SDL_FRect dst_rect =
+        world_rect_to_screen(camera, enemy->position, sprite_size_for_enemy(*enemy));
+    render_debug_sprite_pair(renderer, tileset, left_tile, attributes, dst_rect, flip_h ^ attr_flip_h,
+                             attr_flip_v, enemy_uses_pair_sprite(enemy->kind));
+    return true;
+}
+
+bool render_player_rom_sprite(SDL_Renderer* renderer, const DebugTileset* tileset, const Camera* camera,
+                              const Player* player) {
+    if (tileset == nullptr || !tileset->loaded) {
+        return false;
+    }
+
+    std::uint8_t frame = 2;
+    bool flip_h = false;
+    const std::uint8_t walk = player_walk_frame(player);
+    switch (player->facing) {
+    case Facing::Right:
+        frame = walk;
+        break;
+    case Facing::Left:
+        frame = walk;
+        flip_h = true;
+        break;
+    case Facing::Down:
+        frame = 2;
+        flip_h = walk != 0;
+        break;
+    case Facing::Up:
+        frame = 3;
+        flip_h = walk != 0;
+        break;
+    }
+
+    std::uint8_t left_tile = 0;
+    std::uint8_t attributes = 0;
+    if (!lookup_debug_object_frame(0, frame, &left_tile, &attributes)) {
+        return false;
+    }
+
+    const bool attr_flip_v = (attributes & 0x80U) != 0;
+    const SDL_FRect dst_rect =
+        world_rect_to_screen(camera, player->position + glm::vec2(0.0F, -0.04F), glm::vec2(1.0F, 1.0F));
+    render_debug_sprite_pair(renderer, tileset, left_tile, attributes, dst_rect, flip_h, attr_flip_v, true);
+    return true;
+}
+
 bool draw_room_grid(float zoom) {
     return zoom <= 0.12F;
 }
@@ -201,7 +526,12 @@ void render_pickup_sprite(SDL_Renderer* renderer, const Camera* camera, const Pi
     }
 }
 
-void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Enemy* enemy) {
+void render_enemy_sprite(SDL_Renderer* renderer, const DebugTileset* tileset, const Camera* camera,
+                         const Enemy* enemy) {
+    if (render_enemy_rom_sprite(renderer, tileset, camera, enemy)) {
+        return;
+    }
+
     SDL_FRect rect = world_rect_to_screen(camera, enemy->position, glm::vec2(0.8F, 0.8F));
 
     switch (enemy->kind) {
@@ -752,8 +1082,8 @@ void render_scene(SDL_Renderer* renderer, const DebugTileset* tileset, const Deb
         render_portals(renderer, &camera, play);
     }
 
-    render_game_entities(renderer, play, active_world, player, zoom);
-    render_player(renderer, active_world, player, zoom);
+    render_game_entities(renderer, tileset, play, active_world, player, zoom);
+    render_player(renderer, tileset, active_world, player, zoom);
     render_debug_overlay(renderer, debug_view, play, world, player, zoom);
     render_message_box(renderer, play);
 }
@@ -819,8 +1149,9 @@ void render_cave(SDL_Renderer* renderer, const GameState* play, const Player* pl
               world_rect_to_screen(&camera, glm::vec2(5.45F, 4.0F), glm::vec2(0.35F, 0.35F)));
 }
 
-void render_game_entities(SDL_Renderer* renderer, const GameState* play, const World* world,
-                          const Player* player, float zoom) {
+void render_game_entities(SDL_Renderer* renderer, const DebugTileset* tileset,
+                          const GameState* play, const World* world, const Player* player,
+                          float zoom) {
     const Camera camera = make_clamped_camera(player->position, world, zoom);
 
     for (const Enemy& enemy : play->enemies) {
@@ -828,7 +1159,7 @@ void render_game_entities(SDL_Renderer* renderer, const GameState* play, const W
             continue;
         }
 
-        render_enemy_sprite(renderer, &camera, &enemy);
+        render_enemy_sprite(renderer, tileset, &camera, &enemy);
     }
 
     for (const Projectile& projectile : play->projectiles) {
@@ -856,8 +1187,28 @@ void render_game_entities(SDL_Renderer* renderer, const GameState* play, const W
     }
 }
 
-void render_player(SDL_Renderer* renderer, const World* world, const Player* player, float zoom) {
+void render_player(SDL_Renderer* renderer, const DebugTileset* tileset, const World* world,
+                   const Player* player, float zoom) {
     const Camera camera = make_clamped_camera(player->position, world, zoom);
+    if (render_player_rom_sprite(renderer, tileset, &camera, player)) {
+        if (!player->has_sword || !is_sword_active(player)) {
+            return;
+        }
+
+        const glm::vec2 sword_position = world_to_screen(&camera, sword_world_position(player));
+        glm::vec2 sword_size(std::max(3.0F, camera.pixels_per_world_unit * 0.55F),
+                             std::max(2.0F, camera.pixels_per_world_unit * 0.16F));
+
+        if (player->facing == Facing::Up || player->facing == Facing::Down) {
+            sword_size = glm::vec2(std::max(2.0F, camera.pixels_per_world_unit * 0.16F),
+                                   std::max(3.0F, camera.pixels_per_world_unit * 0.55F));
+        }
+
+        set_draw_color(renderer, 252, 252, 252);
+        fill_rect(renderer, make_rect(sword_position - sword_size * 0.5F, sword_size));
+        return;
+    }
+
     const float player_size = std::max(4.0F, camera.pixels_per_world_unit * 0.65F);
     const glm::vec2 player_screen = world_to_screen(&camera, player->position);
     const SDL_FRect player_rect = make_rect(player_screen - glm::vec2(player_size * 0.5F),
