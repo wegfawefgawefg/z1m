@@ -17,7 +17,7 @@ struct EnemyZooGroupLabel {
     const char* label = "";
 };
 
-constexpr std::array<EnemyZooGroupLabel, 19> kEnemyZooGroups = {{
+constexpr std::array<EnemyZooGroupLabel, 28> kEnemyZooGroups = {{
     EnemyZooGroupLabel{0, "octorok"},
     EnemyZooGroupLabel{1, "moblin"},
     EnemyZooGroupLabel{2, "lynel"},
@@ -37,6 +37,15 @@ constexpr std::array<EnemyZooGroupLabel, 19> kEnemyZooGroups = {{
     EnemyZooGroupLabel{16, "dodongo"},
     EnemyZooGroupLabel{17, "gohma-moldorm"},
     EnemyZooGroupLabel{18, "aquamentus"},
+    EnemyZooGroupLabel{19, "vire"},
+    EnemyZooGroupLabel{20, "blue-wizzrobe"},
+    EnemyZooGroupLabel{21, "red-wizzrobe"},
+    EnemyZooGroupLabel{22, "flying-ghini"},
+    EnemyZooGroupLabel{23, "digdogger"},
+    EnemyZooGroupLabel{24, "manhandla"},
+    EnemyZooGroupLabel{25, "gleeok"},
+    EnemyZooGroupLabel{26, "patra"},
+    EnemyZooGroupLabel{27, "ganon"},
 }};
 
 void apply_debug_style() {
@@ -93,7 +102,8 @@ void render_travel_buttons(AppState* app) {
     }
     ImGui::SameLine();
     if (ImGui::Button("Enemy Zoo")) {
-        set_area_kind(&app->session, &app->player, AreaKind::EnemyZoo, -1, glm::vec2(10.0F, 90.0F));
+        set_area_kind(&app->session, &app->player, AreaKind::EnemyZoo, -1,
+                      glm::vec2(10.0F, 138.0F));
     }
     ImGui::SameLine();
     if (ImGui::Button("Item Zoo")) {

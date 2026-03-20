@@ -43,21 +43,29 @@ constexpr float kDarknutSpeed = 4.2F;
 constexpr float kGelSpeed = 2.8F;
 constexpr float kZolSpeed = 3.6F;
 constexpr float kRopeSpeed = 4.2F;
+constexpr float kVireSpeed = 5.8F;
+constexpr float kWizzrobeSpeed = 4.0F;
 constexpr float kRopeChargeSpeed = 10.0F;
 constexpr float kWalkerSpeed = 3.8F;
 constexpr float kLikeLikeSpeed = 2.6F;
 constexpr float kPolsVoiceSpeed = 6.8F;
 constexpr float kWallmasterSpeed = 6.2F;
 constexpr float kGhiniSpeed = 4.4F;
+constexpr float kFlyingGhiniSpeed = 6.0F;
 constexpr float kTrapSpeed = 13.0F;
 constexpr float kArmosSpeed = 4.0F;
 constexpr float kDodongoSpeed = 3.2F;
+constexpr float kDigdoggerSpeed = 4.6F;
+constexpr float kManhandlaSpeed = 4.8F;
 constexpr float kGohmaSpeed = 5.2F;
 constexpr float kMoldormSpeed = 6.0F;
 constexpr float kKeeseSpeed = 5.7F;
 constexpr float kLeeverSpeed = 4.2F;
 constexpr float kTektiteHopSpeed = 7.2F;
 constexpr float kAquamentusSpeed = 3.0F;
+constexpr float kGleeokSpeed = 2.4F;
+constexpr float kPatraSpeed = 5.4F;
+constexpr float kGanonSpeed = 4.2F;
 constexpr float kLynelSpeed = 5.7F;
 constexpr float kPeahatSpeed = 6.6F;
 constexpr float kRockSpeed = 8.0F;
@@ -71,6 +79,9 @@ constexpr float kDodongoBloatedSeconds = 1.2F;
 constexpr float kDodongoStunnedSeconds = 0.8F;
 constexpr float kGohmaEyeClosedSeconds = 1.1F;
 constexpr float kGohmaEyeOpenSeconds = 0.8F;
+constexpr float kWizzrobeTeleportSeconds = 0.55F;
+constexpr float kPatraOrbitRadiusWide = 2.3F;
+constexpr float kPatraOrbitRadiusTight = 1.25F;
 constexpr int kSwordCaveId = 0x10;
 
 void update_current_room(GameSession* session, const Player* player);
@@ -227,8 +238,13 @@ void reset_enemy_state(GameSession* session, Enemy* enemy) {
         enemy->action_seconds_remaining = 0.18F + random_unit(session) * 0.25F;
         enemy->move_seconds_remaining = 1.0F + random_unit(session) * 1.0F;
         break;
+    case EnemyKind::FlyingGhini:
+        enemy->action_seconds_remaining = 0.15F + random_unit(session) * 0.20F;
+        enemy->move_seconds_remaining = 1.0F + random_unit(session) * 1.2F;
+        break;
     case EnemyKind::Zol:
     case EnemyKind::Gel:
+    case EnemyKind::Vire:
     case EnemyKind::Stalfos:
     case EnemyKind::Gibdo:
     case EnemyKind::LikeLike:
@@ -257,11 +273,30 @@ void reset_enemy_state(GameSession* session, Enemy* enemy) {
         enemy->action_seconds_remaining = 0.15F;
         enemy->move_seconds_remaining = 0.55F;
         break;
+    case EnemyKind::BlueWizzrobe:
+        enemy->action_seconds_remaining = 1.1F + random_unit(session) * 0.6F;
+        enemy->move_seconds_remaining = 0.35F;
+        break;
+    case EnemyKind::RedWizzrobe:
+        enemy->hidden = true;
+        enemy->state_seconds_remaining = 0.9F + random_unit(session) * 0.7F;
+        enemy->action_seconds_remaining = 0.0F;
+        break;
     case EnemyKind::Dodongo:
         enemy->facing = Facing::Right;
         enemy->move_seconds_remaining = 0.9F + random_unit(session) * 0.6F;
         enemy->action_seconds_remaining = 0.0F;
         enemy->state_seconds_remaining = 0.0F;
+        break;
+    case EnemyKind::Digdogger:
+        enemy->velocity = glm::vec2(kDigdoggerSpeed, 0.0F);
+        enemy->action_seconds_remaining = 0.45F;
+        enemy->move_seconds_remaining = 9999.0F;
+        break;
+    case EnemyKind::Manhandla:
+        enemy->velocity = glm::vec2(kManhandlaSpeed, kManhandlaSpeed * 0.65F);
+        enemy->action_seconds_remaining = 1.0F;
+        enemy->move_seconds_remaining = 9999.0F;
         break;
     case EnemyKind::Gohma:
         enemy->facing = Facing::Right;
@@ -279,6 +314,23 @@ void reset_enemy_state(GameSession* session, Enemy* enemy) {
         enemy->velocity = glm::vec2(kAquamentusSpeed, 0.0F);
         enemy->action_seconds_remaining = 0.9F;
         enemy->move_seconds_remaining = 9999.0F;
+        break;
+    case EnemyKind::Gleeok:
+        enemy->velocity = glm::vec2(kGleeokSpeed, 0.0F);
+        enemy->action_seconds_remaining = 0.8F;
+        enemy->move_seconds_remaining = 9999.0F;
+        enemy->special_counter = 3;
+        break;
+    case EnemyKind::Patra:
+        enemy->velocity = glm::vec2(kPatraSpeed, 0.0F);
+        enemy->action_seconds_remaining = 0.0F;
+        enemy->state_seconds_remaining = 4.0F;
+        enemy->special_counter = 8;
+        break;
+    case EnemyKind::Ganon:
+        enemy->hidden = true;
+        enemy->action_seconds_remaining = 0.6F;
+        enemy->state_seconds_remaining = kWizzrobeTeleportSeconds;
         break;
     }
 }
@@ -321,6 +373,18 @@ bool projectile_hits_dodongo_mouth(const Enemy& enemy, const Projectile& project
     }
 
     return overlaps_circle(projectile.position, dodongo_mouth_position(enemy), 1.0F);
+}
+
+glm::vec2 orbit_offset(float angle_radians, float radius) {
+    return glm::vec2(std::cos(angle_radians), std::sin(angle_radians)) * radius;
+}
+
+glm::vec2 patra_orbiter_position(const Enemy& enemy, int orbiter_index) {
+    const float radius =
+        enemy.state_seconds_remaining > 2.0F ? kPatraOrbitRadiusWide : kPatraOrbitRadiusTight;
+    const float phase = enemy.action_seconds_remaining * 3.2F;
+    const float angle = phase + static_cast<float>(orbiter_index) * (6.28318530718F / 8.0F);
+    return enemy.position + orbit_offset(angle, radius);
 }
 
 Projectile& spawn_projectile(GameSession* session) {
@@ -515,7 +579,46 @@ int gather_recorder_dungeons(const World* overworld_world,
     return count;
 }
 
+bool try_trigger_digdogger_split(GameSession* session) {
+    for (Enemy& enemy : session->enemies) {
+        if (!enemy.active || !in_area(session, enemy.area_kind, enemy.cave_id) ||
+            enemy.kind != EnemyKind::Digdogger || enemy.special_counter != 0) {
+            continue;
+        }
+
+        enemy.active = false;
+        for (int index = 0; index < 3; ++index) {
+            Enemy child;
+            child.active = true;
+            child.kind = EnemyKind::Digdogger;
+            child.area_kind = enemy.area_kind;
+            child.cave_id = enemy.cave_id;
+            child.position =
+                enemy.position + orbit_offset(static_cast<float>(index) * 2.09439510239F, 1.2F);
+            child.spawn_position = child.position;
+            child.origin = child.position;
+            child.max_health = 2;
+            child.health = 2;
+            child.special_counter = 1;
+            child.respawn_group = -1;
+            child.zoo_respawn = false;
+            reset_enemy_state(session, &child);
+            child.special_counter = 1;
+            session->enemies.push_back(child);
+        }
+
+        set_message(session, "digdogger split", 1.0F);
+        return true;
+    }
+
+    return false;
+}
+
 void use_recorder(GameSession* session, const World* overworld_world, Player* player) {
+    if (try_trigger_digdogger_split(session)) {
+        return;
+    }
+
     if (session->area_kind != AreaKind::Overworld) {
         set_message(session, "recorder only works outside", 1.2F);
         return;
@@ -769,6 +872,27 @@ void damage_enemy(GameSession* session, Enemy* enemy, int damage) {
         }
     }
 
+    if (enemy->kind == EnemyKind::Vire) {
+        for (int index = 0; index < 2; ++index) {
+            Enemy child;
+            child.active = true;
+            child.kind = EnemyKind::Keese;
+            child.area_kind = enemy->area_kind;
+            child.cave_id = enemy->cave_id;
+            child.position = enemy->position + glm::vec2(index == 0 ? -0.6F : 0.6F, 0.0F);
+            child.spawn_position = child.position;
+            child.origin = child.position;
+            child.max_health = 1;
+            child.health = 1;
+            reset_enemy_state(session, &child);
+            session->enemies.push_back(child);
+        }
+    }
+
+    if (enemy->kind == EnemyKind::Gleeok && enemy->special_counter > 1) {
+        enemy->special_counter -= 1;
+    }
+
     if (enemy->zoo_respawn && enemy->area_kind == AreaKind::EnemyZoo) {
         enemy->active = false;
         enemy->respawn_seconds_remaining = 2.0F;
@@ -796,6 +920,31 @@ void process_player_attacks(GameSession* session, Player* player) {
 
         if (enemy.kind == EnemyKind::Bubble || enemy.kind == EnemyKind::Trap ||
             enemy.kind == EnemyKind::Dodongo || enemy.kind == EnemyKind::Gohma) {
+            continue;
+        }
+
+        if (enemy.kind == EnemyKind::Patra && enemy.special_counter > 0) {
+            bool hit_orbiter = false;
+            for (int orbiter = 0; orbiter < enemy.special_counter; ++orbiter) {
+                if (!overlaps_circle(sword_pos, patra_orbiter_position(enemy, orbiter), 0.55F)) {
+                    continue;
+                }
+                enemy.special_counter -= 1;
+                set_message(session, "patra orbiter down", 0.6F);
+                hit_orbiter = true;
+                break;
+            }
+            if (hit_orbiter) {
+                continue;
+            }
+            continue;
+        }
+
+        if (enemy.kind == EnemyKind::Ganon) {
+            enemy.hidden = false;
+            enemy.special_counter = 1;
+            enemy.state_seconds_remaining = 1.0F;
+            set_message(session, "ganon revealed", 0.6F);
             continue;
         }
 
@@ -977,6 +1126,153 @@ void tick_ghini(GameSession* session, const World* world, Enemy* enemy, const Pl
     }
 
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+}
+
+void tick_flying_ghini(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                       float dt_seconds) {
+    enemy->action_seconds_remaining -= dt_seconds;
+    if (enemy->action_seconds_remaining <= 0.0F) {
+        glm::vec2 direction(random_unit(session) * 2.0F - 1.0F, random_unit(session) * 2.0F - 1.0F);
+        if (player != nullptr) {
+            direction = player->position - enemy->position;
+        }
+        if (glm::length(direction) < 0.1F) {
+            direction = glm::vec2(0.0F, 1.0F);
+        } else {
+            direction = glm::normalize(direction);
+        }
+        enemy->velocity = direction * kFlyingGhiniSpeed;
+        enemy->action_seconds_remaining = 0.15F + random_unit(session) * 0.20F;
+    }
+
+    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+}
+
+void tick_vire(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+               float dt_seconds) {
+    enemy->move_seconds_remaining -= dt_seconds;
+    if (enemy->move_seconds_remaining <= 0.0F) {
+        choose_cardinal_direction(session, world, enemy);
+    }
+
+    glm::vec2 candidate = enemy->position + facing_vector(enemy->facing) * kVireSpeed * dt_seconds;
+    candidate.y += std::sin(enemy->action_seconds_remaining * 14.0F) * 0.04F;
+    if (world_is_walkable_tile(world, candidate)) {
+        enemy->position = candidate;
+    } else {
+        enemy->move_seconds_remaining = 0.0F;
+    }
+    enemy->action_seconds_remaining += dt_seconds;
+
+    if (player != nullptr && random_unit(session) < dt_seconds * 0.6F) {
+        choose_player_axis_direction(*enemy, *player, &enemy->facing);
+    }
+}
+
+void tick_blue_wizzrobe(GameSession* session, const World* world, Enemy* enemy,
+                        const Player* player, float dt_seconds) {
+    if (enemy->hidden) {
+        enemy->state_seconds_remaining -= dt_seconds;
+        if (enemy->state_seconds_remaining > 0.0F) {
+            return;
+        }
+
+        enemy->hidden = false;
+        enemy->action_seconds_remaining = 1.0F + random_unit(session) * 0.5F;
+        enemy->move_seconds_remaining = 0.3F;
+        return;
+    }
+
+    enemy->action_seconds_remaining -= dt_seconds;
+    enemy->move_seconds_remaining -= dt_seconds;
+    if (enemy->move_seconds_remaining <= 0.0F) {
+        if (player != nullptr) {
+            choose_player_axis_direction(*enemy, *player, &enemy->facing);
+        }
+        enemy->move_seconds_remaining = 0.3F;
+    }
+
+    const glm::vec2 candidate =
+        enemy->position + facing_vector(enemy->facing) * kWizzrobeSpeed * dt_seconds;
+    if (world_is_walkable_tile(world, candidate)) {
+        enemy->position = candidate;
+    }
+
+    if (enemy->action_seconds_remaining <= 0.0F) {
+        if (player != nullptr &&
+            choose_cardinal_shot_direction(session, *enemy, *player, &enemy->facing)) {
+            make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
+                            enemy->position + facing_vector(enemy->facing) * 0.7F,
+                            facing_vector(enemy->facing) * kFireSpeed, kProjectileLifetimeSeconds,
+                            kFireRadius, 1);
+        }
+
+        enemy->hidden = true;
+        enemy->state_seconds_remaining = kWizzrobeTeleportSeconds;
+        const std::array<glm::vec2, 4> offsets = {
+            glm::vec2(-4.0F, 0.0F),
+            glm::vec2(4.0F, 0.0F),
+            glm::vec2(0.0F, -4.0F),
+            glm::vec2(0.0F, 4.0F),
+        };
+        for (int attempt = 0; attempt < 4; ++attempt) {
+            const glm::vec2 target =
+                enemy->position +
+                offsets[static_cast<std::size_t>((attempt + random_int(session, 4)) % 4)];
+            if (!world_is_walkable_tile(world, target)) {
+                continue;
+            }
+            enemy->position = target;
+            break;
+        }
+    }
+}
+
+void tick_red_wizzrobe(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                       float dt_seconds) {
+    enemy->state_seconds_remaining -= dt_seconds;
+    if (enemy->hidden) {
+        if (enemy->state_seconds_remaining > 0.0F || player == nullptr) {
+            return;
+        }
+
+        enemy->hidden = false;
+        enemy->action_seconds_remaining = 1.0F;
+        choose_player_axis_direction(*enemy, *player, &enemy->facing);
+        const std::array<glm::vec2, 8> offsets = {
+            glm::vec2(-4.0F, 0.0F), glm::vec2(4.0F, 0.0F),   glm::vec2(0.0F, -4.0F),
+            glm::vec2(0.0F, 4.0F),  glm::vec2(-3.0F, -3.0F), glm::vec2(3.0F, -3.0F),
+            glm::vec2(-3.0F, 3.0F), glm::vec2(3.0F, 3.0F),
+        };
+        for (int attempt = 0; attempt < 8; ++attempt) {
+            const glm::vec2 target =
+                player->position +
+                offsets[static_cast<std::size_t>((attempt + random_int(session, 8)) % 8)];
+            if (!world_is_walkable_tile(world, target)) {
+                continue;
+            }
+            enemy->position = target;
+            break;
+        }
+        return;
+    }
+
+    enemy->action_seconds_remaining -= dt_seconds;
+    if (enemy->action_seconds_remaining <= 0.45F && enemy->action_seconds_remaining > 0.35F &&
+        player != nullptr) {
+        choose_cardinal_shot_direction(session, *enemy, *player, &enemy->facing);
+        make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
+                        enemy->position + facing_vector(enemy->facing) * 0.8F,
+                        facing_vector(enemy->facing) * kFireSpeed, kProjectileLifetimeSeconds,
+                        kFireRadius, 1);
+    }
+
+    if (enemy->action_seconds_remaining > 0.0F) {
+        return;
+    }
+
+    enemy->hidden = true;
+    enemy->state_seconds_remaining = 1.0F + random_unit(session) * 0.8F;
 }
 
 void tick_trap(const World* world, Enemy* enemy, const Player* player, float dt_seconds) {
@@ -1208,6 +1504,125 @@ void tick_moldorm(GameSession* session, const World* world, Enemy* enemy, const 
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
 }
 
+void tick_digdogger(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                    float dt_seconds) {
+    const float speed = enemy->special_counter == 0 ? kDigdoggerSpeed : kDigdoggerSpeed * 1.35F;
+    if (enemy->special_counter == 0) {
+        enemy->invulnerable = true;
+    }
+
+    enemy->action_seconds_remaining -= dt_seconds;
+    if (enemy->action_seconds_remaining <= 0.0F) {
+        glm::vec2 direction(random_unit(session) * 2.0F - 1.0F, random_unit(session) * 2.0F - 1.0F);
+        if (player != nullptr && random_unit(session) < 0.6F) {
+            direction = player->position - enemy->position;
+        }
+        if (glm::length(direction) < 0.1F) {
+            direction = glm::vec2(1.0F, 0.0F);
+        } else {
+            direction = glm::normalize(direction);
+        }
+        enemy->velocity = direction * speed;
+        enemy->action_seconds_remaining = 0.35F + random_unit(session) * 0.25F;
+    }
+
+    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+}
+
+void tick_manhandla(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                    float dt_seconds) {
+    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+    enemy->action_seconds_remaining -= dt_seconds;
+    if (enemy->action_seconds_remaining <= 0.0F) {
+        if (player != nullptr) {
+            const glm::vec2 toward_player = player->position - enemy->position;
+            if (glm::length(toward_player) > 0.1F) {
+                enemy->velocity = glm::normalize(toward_player) *
+                                  (kManhandlaSpeed + static_cast<float>(6 - enemy->health) * 0.4F);
+            }
+        } else {
+            enemy->velocity.x *= -1.0F;
+        }
+
+        const std::array<glm::vec2, 4> shots = {glm::vec2(1.0F, 0.0F), glm::vec2(-1.0F, 0.0F),
+                                                glm::vec2(0.0F, 1.0F), glm::vec2(0.0F, -1.0F)};
+        for (const glm::vec2& shot : shots) {
+            make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
+                            enemy->position + shot * 0.9F, shot * kFireSpeed,
+                            kProjectileLifetimeSeconds, kFireRadius, 1);
+        }
+        enemy->action_seconds_remaining = 1.6F;
+    }
+}
+
+void tick_gleeok(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                 float dt_seconds) {
+    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+    enemy->action_seconds_remaining -= dt_seconds;
+    if (enemy->action_seconds_remaining > 0.0F) {
+        return;
+    }
+
+    const int head_count = glm::max(enemy->special_counter, 1);
+    for (int head = 0; head < head_count; ++head) {
+        const float head_offset =
+            (static_cast<float>(head) - static_cast<float>(head_count / 2)) * 0.8F;
+        glm::vec2 direction = glm::vec2(0.0F, 1.0F);
+        if (player != nullptr) {
+            direction = player->position - (enemy->position + glm::vec2(head_offset, -0.6F));
+        }
+        if (glm::length(direction) < 0.1F) {
+            direction = glm::vec2(0.0F, 1.0F);
+        } else {
+            direction = glm::normalize(direction);
+        }
+
+        make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
+                        enemy->position + glm::vec2(head_offset, -0.6F), direction * kFireSpeed,
+                        kProjectileLifetimeSeconds, kFireRadius, 1);
+    }
+    enemy->action_seconds_remaining = 1.2F;
+}
+
+void tick_patra(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                float dt_seconds) {
+    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+    enemy->state_seconds_remaining -= dt_seconds;
+    if (enemy->state_seconds_remaining <= 0.0F) {
+        enemy->state_seconds_remaining = 4.0F;
+        enemy->velocity *= -1.0F;
+    }
+
+    enemy->action_seconds_remaining -= dt_seconds;
+    if (enemy->action_seconds_remaining <= 0.0F && player != nullptr) {
+        glm::vec2 direction = player->position - enemy->position;
+        if (glm::length(direction) > 0.1F) {
+            direction = glm::normalize(direction);
+            make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
+                            enemy->position + direction * 0.8F, direction * kFireSpeed,
+                            kProjectileLifetimeSeconds, kFireRadius, 1);
+        }
+        enemy->action_seconds_remaining = 0.9F;
+    }
+}
+
+void tick_ganon(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                float dt_seconds) {
+    if (enemy->special_counter > 0) {
+        enemy->state_seconds_remaining -= dt_seconds;
+        if (enemy->state_seconds_remaining <= 0.0F) {
+            enemy->special_counter = 0;
+            enemy->hidden = true;
+        } else {
+            enemy->hidden = false;
+        }
+        return;
+    }
+
+    tick_blue_wizzrobe(session, world, enemy, player, dt_seconds);
+    enemy->hidden = true;
+}
+
 void tick_zora(GameSession* session, const World* world, Enemy* enemy, const Player* player,
                float dt_seconds) {
     enemy->state_seconds_remaining -= dt_seconds;
@@ -1372,6 +1787,9 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
         case EnemyKind::Rope:
             tick_rope(session, world, &enemy, target_player, dt_seconds);
             break;
+        case EnemyKind::Vire:
+            tick_vire(session, world, &enemy, target_player, dt_seconds);
+            break;
         case EnemyKind::Stalfos:
         case EnemyKind::Gibdo:
             tick_basic_walker(session, world, &enemy, target_player, dt_seconds, kWalkerSpeed,
@@ -1384,12 +1802,21 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
         case EnemyKind::PolsVoice:
             tick_pols_voice(session, world, &enemy, dt_seconds);
             break;
+        case EnemyKind::BlueWizzrobe:
+            tick_blue_wizzrobe(session, world, &enemy, target_player, dt_seconds);
+            break;
+        case EnemyKind::RedWizzrobe:
+            tick_red_wizzrobe(session, world, &enemy, target_player, dt_seconds);
+            break;
         case EnemyKind::Wallmaster:
             tick_wallmaster(world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Ghini:
         case EnemyKind::Bubble:
             tick_ghini(session, world, &enemy, target_player, dt_seconds);
+            break;
+        case EnemyKind::FlyingGhini:
+            tick_flying_ghini(session, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Trap:
             tick_trap(world, &enemy, target_player, dt_seconds);
@@ -1406,6 +1833,12 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
         case EnemyKind::Dodongo:
             tick_dodongo(session, world, &enemy, target_player, dt_seconds);
             break;
+        case EnemyKind::Digdogger:
+            tick_digdogger(session, world, &enemy, target_player, dt_seconds);
+            break;
+        case EnemyKind::Manhandla:
+            tick_manhandla(session, world, &enemy, target_player, dt_seconds);
+            break;
         case EnemyKind::Gohma:
             tick_gohma(session, world, &enemy, target_player, dt_seconds);
             break;
@@ -1414,6 +1847,15 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
             break;
         case EnemyKind::Aquamentus:
             tick_aquamentus(session, world, &enemy, target_player, dt_seconds);
+            break;
+        case EnemyKind::Gleeok:
+            tick_gleeok(session, world, &enemy, target_player, dt_seconds);
+            break;
+        case EnemyKind::Patra:
+            tick_patra(session, world, &enemy, target_player, dt_seconds);
+            break;
+        case EnemyKind::Ganon:
+            tick_ganon(session, world, &enemy, target_player, dt_seconds);
             break;
         }
 
@@ -1684,6 +2126,14 @@ void tick_projectiles(GameSession* session, const World* overworld_world, Player
                     continue;
                 }
 
+                if ((enemy.kind == EnemyKind::BlueWizzrobe ||
+                     enemy.kind == EnemyKind::RedWizzrobe) &&
+                    projectile.kind != ProjectileKind::SwordBeam &&
+                    projectile.kind != ProjectileKind::Fire &&
+                    projectile.kind != ProjectileKind::Explosion) {
+                    continue;
+                }
+
                 if (enemy.kind == EnemyKind::Dodongo) {
                     if (!projectile_hits_dodongo_mouth(enemy, projectile)) {
                         continue;
@@ -1706,6 +2156,35 @@ void tick_projectiles(GameSession* session, const World* overworld_world, Player
                     if (projectile.kind != ProjectileKind::Arrow || enemy.special_counter == 0) {
                         continue;
                     }
+                }
+
+                if (enemy.kind == EnemyKind::Patra && enemy.special_counter > 0) {
+                    bool hit_orbiter = false;
+                    for (int orbiter = 0; orbiter < enemy.special_counter; ++orbiter) {
+                        if (!overlaps_circle(projectile.position,
+                                             patra_orbiter_position(enemy, orbiter), radius)) {
+                            continue;
+                        }
+                        enemy.special_counter -= 1;
+                        hit_orbiter = true;
+                        set_message(session, "patra orbiter down", 0.6F);
+                        break;
+                    }
+                    projectile.active = false;
+                    if (hit_orbiter) {
+                        continue;
+                    }
+                    continue;
+                }
+
+                if (enemy.kind == EnemyKind::Ganon) {
+                    if (projectile.kind != ProjectileKind::Arrow || enemy.special_counter == 0) {
+                        continue;
+                    }
+                    damage_enemy(session, &enemy, enemy.health);
+                    projectile.active = false;
+                    set_message(session, "ganon down", 1.0F);
+                    continue;
                 }
 
                 damage_enemy(session, &enemy, projectile.damage);
@@ -2061,6 +2540,8 @@ const char* enemy_name(EnemyKind kind) {
         return "gel";
     case EnemyKind::Rope:
         return "rope";
+    case EnemyKind::Vire:
+        return "vire";
     case EnemyKind::Stalfos:
         return "stalfos";
     case EnemyKind::Gibdo:
@@ -2069,10 +2550,16 @@ const char* enemy_name(EnemyKind kind) {
         return "like-like";
     case EnemyKind::PolsVoice:
         return "pols-voice";
+    case EnemyKind::BlueWizzrobe:
+        return "blue-wizzrobe";
+    case EnemyKind::RedWizzrobe:
+        return "red-wizzrobe";
     case EnemyKind::Wallmaster:
         return "wallmaster";
     case EnemyKind::Ghini:
         return "ghini";
+    case EnemyKind::FlyingGhini:
+        return "flying-ghini";
     case EnemyKind::Bubble:
         return "bubble";
     case EnemyKind::Trap:
@@ -2085,12 +2572,22 @@ const char* enemy_name(EnemyKind kind) {
         return "peahat";
     case EnemyKind::Dodongo:
         return "dodongo";
+    case EnemyKind::Digdogger:
+        return "digdogger";
+    case EnemyKind::Manhandla:
+        return "manhandla";
     case EnemyKind::Gohma:
         return "gohma";
     case EnemyKind::Moldorm:
         return "moldorm";
     case EnemyKind::Aquamentus:
         return "aquamentus";
+    case EnemyKind::Gleeok:
+        return "gleeok";
+    case EnemyKind::Patra:
+        return "patra";
+    case EnemyKind::Ganon:
+        return "ganon";
     }
 
     return "enemy";

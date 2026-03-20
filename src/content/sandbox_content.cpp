@@ -31,7 +31,7 @@ struct NpcSpawnSpec {
     const char* label = "";
 };
 
-constexpr std::array<EnemySpawnSpec, 32> kEnemyZooSpawns = {
+constexpr std::array<EnemySpawnSpec, 41> kEnemyZooSpawns = {
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Octorok,
                    .position = glm::vec2(16.0F, 12.0F),
@@ -218,6 +218,60 @@ constexpr std::array<EnemySpawnSpec, 32> kEnemyZooSpawns = {
                    .health = 6,
                    .respawn_group = 18,
                    .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Vire,
+                   .position = glm::vec2(136.0F, 84.0F),
+                   .health = 2,
+                   .respawn_group = 19,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::BlueWizzrobe,
+                   .position = glm::vec2(16.0F, 108.0F),
+                   .health = 3,
+                   .respawn_group = 20,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::RedWizzrobe,
+                   .position = glm::vec2(40.0F, 108.0F),
+                   .health = 3,
+                   .respawn_group = 21,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::FlyingGhini,
+                   .position = glm::vec2(64.0F, 108.0F),
+                   .health = 2,
+                   .respawn_group = 22,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Digdogger,
+                   .position = glm::vec2(88.0F, 108.0F),
+                   .health = 6,
+                   .respawn_group = 23,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Manhandla,
+                   .position = glm::vec2(112.0F, 108.0F),
+                   .health = 6,
+                   .respawn_group = 24,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Gleeok,
+                   .position = glm::vec2(136.0F, 108.0F),
+                   .health = 8,
+                   .respawn_group = 25,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Patra,
+                   .position = glm::vec2(112.0F, 132.0F),
+                   .health = 6,
+                   .respawn_group = 26,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Ganon,
+                   .position = glm::vec2(136.0F, 132.0F),
+                   .health = 9,
+                   .respawn_group = 27,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::Overworld,
                    .kind = EnemyKind::Octorok,
                    .position = glm::vec2(232.0F, 162.0F),
@@ -300,7 +354,7 @@ constexpr std::array<NpcSpawnSpec, 3> kNpcSpawns = {
                  .label = "take anything you want"},
     NpcSpawnSpec{.area_kind = AreaKind::EnemyZoo,
                  .kind = NpcKind::OldMan,
-                 .position = glm::vec2(74.0F, 88.0F),
+                 .position = glm::vec2(74.0F, 136.0F),
                  .shop_item_index = -1,
                  .label = "enemy zoo respawns by pen"},
 };
@@ -339,7 +393,7 @@ void push_portal(std::array<AreaPortal, kMaxAreaPortals>* portals, int* count, A
 } // namespace
 
 void build_enemy_zoo_world(World* world) {
-    resize_world(world, 152, 96);
+    resize_world(world, 152, 144);
     fill_world(world, TileKind::Ground);
     build_box_walls(world);
 
@@ -364,7 +418,21 @@ void build_enemy_zoo_world(World* world) {
     build_pen(world, 104, 56, 20, 18, TileKind::Ground);
     build_pen(world, 128, 56, 20, 18, TileKind::Ground);
 
-    fill_world_rect(world, 10, 82, 132, 4, TileKind::Rock);
+    build_pen(world, 8, 80, 20, 18, TileKind::Ground);
+    build_pen(world, 32, 80, 20, 18, TileKind::Ground);
+    build_pen(world, 56, 80, 20, 18, TileKind::Ground);
+    build_pen(world, 80, 80, 20, 18, TileKind::Ground);
+    build_pen(world, 104, 80, 20, 18, TileKind::Ground);
+    build_pen(world, 128, 80, 20, 18, TileKind::Ground);
+
+    build_pen(world, 8, 104, 20, 18, TileKind::Ground);
+    build_pen(world, 32, 104, 20, 18, TileKind::Ground);
+    build_pen(world, 56, 104, 20, 18, TileKind::Ground);
+    build_pen(world, 80, 104, 20, 18, TileKind::Ground);
+    build_pen(world, 104, 104, 20, 18, TileKind::Ground);
+    build_pen(world, 128, 104, 20, 18, TileKind::Ground);
+
+    fill_world_rect(world, 10, 130, 132, 4, TileKind::Rock);
 }
 
 void build_item_zoo_world(World* world) {
@@ -438,10 +506,10 @@ int gather_sandbox_portals(const GameSession* session,
     int count = 0;
 
     if (session->area_kind == AreaKind::EnemyZoo) {
-        push_portal(portals, &count, AreaKind::EnemyZoo, glm::vec2(10.0F, 90.0F),
+        push_portal(portals, &count, AreaKind::EnemyZoo, glm::vec2(10.0F, 138.0F),
                     glm::vec2(2.0F, 1.5F), AreaKind::Overworld, get_opening_start_position(),
                     "to overworld");
-        push_portal(portals, &count, AreaKind::EnemyZoo, glm::vec2(142.0F, 90.0F),
+        push_portal(portals, &count, AreaKind::EnemyZoo, glm::vec2(142.0F, 138.0F),
                     glm::vec2(2.0F, 1.5F), AreaKind::ItemZoo, glm::vec2(10.0F, 10.0F),
                     "to item zoo");
     }
@@ -451,7 +519,7 @@ int gather_sandbox_portals(const GameSession* session,
                     glm::vec2(2.0F, 1.5F), AreaKind::Overworld, get_opening_start_position(),
                     "to overworld");
         push_portal(portals, &count, AreaKind::ItemZoo, glm::vec2(62.0F, 35.0F),
-                    glm::vec2(2.0F, 1.5F), AreaKind::EnemyZoo, glm::vec2(10.0F, 10.0F),
+                    glm::vec2(2.0F, 1.5F), AreaKind::EnemyZoo, glm::vec2(10.0F, 138.0F),
                     "to enemy zoo");
         push_portal(portals, &count, AreaKind::ItemZoo, glm::vec2(53.0F, 25.0F),
                     glm::vec2(0.9F, 0.9F), AreaKind::ItemZoo, glm::vec2(63.0F, 25.0F), "raft dock",

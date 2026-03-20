@@ -1,4 +1,4 @@
-# Debug Tools
+#Debug Tools
 
 `z1m` now has a built-in runtime debug layer for world/logic inspection.
 
@@ -93,6 +93,8 @@ infinite health, and no collision against zoo walls, while enemies still obey
 their pen collision.
 Enemy pens auto-respawn when cleared, and the debug panel also exposes a manual
 respawn button per pen group.
+The enemy zoo now includes the late hostile families and boss pens as well,
+including recorder-reactive and orbiter-style cases.
 
 Recorder now uses real visible dungeon warp metadata from the overworld loader
 to cycle between dungeon entrances instead of using a fake hardcoded list.
@@ -115,10 +117,9 @@ screen-sized box.
 
 ## Current Limits
 
-- Hidden caves and secret stairs are only annotated right now; secret discovery
-  logic is not implemented yet.
-- Cave interiors are still placeholder logic rooms, not full ROM-authored cave
-  content.
-- The zoos are test content, not canonical campaign placement.
-- The bottom message strip is still a lightweight gameplay/status layer, not a
-  final dialogue UI.
+- Hidden caves and secret stairs are only annotated right now;
+secret discovery logic is not implemented yet.- Cave interiors are still placeholder logic rooms,
+    not full ROM - authored cave content.- The zoos are test content,
+    not canonical campaign placement.-
+        The bottom message strip is still a lightweight gameplay / status layer,
+    not a final dialogue UI.

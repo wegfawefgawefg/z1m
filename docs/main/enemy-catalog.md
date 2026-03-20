@@ -1,4 +1,4 @@
-# Enemy Catalog
+#Enemy Catalog
 
 This is the concrete enemy and boss checklist for `z1m`.
 
@@ -17,7 +17,7 @@ Status labels:
 Current count:
 
 - `39` catalog entries below
-- `25` currently modeled in code
+- `34` currently modeled in code
 - enemy zoo currently covers the implemented hostile set, with pen respawns and
   debug respawn buttons
 
@@ -40,16 +40,16 @@ Current count:
 - `Gel`: small split slime, `zoo`
 - `Zol`: larger slime that splits, `zoo`
 - `Rope`: charge snake, `zoo`
-- `Vire`: split-capable flyer, `none`
+- `Vire`: split-capable flyer, `zoo`
 - `Pols Voice`: hopping rabbit-like enemy, `zoo`
 - `Like Like`: shield eater, `partial`
 - `Gibdo`: mummy walker, `zoo`
 - `Stalfos`: skeleton walker, `zoo`
 - `Wallmaster`: wall grabber, `partial`
-- `Blue Wizzrobe`: teleporting mage, `none`
-- `Red Wizzrobe`: fade/shoot mage, `none`
+- `Blue Wizzrobe`: teleporting mage, `zoo`
+- `Red Wizzrobe`: fade/shoot mage, `zoo`
 - `Ghini`: graveyard ghost, `zoo`
-- `Flying Ghini`: airborne ghost, `none`
+- `Flying Ghini`: airborne ghost, `zoo`
 - `Bubbles`: anti-sword curse skull, `partial`
 - `Traps`: blade traps, `zoo`
 
@@ -57,13 +57,13 @@ Current count:
 
 - `Aquamentus`: move and 3-way fireball spread, `zoo`
 - `Dodongo`: bomb-eating boss, `partial`
-- `Digdogger`: recorder-reactive boss, large and split forms, `none`
-- `Manhandla`: segmented plant boss, `none`
+- `Digdogger`: recorder-reactive boss, large and split forms, `partial`
+- `Manhandla`: segmented plant boss, `partial`
 - `Gohma`: eye-state bow boss, red/blue variants, `partial`
 - `Moldorm`: segmented worm boss, `partial`
-- `Gleeok`: multi-head dragon, `none`
-- `Patra`: orbiting eye boss, two patterns, `none`
-- `Ganon`: final boss, `none`
+- `Gleeok`: multi-head dragon, `partial`
+- `Patra`: orbiting eye boss, two patterns, `partial`
+- `Ganon`: final boss, `partial`
 
 ## NPC and Neutral Actors That Still Matter
 

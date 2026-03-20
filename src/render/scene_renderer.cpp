@@ -14,6 +14,7 @@
 #include <SDL3/SDL.h>
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdint>
 #include <glm/vec2.hpp>
 #include <string>
@@ -217,6 +218,9 @@ void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Ene
     case EnemyKind::Rope:
         set_draw_color(renderer, 176, 96, 48);
         break;
+    case EnemyKind::Vire:
+        set_draw_color(renderer, 180, 52, 140);
+        break;
     case EnemyKind::Stalfos:
         set_draw_color(renderer, 212, 212, 212);
         break;
@@ -229,11 +233,20 @@ void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Ene
     case EnemyKind::PolsVoice:
         set_draw_color(renderer, 236, 236, 236);
         break;
+    case EnemyKind::BlueWizzrobe:
+        set_draw_color(renderer, 72, 88, 224);
+        break;
+    case EnemyKind::RedWizzrobe:
+        set_draw_color(renderer, 216, 72, 88);
+        break;
     case EnemyKind::Wallmaster:
         set_draw_color(renderer, 188, 148, 96);
         break;
     case EnemyKind::Ghini:
         set_draw_color(renderer, 220, 220, 255);
+        break;
+    case EnemyKind::FlyingGhini:
+        set_draw_color(renderer, 188, 220, 255);
         break;
     case EnemyKind::Bubble:
         set_draw_color(renderer, 255, 128, 180);
@@ -264,6 +277,16 @@ void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Ene
         }
         rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.4F, 1.0F));
         break;
+    case EnemyKind::Digdogger:
+        set_draw_color(renderer, enemy->special_counter == 0 ? 88 : 160, 40, 176);
+        rect = world_rect_to_screen(camera, enemy->position,
+                                    enemy->special_counter == 0 ? glm::vec2(1.8F, 1.8F)
+                                                                : glm::vec2(0.95F, 0.95F));
+        break;
+    case EnemyKind::Manhandla:
+        set_draw_color(renderer, 44, 168, 64);
+        rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.5F, 1.5F));
+        break;
     case EnemyKind::Gohma:
         if (enemy->special_counter == 0) {
             set_draw_color(renderer, 120, 40, 40);
@@ -280,9 +303,55 @@ void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Ene
         set_draw_color(renderer, 40, 170, 150);
         rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.6F, 1.4F));
         break;
+    case EnemyKind::Gleeok:
+        set_draw_color(renderer, 120, 168, 56);
+        rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.8F, 1.4F));
+        break;
+    case EnemyKind::Patra:
+        set_draw_color(renderer, 176, 40, 152);
+        rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.1F, 1.1F));
+        break;
+    case EnemyKind::Ganon:
+        set_draw_color(renderer, enemy->special_counter > 0 ? 184 : 88, 72, 120);
+        rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.2F, 1.4F));
+        break;
     }
 
     fill_rect(renderer, rect);
+
+    if (enemy->kind == EnemyKind::Manhandla) {
+        const std::array<glm::vec2, 4> petals = {glm::vec2(0.9F, 0.0F), glm::vec2(-0.9F, 0.0F),
+                                                 glm::vec2(0.0F, 0.9F), glm::vec2(0.0F, -0.9F)};
+        set_draw_color(renderer, 72, 196, 88);
+        for (const glm::vec2& offset : petals) {
+            fill_rect(renderer, world_rect_to_screen(camera, enemy->position + offset,
+                                                     glm::vec2(0.55F, 0.55F)));
+        }
+    }
+
+    if (enemy->kind == EnemyKind::Gleeok) {
+        set_draw_color(renderer, 168, 220, 96);
+        const int head_count = std::max(enemy->special_counter, 1);
+        for (int head = 0; head < head_count; ++head) {
+            const float x_offset =
+                (static_cast<float>(head) - (static_cast<float>(head_count) - 1.0F) * 0.5F) * 0.8F;
+            fill_rect(renderer,
+                      world_rect_to_screen(camera, enemy->position + glm::vec2(x_offset, -0.9F),
+                                           glm::vec2(0.55F, 0.55F)));
+        }
+    }
+
+    if (enemy->kind == EnemyKind::Patra) {
+        set_draw_color(renderer, 240, 220, 96);
+        const float radius = enemy->state_seconds_remaining > 2.0F ? 2.3F : 1.25F;
+        const float phase = enemy->action_seconds_remaining * 3.2F;
+        for (int orbiter = 0; orbiter < enemy->special_counter; ++orbiter) {
+            const float angle = phase + static_cast<float>(orbiter) * (6.28318530718F / 8.0F);
+            const glm::vec2 offset(std::cos(angle) * radius, std::sin(angle) * radius);
+            fill_rect(renderer, world_rect_to_screen(camera, enemy->position + offset,
+                                                     glm::vec2(0.38F, 0.38F)));
+        }
+    }
 }
 
 void render_projectile_sprite(SDL_Renderer* renderer, const Camera* camera,
@@ -602,6 +671,15 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
         }
         if (enemy.kind == EnemyKind::Dodongo && enemy.special_counter > 0) {
             label += " bombed";
+        }
+        if (enemy.kind == EnemyKind::Patra) {
+            label += " orbiters=" + std::to_string(enemy.special_counter);
+        }
+        if (enemy.kind == EnemyKind::Gleeok) {
+            label += " heads=" + std::to_string(std::max(enemy.special_counter, 1));
+        }
+        if (enemy.kind == EnemyKind::Ganon && enemy.special_counter > 0) {
+            label += " revealed";
         }
         draw_debug_label(renderer,
                          world_to_screen(&camera, enemy.position + glm::vec2(-0.6F, -0.9F)), label);
