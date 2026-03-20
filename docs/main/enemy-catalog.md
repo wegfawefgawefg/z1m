@@ -80,7 +80,8 @@ Current count:
 - For overworld shooters, fidelity target is screen-local/cardinal threat, not
   "always normalize directly toward Link from anywhere."
 - Recent fidelity passes tightened `Octorok`, `Moblin`, `Lynel`, `Goriya`,
-  `Darknut`, `Tektite`, `Zol`, `Gel`, `Rope`, `Armos`, `Leever`, and
-  `Wallmaster` toward the disassembly behavior families.
+  `Darknut`, `Tektite`, `Zol`, `Gel`, `Rope`, `Armos`, `Leever`,
+  `Wallmaster`, `Flying Ghini`, `Blue Wizzrobe`, and `Red Wizzrobe`
+  toward the disassembly behavior families.
 - The rest still need the same enemy-by-enemy audit instead of assuming zoo
   presence means correctness.

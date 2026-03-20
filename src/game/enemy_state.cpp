@@ -127,13 +127,16 @@ void reset_enemy_state(GameState* play, Enemy* enemy) {
         enemy->move_seconds_remaining = 0.55F;
         break;
     case EnemyKind::BlueWizzrobe:
-        enemy->action_seconds_remaining = 1.1F + random_unit(play) * 0.6F;
-        enemy->move_seconds_remaining = 0.35F;
+        enemy->action_seconds_remaining = frames_to_seconds(0x70 | random_byte(play));
+        enemy->move_seconds_remaining = 0.0F;
+        enemy->state_seconds_remaining = 0.0F;
+        enemy->facing = Facing::Right;
         break;
     case EnemyKind::RedWizzrobe:
         enemy->hidden = true;
-        enemy->state_seconds_remaining = 0.9F + random_unit(play) * 0.7F;
+        enemy->special_counter = 0;
         enemy->action_seconds_remaining = 0.0F;
+        enemy->state_seconds_remaining = 0.0F;
         break;
     case EnemyKind::Dodongo:
         enemy->facing = Facing::Right;
