@@ -1,4 +1,4 @@
-#Enemy Catalog
+# Enemy Catalog
 
 This is the concrete enemy and boss checklist for `z1m`.
 
