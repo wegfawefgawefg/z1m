@@ -11,6 +11,7 @@ struct EnemySpawnSpec {
     EnemyKind kind = EnemyKind::Octorok;
     glm::vec2 position = glm::vec2(0.0F, 0.0F);
     int health = 1;
+    int subtype = 0;
     int respawn_group = -1;
     bool zoo_respawn = false;
 };
@@ -27,11 +28,12 @@ struct NpcSpawnSpec {
     AreaKind area_kind = AreaKind::ItemZoo;
     NpcKind kind = NpcKind::OldMan;
     glm::vec2 position = glm::vec2(0.0F, 0.0F);
+    int subtype = 0;
     int shop_item_index = -1;
     const char* label = "";
 };
 
-constexpr std::array<EnemySpawnSpec, 41> kEnemyZooSpawns = {
+constexpr std::array<EnemySpawnSpec, 48> kEnemyZooSpawns = {
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Octorok,
                    .position = glm::vec2(16.0F, 12.0F),
@@ -142,8 +144,23 @@ constexpr std::array<EnemySpawnSpec, 41> kEnemyZooSpawns = {
                    .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Bubble,
+                   .position = glm::vec2(138.0F, 38.0F),
+                   .health = 99,
+                   .subtype = 0,
+                   .respawn_group = 11,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Bubble,
                    .position = glm::vec2(144.0F, 40.0F),
                    .health = 99,
+                   .subtype = 1,
+                   .respawn_group = 11,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Bubble,
+                   .position = glm::vec2(140.0F, 44.0F),
+                   .health = 99,
+                   .subtype = 2,
                    .respawn_group = 11,
                    .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
@@ -202,14 +219,51 @@ constexpr std::array<EnemySpawnSpec, 41> kEnemyZooSpawns = {
                    .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Gohma,
-                   .position = glm::vec2(136.0F, 62.0F),
+                   .position = glm::vec2(134.0F, 62.0F),
                    .health = 5,
+                   .subtype = 0,
+                   .respawn_group = 17,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Gohma,
+                   .position = glm::vec2(142.0F, 62.0F),
+                   .health = 6,
+                   .subtype = 1,
                    .respawn_group = 17,
                    .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Moldorm,
-                   .position = glm::vec2(140.0F, 66.0F),
+                   .position = glm::vec2(136.0F, 68.0F),
                    .health = 5,
+                   .subtype = 0,
+                   .respawn_group = 17,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Moldorm,
+                   .position = glm::vec2(137.0F, 68.0F),
+                   .health = 1,
+                   .subtype = 1,
+                   .respawn_group = 17,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Moldorm,
+                   .position = glm::vec2(138.0F, 68.0F),
+                   .health = 1,
+                   .subtype = 2,
+                   .respawn_group = 17,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Moldorm,
+                   .position = glm::vec2(139.0F, 68.0F),
+                   .health = 1,
+                   .subtype = 3,
+                   .respawn_group = 17,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Moldorm,
+                   .position = glm::vec2(140.0F, 68.0F),
+                   .health = 1,
+                   .subtype = 4,
                    .respawn_group = 17,
                    .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
@@ -257,7 +311,8 @@ constexpr std::array<EnemySpawnSpec, 41> kEnemyZooSpawns = {
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Gleeok,
                    .position = glm::vec2(136.0F, 108.0F),
-                   .health = 8,
+                   .health = 4,
+                   .subtype = 4,
                    .respawn_group = 25,
                    .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
@@ -278,7 +333,7 @@ constexpr std::array<EnemySpawnSpec, 41> kEnemyZooSpawns = {
                    .health = 1},
 };
 
-constexpr std::array<PickupSpawnSpec, 18> kItemZooPickups = {
+constexpr std::array<PickupSpawnSpec, 22> kItemZooPickups = {
     PickupSpawnSpec{.area_kind = AreaKind::ItemZoo,
                     .kind = PickupKind::Rupee,
                     .position = glm::vec2(12.0F, 12.0F)},
@@ -339,19 +394,46 @@ constexpr std::array<PickupSpawnSpec, 18> kItemZooPickups = {
     PickupSpawnSpec{.area_kind = AreaKind::ItemZoo,
                     .kind = PickupKind::Heart,
                     .position = glm::vec2(60.0F, 12.0F)},
+    PickupSpawnSpec{.area_kind = AreaKind::ItemZoo,
+                    .kind = PickupKind::Food,
+                    .position = glm::vec2(36.0F, 28.0F)},
+    PickupSpawnSpec{.area_kind = AreaKind::ItemZoo,
+                    .kind = PickupKind::Letter,
+                    .position = glm::vec2(42.0F, 28.0F)},
+    PickupSpawnSpec{.area_kind = AreaKind::ItemZoo,
+                    .kind = PickupKind::MagicShield,
+                    .position = glm::vec2(24.0F, 28.0F)},
+    PickupSpawnSpec{.area_kind = AreaKind::ItemZoo,
+                    .kind = PickupKind::SilverArrows,
+                    .position = glm::vec2(30.0F, 28.0F)},
 };
 
-constexpr std::array<NpcSpawnSpec, 3> kNpcSpawns = {
+constexpr std::array<NpcSpawnSpec, 6> kNpcSpawns = {
     NpcSpawnSpec{.area_kind = AreaKind::ItemZoo,
                  .kind = NpcKind::ShopKeeper,
                  .position = glm::vec2(28.0F, 21.0F),
                  .shop_item_index = -1,
                  .label = "item shop"},
     NpcSpawnSpec{.area_kind = AreaKind::ItemZoo,
-                 .kind = NpcKind::OldMan,
+                 .kind = NpcKind::OldWoman,
                  .position = glm::vec2(46.0F, 21.0F),
                  .shop_item_index = -1,
-                 .label = "take anything you want"},
+                 .label = "show me the letter"},
+    NpcSpawnSpec{.area_kind = AreaKind::ItemZoo,
+                 .kind = NpcKind::HungryGoriya,
+                 .position = glm::vec2(45.0F, 25.0F),
+                 .shop_item_index = -1,
+                 .label = "grumble grumble"},
+    NpcSpawnSpec{.area_kind = AreaKind::ItemZoo,
+                 .kind = NpcKind::Fairy,
+                 .position = glm::vec2(58.0F, 25.0F),
+                 .shop_item_index = -1,
+                 .label = "fairy pond"},
+    NpcSpawnSpec{.area_kind = AreaKind::ItemZoo,
+                 .kind = NpcKind::OldMan,
+                 .position = glm::vec2(58.0F, 14.0F),
+                 .shop_item_index = -1,
+                 .label = "take any road you want"},
     NpcSpawnSpec{.area_kind = AreaKind::EnemyZoo,
                  .kind = NpcKind::OldMan,
                  .position = glm::vec2(74.0F, 136.0F),
@@ -448,6 +530,10 @@ void build_item_zoo_world(World* world) {
 
     fill_world_rect(world, 14, 20, 2, 10, TileKind::Wall);
     fill_world_rect(world, 50, 20, 2, 10, TileKind::Wall);
+    fill_world_rect(world, 40, 20, 2, 10, TileKind::Wall);
+    fill_world_rect(world, 48, 20, 2, 10, TileKind::Wall);
+    fill_world_rect(world, 42, 20, 6, 2, TileKind::Rock);
+    fill_world_rect(world, 42, 28, 6, 2, TileKind::Rock);
     fill_world_rect(world, 20, 22, 18, 1, TileKind::Tree);
     fill_world_rect(world, 20, 27, 18, 1, TileKind::Tree);
 
@@ -467,6 +553,7 @@ void populate_sandbox_entities(GameSession* session) {
         enemy.origin = spawn.position;
         enemy.health = spawn.health;
         enemy.max_health = spawn.health;
+        enemy.subtype = spawn.subtype;
         enemy.respawn_group = spawn.respawn_group;
         enemy.zoo_respawn = spawn.zoo_respawn;
         enemy.room_id = spawn.area_kind == AreaKind::Overworld
@@ -494,6 +581,8 @@ void populate_sandbox_entities(GameSession* session) {
         npc.area_kind = spawn.area_kind;
         npc.kind = spawn.kind;
         npc.position = spawn.position;
+        npc.origin = spawn.position;
+        npc.subtype = spawn.subtype;
         npc.shop_item_index = spawn.shop_item_index;
         npc.label = spawn.label;
         session->npcs.push_back(npc);

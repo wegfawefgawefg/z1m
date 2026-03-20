@@ -57,4 +57,7 @@ rules that are easy to forget if we only think in terms of tiles and enemies.
 - ladder crossing: `partial`
 - raft dock travel: `partial`
 - recorder dungeon transport: `partial`
-- everything else above: mostly `none`
+- potion shop / letter flow: `zoo`
+- fairy pond / healing rooms: `zoo`
+- hungry Goriya bait gate: `zoo`
+- food use against hungry Goriya: `zoo`

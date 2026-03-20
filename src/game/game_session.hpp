@@ -70,6 +70,10 @@ enum class PickupKind {
     Recorder,
     Ladder,
     Raft,
+    Food,
+    Letter,
+    MagicShield,
+    SilverArrows,
 };
 
 enum class ProjectileKind {
@@ -78,6 +82,7 @@ enum class ProjectileKind {
     SwordBeam,
     Boomerang,
     Fire,
+    Food,
     Bomb,
     Explosion,
 };
@@ -85,6 +90,9 @@ enum class ProjectileKind {
 enum class NpcKind {
     OldMan,
     ShopKeeper,
+    HungryGoriya,
+    OldWoman,
+    Fairy,
 };
 
 struct Enemy {
@@ -100,6 +108,7 @@ struct Enemy {
     Facing facing = Facing::Down;
     int health = 1;
     int max_health = 1;
+    int subtype = 0;
     int respawn_group = -1;
     int special_counter = 0;
     float move_seconds_remaining = 0.0F;
@@ -149,8 +158,13 @@ struct Npc {
     int cave_id = -1;
     NpcKind kind = NpcKind::OldMan;
     glm::vec2 position = glm::vec2(0.0F, 0.0F);
+    glm::vec2 origin = glm::vec2(0.0F, 0.0F);
     int room_id = -1;
+    int subtype = 0;
     int shop_item_index = -1;
+    float action_seconds_remaining = 0.0F;
+    float state_seconds_remaining = 0.0F;
+    bool solved = false;
     const char* label = "";
 };
 

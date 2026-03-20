@@ -20,11 +20,11 @@ Status labels:
 - `Bombs`: placed explosive, `zoo`
 - `Bow`: active arrow weapon, `zoo`
 - `Wood Arrow`: basic arrow pairing with bow, `partial`
-- `Silver Arrow`: Ganon-capable arrow upgrade, `none`
+- `Silver Arrow`: Ganon-capable arrow upgrade, `zoo`
 - `Blue Candle`: fire tool with original restrictions, `partial`
 - `Red Candle`: upgraded repeat-use candle, `none`
 - `Recorder`: now cycles real visible dungeon entrances from warp metadata, `partial`
-- `Food / Bait`: needed for hungry Goriya and some interactions, `none`
+- `Food / Bait`: needed for hungry Goriya and some interactions, `zoo`
 - `Magical Rod`: projectile staff, `none`
 - `Book of Magic`: rod fire upgrade, `none`
 
@@ -33,14 +33,14 @@ Status labels:
 - `Ladder`: one-water crossing, `partial`
 - `Raft`: dock travel, sandbox dock path exists, overworld dock logic still missing, `partial`
 - `Power Bracelet`: move heavy rocks / reveal paths, `none`
-- `Letter`: unlock potion shop, `none`
+- `Letter`: unlock potion shop, `zoo`
 - `Magic Key`: infinite key behavior, `none`
 
 ## Defensive / Character Upgrades
 
 - `Blue Ring`: damage reduction, `none`
 - `Red Ring`: stronger damage reduction, `none`
-- `Magical Shield`: upgrade shield behavior, `none`
+- `Magical Shield`: upgrade shield behavior, `zoo`
 - `Heart Container`: max HP increase, `zoo`
 - `Triforce Fragment`: dungeon progression, `none`
 
@@ -53,7 +53,7 @@ Status labels:
 ## World Pickups and Drops
 
 - `Heart`: healing pickup, `zoo`
-- `Fairy`: healing pickup/actor, `none`
+- `Fairy`: healing pickup/actor, `zoo`
 - `Rupee`: currency pickup, `zoo`
 - `5-Rupee / Large Rupee`: higher-value currency pickup, `none`
 - `Bomb Drop`: enemy drop and supply pickup, `zoo`

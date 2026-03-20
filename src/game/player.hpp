@@ -28,6 +28,7 @@ enum class UseItemKind {
     Bow,
     Candle,
     Recorder,
+    Food,
     Potion,
 };
 
@@ -57,12 +58,16 @@ struct Player {
     bool has_sword = false;
     bool has_boomerang = false;
     bool has_bow = false;
+    bool has_silver_arrows = false;
     bool has_candle = false;
+    bool has_magic_shield = false;
+    bool has_letter = false;
     bool has_potion = false;
     bool has_raft = false;
     bool has_ladder = false;
     bool has_recorder = false;
     bool has_food = false;
+    bool sword_cursed = false;
     UseItemKind selected_item = UseItemKind::None;
 };
 

@@ -225,8 +225,14 @@ void render_debug_ui(AppState* app) {
                         app->player.has_boomerang ? "yes" : "no",
                         app->player.has_bow ? "yes" : "no", app->player.has_candle ? "yes" : "no",
                         app->player.has_potion ? "yes" : "no");
-            ImGui::Text("recorder=%s ladder=%s raft=%s", app->player.has_recorder ? "yes" : "no",
-                        app->player.has_ladder ? "yes" : "no", app->player.has_raft ? "yes" : "no");
+            ImGui::Text("recorder=%s food=%s letter=%s", app->player.has_recorder ? "yes" : "no",
+                        app->player.has_food ? "yes" : "no", app->player.has_letter ? "yes" : "no");
+            ImGui::Text("ladder=%s raft=%s", app->player.has_ladder ? "yes" : "no",
+                        app->player.has_raft ? "yes" : "no");
+            ImGui::Text("shield=%s silver=%s cursed=%s",
+                        app->player.has_magic_shield ? "yes" : "no",
+                        app->player.has_silver_arrows ? "yes" : "no",
+                        app->player.sword_cursed ? "yes" : "no");
             ImGui::Text("message=%s", app->session.message_text.empty()
                                           ? "(none)"
                                           : app->session.message_text.c_str());

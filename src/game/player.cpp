@@ -243,7 +243,8 @@ void tick_player(Player* player, const World* world, const PlayerCommand* comman
                             command->ignore_world_collision);
     }
 
-    if (command->attack_pressed && player->sword_disabled_seconds <= 0.0F) {
+    if (command->attack_pressed && !player->sword_cursed &&
+        player->sword_disabled_seconds <= 0.0F) {
         player->sword_seconds_remaining = kSwordDurationSeconds;
     }
 }
@@ -287,6 +288,8 @@ const char* use_item_name(UseItemKind kind) {
         return "candle";
     case UseItemKind::Recorder:
         return "recorder";
+    case UseItemKind::Food:
+        return "food";
     case UseItemKind::Potion:
         return "potion";
     }

@@ -174,6 +174,26 @@ void render_pickup_sprite(SDL_Renderer* renderer, const Camera* camera, const Pi
         set_draw_color(renderer, 170, 110, 70);
         fill_rect(renderer, rect);
         break;
+    case PickupKind::Food:
+        set_draw_color(renderer, 172, 92, 48);
+        fill_rect(renderer, rect);
+        break;
+    case PickupKind::Letter:
+        set_draw_color(renderer, 248, 248, 248);
+        fill_rect(renderer, rect);
+        set_draw_color(renderer, 196, 48, 48);
+        draw_rect_outline(renderer, rect);
+        break;
+    case PickupKind::MagicShield:
+        set_draw_color(renderer, 96, 160, 255);
+        fill_rect(renderer, rect);
+        set_draw_color(renderer, 252, 252, 252);
+        draw_rect_outline(renderer, rect);
+        break;
+    case PickupKind::SilverArrows:
+        set_draw_color(renderer, 220, 220, 220);
+        fill_rect(renderer, rect);
+        break;
     case PickupKind::None:
         break;
     }
@@ -249,7 +269,13 @@ void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Ene
         set_draw_color(renderer, 188, 220, 255);
         break;
     case EnemyKind::Bubble:
-        set_draw_color(renderer, 255, 128, 180);
+        if (enemy->subtype == 0) {
+            set_draw_color(renderer, 255, 128, 180);
+        } else if (enemy->subtype == 1) {
+            set_draw_color(renderer, 96, 128, 255);
+        } else {
+            set_draw_color(renderer, 255, 96, 96);
+        }
         rect = world_rect_to_screen(camera, enemy->position, glm::vec2(0.6F, 0.6F));
         break;
     case EnemyKind::Trap:
@@ -290,14 +316,21 @@ void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Ene
     case EnemyKind::Gohma:
         if (enemy->special_counter == 0) {
             set_draw_color(renderer, 120, 40, 40);
+        } else if (enemy->subtype == 1) {
+            set_draw_color(renderer, 96, 128, 224);
         } else {
             set_draw_color(renderer, 224, 64, 64);
         }
         rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.3F, 1.1F));
         break;
     case EnemyKind::Moldorm:
-        set_draw_color(renderer, 216, 168, 88);
-        rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.2F, 0.9F));
+        if (enemy->subtype == 0) {
+            set_draw_color(renderer, 216, 168, 88);
+            rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.2F, 0.9F));
+        } else {
+            set_draw_color(renderer, 192, 148, 72);
+            rect = world_rect_to_screen(camera, enemy->position, glm::vec2(0.8F, 0.65F));
+        }
         break;
     case EnemyKind::Aquamentus:
         set_draw_color(renderer, 40, 170, 150);
@@ -377,6 +410,10 @@ void render_projectile_sprite(SDL_Renderer* renderer, const Camera* camera,
     case ProjectileKind::Fire:
         set_draw_color(renderer, 255, 132, 0);
         break;
+    case ProjectileKind::Food:
+        set_draw_color(renderer, 172, 92, 48);
+        rect = world_rect_to_screen(camera, projectile->position, glm::vec2(0.7F, 0.55F));
+        break;
     case ProjectileKind::Bomb:
         set_draw_color(renderer, 30, 30, 30);
         break;
@@ -393,6 +430,13 @@ void render_npc_sprite(SDL_Renderer* renderer, const Camera* camera, const Npc* 
     SDL_FRect rect = world_rect_to_screen(camera, npc->position, glm::vec2(1.0F, 1.2F));
     if (npc->kind == NpcKind::ShopKeeper) {
         set_draw_color(renderer, 80, 200, 120);
+    } else if (npc->kind == NpcKind::OldWoman) {
+        set_draw_color(renderer, 200, 120, 200);
+    } else if (npc->kind == NpcKind::HungryGoriya) {
+        set_draw_color(renderer, 88, 132, 216);
+    } else if (npc->kind == NpcKind::Fairy) {
+        set_draw_color(renderer, 255, 180, 220);
+        rect = world_rect_to_screen(camera, npc->position, glm::vec2(0.7F, 0.7F));
     } else {
         set_draw_color(renderer, 220, 160, 60);
     }
@@ -667,10 +711,17 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
             label += " g=" + std::to_string(enemy.respawn_group);
         }
         if (enemy.kind == EnemyKind::Gohma) {
+            label += enemy.subtype == 0 ? " red" : " blue";
             label += enemy.special_counter == 0 ? " eye=closed" : " eye=open";
+        }
+        if (enemy.kind == EnemyKind::Bubble) {
+            label += enemy.subtype == 0 ? " flashing" : enemy.subtype == 1 ? " blue" : " red";
         }
         if (enemy.kind == EnemyKind::Dodongo && enemy.special_counter > 0) {
             label += " bombed";
+        }
+        if (enemy.kind == EnemyKind::Moldorm) {
+            label += " seg=" + std::to_string(enemy.subtype);
         }
         if (enemy.kind == EnemyKind::Patra) {
             label += " orbiters=" + std::to_string(enemy.special_counter);

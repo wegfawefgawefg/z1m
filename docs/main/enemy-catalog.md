@@ -17,9 +17,9 @@ Status labels:
 Current count:
 
 - `39` catalog entries below
-- `34` currently modeled in code
-- enemy zoo currently covers the implemented hostile set, with pen respawns and
-  debug respawn buttons
+- `39` currently modeled in code
+- enemy zoo now covers the hostile set plus the neutral/script actors needed to
+  validate enemy-specific interactions
 
 ## Overworld Enemies
 
@@ -42,39 +42,40 @@ Current count:
 - `Rope`: charge snake, `zoo`
 - `Vire`: split-capable flyer, `zoo`
 - `Pols Voice`: hopping rabbit-like enemy, `zoo`
-- `Like Like`: shield eater, `partial`
+- `Like Like`: shield eater, `zoo`
 - `Gibdo`: mummy walker, `zoo`
 - `Stalfos`: skeleton walker, `zoo`
-- `Wallmaster`: wall grabber, `partial`
+- `Wallmaster`: wall grabber, `zoo`
 - `Blue Wizzrobe`: teleporting mage, `zoo`
 - `Red Wizzrobe`: fade/shoot mage, `zoo`
 - `Ghini`: graveyard ghost, `zoo`
 - `Flying Ghini`: airborne ghost, `zoo`
-- `Bubbles`: anti-sword curse skull, `partial`
+- `Bubbles`: anti-sword curse skull, `zoo`
 - `Traps`: blade traps, `zoo`
 
 ## Bosses
 
 - `Aquamentus`: move and 3-way fireball spread, `zoo`
-- `Dodongo`: bomb-eating boss, `partial`
-- `Digdogger`: recorder-reactive boss, large and split forms, `partial`
-- `Manhandla`: segmented plant boss, `partial`
-- `Gohma`: eye-state bow boss, red/blue variants, `partial`
-- `Moldorm`: segmented worm boss, `partial`
-- `Gleeok`: multi-head dragon, `partial`
-- `Patra`: orbiting eye boss, two patterns, `partial`
-- `Ganon`: final boss, `partial`
+- `Dodongo`: bomb-eating boss, `zoo`
+- `Digdogger`: recorder-reactive boss, large and split forms, `zoo`
+- `Manhandla`: segmented plant boss, `zoo`
+- `Gohma`: eye-state bow boss, red/blue variants, `zoo`
+- `Moldorm`: segmented worm boss, `zoo`
+- `Gleeok`: multi-head dragon, `zoo`
+- `Patra`: orbiting eye boss, two patterns, `zoo`
+- `Ganon`: final boss, `zoo`
 
 ## NPC and Neutral Actors That Still Matter
 
-- `Old Man`: cave/dungeon hint and gift logic, `partial`
-- `Shop Keeper`: purchase logic, `partial`
-- `Hungry Goriya`: bait gate script, `none`
-- `Old Woman`: potion/letter logic, `none`
-- `Fairy`: healing motion and collision, `none`
+- `Old Man`: cave/dungeon hint and gift logic, `zoo`
+- `Shop Keeper`: purchase logic, `zoo`
+- `Hungry Goriya`: bait gate script, `zoo`
+- `Old Woman`: potion/letter logic, `zoo`
+- `Fairy`: healing motion and collision, `zoo`
 
 ## Notes
 
-- The current zoo is for behavior tuning, not for calling something done.
+- The current zoo is the behavior-validation area; world assembly is still a
+  separate pass.
 - For overworld shooters, fidelity target is screen-local/cardinal threat, not
   “always normalize directly toward Link from anywhere.”

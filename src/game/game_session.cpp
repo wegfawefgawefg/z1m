@@ -24,6 +24,7 @@ constexpr float kBombFuseSeconds = 1.0F;
 constexpr float kExplosionSeconds = 0.22F;
 constexpr float kBoomerangFlightSeconds = 0.65F;
 constexpr float kFireSeconds = 0.55F;
+constexpr float kFoodSeconds = 5.0F;
 constexpr float kProjectileLifetimeSeconds = 2.5F;
 constexpr float kPickupLifetimeSeconds = 8.0F;
 constexpr float kPickupGravityTilesPerSecond = 10.0F;
@@ -152,6 +153,17 @@ void set_message(GameSession* session, const std::string& text, float seconds) {
     session->message_seconds_remaining = seconds;
 }
 
+Projectile* find_active_food(GameSession* session, AreaKind area_kind, int cave_id) {
+    for (Projectile& projectile : session->projectiles) {
+        if (!projectile.active || projectile.kind != ProjectileKind::Food ||
+            projectile.area_kind != area_kind || projectile.cave_id != cave_id) {
+            continue;
+        }
+        return &projectile;
+    }
+    return nullptr;
+}
+
 const World* get_world_for_area(const GameSession* session, const World* overworld_world,
                                 AreaKind area_kind, int cave_id) {
     switch (area_kind) {
@@ -250,10 +262,14 @@ void reset_enemy_state(GameSession* session, Enemy* enemy) {
     case EnemyKind::LikeLike:
     case EnemyKind::PolsVoice:
     case EnemyKind::Rope:
-    case EnemyKind::Wallmaster:
     case EnemyKind::Armos:
         enemy->move_seconds_remaining = 0.25F + random_unit(session) * 0.45F;
         enemy->action_seconds_remaining = 0.35F + random_unit(session) * 0.55F;
+        break;
+    case EnemyKind::Wallmaster:
+        enemy->hidden = true;
+        enemy->action_seconds_remaining = 0.8F + random_unit(session) * 0.8F;
+        enemy->move_seconds_remaining = 0.0F;
         break;
     case EnemyKind::Trap:
         enemy->invulnerable = true;
@@ -294,21 +310,23 @@ void reset_enemy_state(GameSession* session, Enemy* enemy) {
         enemy->move_seconds_remaining = 9999.0F;
         break;
     case EnemyKind::Manhandla:
+        enemy->special_counter = 4;
         enemy->velocity = glm::vec2(kManhandlaSpeed, kManhandlaSpeed * 0.65F);
         enemy->action_seconds_remaining = 1.0F;
         enemy->move_seconds_remaining = 9999.0F;
         break;
     case EnemyKind::Gohma:
         enemy->facing = Facing::Right;
-        enemy->velocity = glm::vec2(kGohmaSpeed, 0.0F);
-        enemy->action_seconds_remaining = 1.0F;
-        enemy->state_seconds_remaining = kGohmaEyeClosedSeconds;
+        enemy->velocity = glm::vec2(enemy->subtype == 0 ? kGohmaSpeed : kGohmaSpeed * 1.15F, 0.0F);
+        enemy->action_seconds_remaining = enemy->subtype == 0 ? 1.0F : 0.7F;
+        enemy->state_seconds_remaining =
+            (enemy->subtype == 0 ? kGohmaEyeClosedSeconds : kGohmaEyeClosedSeconds * 0.7F);
         break;
     case EnemyKind::Moldorm:
         enemy->facing = Facing::Right;
         enemy->action_seconds_remaining = 0.3F + random_unit(session) * 0.4F;
         enemy->move_seconds_remaining = 9999.0F;
-        enemy->velocity = glm::vec2(kMoldormSpeed, 0.0F);
+        enemy->velocity = enemy->subtype == 0 ? glm::vec2(kMoldormSpeed, 0.0F) : glm::vec2(0.0F);
         break;
     case EnemyKind::Aquamentus:
         enemy->velocity = glm::vec2(kAquamentusSpeed, 0.0F);
@@ -319,7 +337,7 @@ void reset_enemy_state(GameSession* session, Enemy* enemy) {
         enemy->velocity = glm::vec2(kGleeokSpeed, 0.0F);
         enemy->action_seconds_remaining = 0.8F;
         enemy->move_seconds_remaining = 9999.0F;
-        enemy->special_counter = 3;
+        enemy->special_counter = enemy->subtype > 0 ? enemy->subtype : 3;
         break;
     case EnemyKind::Patra:
         enemy->velocity = glm::vec2(kPatraSpeed, 0.0F);
@@ -373,6 +391,24 @@ bool projectile_hits_dodongo_mouth(const Enemy& enemy, const Projectile& project
     }
 
     return overlaps_circle(projectile.position, dodongo_mouth_position(enemy), 1.0F);
+}
+
+glm::vec2 manhandla_petal_position(const Enemy& enemy, int petal_index) {
+    static constexpr std::array<glm::vec2, 4> offsets = {
+        glm::vec2(0.9F, 0.0F),
+        glm::vec2(-0.9F, 0.0F),
+        glm::vec2(0.0F, 0.9F),
+        glm::vec2(0.0F, -0.9F),
+    };
+    const int index = glm::clamp(petal_index, 0, 3);
+    return enemy.position + offsets[static_cast<std::size_t>(index)];
+}
+
+glm::vec2 gleeok_head_position(const Enemy& enemy, int head_index) {
+    const int head_count = glm::max(enemy.special_counter, 1);
+    const float head_offset =
+        (static_cast<float>(head_index) - static_cast<float>(head_count - 1) * 0.5F) * 0.8F;
+    return enemy.position + glm::vec2(head_offset, -0.9F);
 }
 
 glm::vec2 orbit_offset(float angle_radians, float radius) {
@@ -439,6 +475,8 @@ bool has_available_item(const Player* player, UseItemKind item) {
         return player->has_candle;
     case UseItemKind::Recorder:
         return player->has_recorder;
+    case UseItemKind::Food:
+        return player->has_food;
     case UseItemKind::Potion:
         return player->has_potion;
     }
@@ -447,9 +485,9 @@ bool has_available_item(const Player* player, UseItemKind item) {
 }
 
 void select_next_item(Player* player, int direction) {
-    constexpr std::array<UseItemKind, 6> order = {
-        UseItemKind::Bombs,  UseItemKind::Boomerang, UseItemKind::Bow,
-        UseItemKind::Candle, UseItemKind::Recorder,  UseItemKind::Potion,
+    constexpr std::array<UseItemKind, 7> order = {
+        UseItemKind::Bombs,    UseItemKind::Boomerang, UseItemKind::Bow,    UseItemKind::Candle,
+        UseItemKind::Recorder, UseItemKind::Food,      UseItemKind::Potion,
     };
 
     int selected_index = -1;
@@ -649,6 +687,16 @@ void create_fire(GameSession* session, const Player* player) {
                     facing_vector(player->facing) * kFireSpeed, kFireSeconds, kFireRadius, 1);
 }
 
+void create_food(GameSession* session, const Player* player) {
+    if (find_active_food(session, session->area_kind, session->current_cave_id) != nullptr) {
+        return;
+    }
+
+    make_projectile(session, session->area_kind, session->current_cave_id, ProjectileKind::Food,
+                    true, player->position + facing_vector(player->facing) * 0.8F, glm::vec2(0.0F),
+                    kFoodSeconds, 0.45F, 0);
+}
+
 void use_selected_item(GameSession* session, const World* overworld_world, Player* player) {
     switch (player->selected_item) {
     case UseItemKind::Bombs:
@@ -691,6 +739,18 @@ void use_selected_item(GameSession* session, const World* overworld_world, Playe
             return;
         }
         use_recorder(session, overworld_world, player);
+        break;
+    case UseItemKind::Food:
+        if (!player->has_food) {
+            set_message(session, "need bait", 1.0F);
+            return;
+        }
+        player->has_food = false;
+        create_food(session, player);
+        if (player->selected_item == UseItemKind::Food) {
+            select_next_item(player, 1);
+        }
+        set_message(session, "bait placed", 1.0F);
         break;
     case UseItemKind::Potion:
         if (!player->has_potion) {
@@ -773,6 +833,10 @@ void update_current_room(GameSession* session, const Player* player) {
 }
 
 void spawn_pickup_drop(GameSession* session, const Enemy& enemy) {
+    if (enemy.kind == EnemyKind::Moldorm && enemy.subtype > 0) {
+        return;
+    }
+
     Pickup pickup;
     pickup.active = true;
     pickup.area_kind = enemy.area_kind;
@@ -849,9 +913,26 @@ void damage_enemy(GameSession* session, Enemy* enemy, int damage) {
         return;
     }
 
+    const int previous_special_counter = enemy->special_counter;
     enemy->hurt_seconds_remaining = 0.20F;
     enemy->health -= damage;
     if (enemy->health > 0) {
+        if (enemy->kind == EnemyKind::Gleeok && previous_special_counter > 1 &&
+            enemy->special_counter > 0) {
+            enemy->special_counter = previous_special_counter - 1;
+            Enemy head;
+            head.active = true;
+            head.kind = EnemyKind::FlyingGhini;
+            head.area_kind = enemy->area_kind;
+            head.cave_id = enemy->cave_id;
+            head.position = gleeok_head_position(*enemy, previous_special_counter - 1);
+            head.spawn_position = head.position;
+            head.origin = head.position;
+            head.max_health = 2;
+            head.health = 2;
+            reset_enemy_state(session, &head);
+            session->enemies.push_back(head);
+        }
         return;
     }
 
@@ -889,10 +970,6 @@ void damage_enemy(GameSession* session, Enemy* enemy, int damage) {
         }
     }
 
-    if (enemy->kind == EnemyKind::Gleeok && enemy->special_counter > 1) {
-        enemy->special_counter -= 1;
-    }
-
     if (enemy->zoo_respawn && enemy->area_kind == AreaKind::EnemyZoo) {
         enemy->active = false;
         enemy->respawn_seconds_remaining = 2.0F;
@@ -910,7 +987,11 @@ void process_player_attacks(GameSession* session, Player* player) {
 
     const glm::vec2 sword_pos = sword_world_position(player);
     for (Enemy& enemy : session->enemies) {
-        if (!enemy_in_current_area(session, enemy) || enemy.hidden) {
+        if (!enemy_in_current_area(session, enemy)) {
+            continue;
+        }
+
+        if (enemy.hidden && enemy.kind != EnemyKind::Ganon) {
             continue;
         }
 
@@ -920,6 +1001,44 @@ void process_player_attacks(GameSession* session, Player* player) {
 
         if (enemy.kind == EnemyKind::Bubble || enemy.kind == EnemyKind::Trap ||
             enemy.kind == EnemyKind::Dodongo || enemy.kind == EnemyKind::Gohma) {
+            continue;
+        }
+
+        if (enemy.kind == EnemyKind::Manhandla && enemy.special_counter > 0) {
+            bool hit_petal = false;
+            for (int petal = 0; petal < enemy.special_counter; ++petal) {
+                if (!overlaps_circle(sword_pos, manhandla_petal_position(enemy, petal), 0.60F)) {
+                    continue;
+                }
+                enemy.special_counter -= 1;
+                enemy.health = glm::max(1, enemy.special_counter);
+                if (enemy.special_counter <= 0) {
+                    damage_enemy(session, &enemy, enemy.health);
+                } else {
+                    set_message(session, "manhandla petal down", 0.6F);
+                }
+                hit_petal = true;
+                break;
+            }
+            if (hit_petal) {
+                continue;
+            }
+            continue;
+        }
+
+        if (enemy.kind == EnemyKind::Gleeok) {
+            bool hit_head = false;
+            for (int head = 0; head < glm::max(enemy.special_counter, 1); ++head) {
+                if (!overlaps_circle(sword_pos, gleeok_head_position(enemy, head), 0.65F)) {
+                    continue;
+                }
+                damage_enemy(session, &enemy, 1);
+                hit_head = true;
+                break;
+            }
+            if (hit_head) {
+                continue;
+            }
             continue;
         }
 
@@ -944,7 +1063,15 @@ void process_player_attacks(GameSession* session, Player* player) {
             enemy.hidden = false;
             enemy.special_counter = 1;
             enemy.state_seconds_remaining = 1.0F;
-            set_message(session, "ganon revealed", 0.6F);
+            if (enemy.health > 1) {
+                damage_enemy(session, &enemy, 1);
+                if (enemy.active) {
+                    enemy.hidden = false;
+                    enemy.special_counter = 1;
+                    enemy.state_seconds_remaining = 1.0F;
+                }
+            }
+            set_message(session, enemy.health <= 1 ? "ganon is weak" : "ganon revealed", 0.6F);
             continue;
         }
 
@@ -998,6 +1125,11 @@ void tick_octorok_like(GameSession* session, const World* world, Enemy* enemy, c
 
     if (enemy->move_seconds_remaining <= 0.0F) {
         choose_cardinal_direction(session, world, enemy);
+        const Projectile* food = find_active_food(session, enemy->area_kind, enemy->cave_id);
+        if (food != nullptr) {
+            const Player bait_player = Player{.position = food->position};
+            choose_player_axis_direction(*enemy, bait_player, &enemy->facing);
+        }
     }
 
     const glm::vec2 candidate = enemy->position + facing_vector(enemy->facing) * speed * dt_seconds;
@@ -1064,7 +1196,15 @@ void tick_basic_walker(GameSession* session, const World* world, Enemy* enemy, c
 
 void tick_goriya(GameSession* session, const World* world, Enemy* enemy, const Player* player,
                  float dt_seconds) {
-    tick_basic_walker(session, world, enemy, player, dt_seconds, kGoriyaSpeed, true);
+    const Projectile* food = find_active_food(session, enemy->area_kind, enemy->cave_id);
+    const Player* move_target = player;
+    Player bait_player = {};
+    if (food != nullptr) {
+        bait_player.position = food->position;
+        move_target = &bait_player;
+    }
+
+    tick_basic_walker(session, world, enemy, move_target, dt_seconds, kGoriyaSpeed, true);
     if (enemy->action_seconds_remaining > 0.0F || player == nullptr) {
         return;
     }
@@ -1164,7 +1304,11 @@ void tick_vire(GameSession* session, const World* world, Enemy* enemy, const Pla
     }
     enemy->action_seconds_remaining += dt_seconds;
 
-    if (player != nullptr && random_unit(session) < dt_seconds * 0.6F) {
+    const Projectile* food = find_active_food(session, enemy->area_kind, enemy->cave_id);
+    if (food != nullptr && random_unit(session) < dt_seconds * 1.2F) {
+        const Player bait_player = Player{.position = food->position};
+        choose_player_axis_direction(*enemy, bait_player, &enemy->facing);
+    } else if (player != nullptr && random_unit(session) < dt_seconds * 0.6F) {
         choose_player_axis_direction(*enemy, *player, &enemy->facing);
     }
 }
@@ -1374,6 +1518,10 @@ void tick_keese(GameSession* session, const World* world, Enemy* enemy, float dt
 
     if (enemy->action_seconds_remaining <= 0.0F) {
         glm::vec2 direction(random_unit(session) * 2.0F - 1.0F, random_unit(session) * 2.0F - 1.0F);
+        const Projectile* food = find_active_food(session, enemy->area_kind, enemy->cave_id);
+        if (food != nullptr) {
+            direction = food->position - enemy->position;
+        }
         if (glm::length(direction) < 0.1F) {
             direction = glm::vec2(0.0F, 1.0F);
         } else {
@@ -1405,24 +1553,58 @@ void tick_pols_voice(GameSession* session, const World* world, Enemy* enemy, flo
     }
 }
 
-void tick_wallmaster(const World* world, Enemy* enemy, const Player* player, float dt_seconds) {
+void tick_wallmaster(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                     float dt_seconds) {
     if (player == nullptr) {
         return;
     }
 
-    enemy->action_seconds_remaining -= dt_seconds;
-    if (enemy->action_seconds_remaining <= 0.0F) {
-        glm::vec2 direction = player->position - enemy->position;
-        if (glm::length(direction) < 0.1F) {
-            direction = glm::vec2(0.0F, 1.0F);
-        } else {
-            direction = glm::normalize(direction);
+    if (enemy->hidden) {
+        enemy->action_seconds_remaining -= dt_seconds;
+        if (enemy->action_seconds_remaining > 0.0F) {
+            return;
         }
-        enemy->velocity = direction * kWallmasterSpeed;
-        enemy->action_seconds_remaining = 0.25F;
+
+        const float left = player->position.x;
+        const float right = static_cast<float>(world_width(world)) - player->position.x;
+        const float top = player->position.y;
+        const float bottom = static_cast<float>(world_height(world)) - player->position.y;
+
+        if (left <= right && left <= top && left <= bottom) {
+            enemy->position = glm::vec2(1.5F, player->position.y);
+            enemy->velocity = glm::vec2(kWallmasterSpeed, 0.0F);
+        } else if (right <= top && right <= bottom) {
+            enemy->position =
+                glm::vec2(static_cast<float>(world_width(world)) - 1.5F, player->position.y);
+            enemy->velocity = glm::vec2(-kWallmasterSpeed, 0.0F);
+        } else if (top <= bottom) {
+            enemy->position = glm::vec2(player->position.x, 1.5F);
+            enemy->velocity = glm::vec2(0.0F, kWallmasterSpeed);
+        } else {
+            enemy->position =
+                glm::vec2(player->position.x, static_cast<float>(world_height(world)) - 1.5F);
+            enemy->velocity = glm::vec2(0.0F, -kWallmasterSpeed);
+        }
+
+        enemy->origin = enemy->position;
+        enemy->hidden = false;
+        enemy->move_seconds_remaining = 1.8F;
+        return;
     }
 
-    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+    enemy->move_seconds_remaining -= dt_seconds;
+    const glm::vec2 candidate = enemy->position + enemy->velocity * dt_seconds;
+    if (world_is_walkable_tile(world, candidate)) {
+        enemy->position = candidate;
+    }
+
+    if (enemy->move_seconds_remaining > 0.0F) {
+        return;
+    }
+
+    enemy->hidden = true;
+    enemy->velocity = glm::vec2(0.0F);
+    enemy->action_seconds_remaining = 0.8F + random_unit(session) * 0.8F;
 }
 
 void tick_dodongo(GameSession* session, const World* world, Enemy* enemy, const Player* player,
@@ -1430,6 +1612,10 @@ void tick_dodongo(GameSession* session, const World* world, Enemy* enemy, const 
     enemy->state_seconds_remaining -= dt_seconds;
     if (enemy->state_seconds_remaining > 0.0F) {
         return;
+    }
+
+    if (enemy->special_counter == 1) {
+        enemy->special_counter = 0;
     }
 
     enemy->move_seconds_remaining -= dt_seconds;
@@ -1486,6 +1672,33 @@ void tick_gohma(GameSession* session, const World* world, Enemy* enemy, const Pl
 
 void tick_moldorm(GameSession* session, const World* world, Enemy* enemy, const Player* player,
                   float dt_seconds) {
+    if (enemy->subtype > 0) {
+        Enemy* leader = nullptr;
+        for (Enemy& other : session->enemies) {
+            if (!other.active || other.kind != EnemyKind::Moldorm ||
+                other.area_kind != enemy->area_kind || other.cave_id != enemy->cave_id ||
+                other.respawn_group != enemy->respawn_group ||
+                other.subtype != enemy->subtype - 1) {
+                continue;
+            }
+            leader = &other;
+            break;
+        }
+
+        if (leader == nullptr) {
+            return;
+        }
+
+        const glm::vec2 toward_leader = leader->position - enemy->position;
+        const float distance = glm::length(toward_leader);
+        if (distance > 0.72F) {
+            const glm::vec2 direction = toward_leader / distance;
+            enemy->position += direction * glm::min(distance - 0.72F, kMoldormSpeed * dt_seconds);
+            enemy->facing = direction.x < 0.0F ? Facing::Left : Facing::Right;
+        }
+        return;
+    }
+
     enemy->action_seconds_remaining -= dt_seconds;
     if (enemy->action_seconds_remaining <= 0.0F) {
         glm::vec2 direction(random_unit(session) * 2.0F - 1.0F, random_unit(session) * 2.0F - 1.0F);
@@ -1748,6 +1961,9 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
         enemy.room_id =
             enemy.area_kind == AreaKind::Overworld ? get_room_from_position(enemy.position) : -1;
         enemy.hurt_seconds_remaining = glm::max(0.0F, enemy.hurt_seconds_remaining - dt_seconds);
+        if (enemy.kind == EnemyKind::LikeLike && enemy.special_counter > 0) {
+            enemy.special_counter -= 1;
+        }
 
         switch (enemy.kind) {
         case EnemyKind::Octorok:
@@ -1809,7 +2025,7 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
             tick_red_wizzrobe(session, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Wallmaster:
-            tick_wallmaster(world, &enemy, target_player, dt_seconds);
+            tick_wallmaster(session, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Ghini:
         case EnemyKind::Bubble:
@@ -1873,15 +2089,32 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
             }
 
             if (enemy.kind == EnemyKind::Bubble) {
-                player->sword_disabled_seconds =
-                    glm::max(player->sword_disabled_seconds, kBubbleCurseSeconds);
-                set_message(session, "bubble curse", 0.8F);
+                if (enemy.subtype == 0) {
+                    player->sword_disabled_seconds =
+                        glm::max(player->sword_disabled_seconds, kBubbleCurseSeconds);
+                    set_message(session, "bubble curse", 0.8F);
+                } else if (enemy.subtype == 1) {
+                    player->sword_cursed = true;
+                    player->sword_disabled_seconds = 9999.0F;
+                    set_message(session, "bubble block", 0.8F);
+                } else {
+                    player->sword_cursed = false;
+                    player->sword_disabled_seconds = 0.0F;
+                    set_message(session, "bubble restore", 0.8F);
+                }
                 continue;
             }
 
             if (enemy.kind == EnemyKind::LikeLike) {
                 player->stunned_seconds = glm::max(player->stunned_seconds, kLikeLikeGrabSeconds);
-                set_message(session, "like-like grab", 0.2F);
+                player->position = enemy.position;
+                enemy.special_counter += 1;
+                if (enemy.special_counter >= 60 && player->has_magic_shield) {
+                    player->has_magic_shield = false;
+                    set_message(session, "like-like ate shield", 1.0F);
+                } else {
+                    set_message(session, "like-like grab", 0.2F);
+                }
             }
 
             damage_player_from(session, world, player, 1, enemy.position);
@@ -1984,6 +2217,10 @@ void apply_player_pickup(Player* player, GameSession* session, Pickup* pickup) {
         set_message(session, pickup->shop_item ? "bought candle" : "got candle", 1.2F);
         break;
     case PickupKind::BluePotion:
+        if (pickup->area_kind == AreaKind::ItemZoo && !player->has_letter) {
+            set_message(session, "need letter for potion", 1.2F);
+            return;
+        }
         player->has_potion = true;
         select_if_unset(player, UseItemKind::Potion);
         set_message(session, pickup->shop_item ? "bought potion" : "got potion", 1.2F);
@@ -2009,6 +2246,24 @@ void apply_player_pickup(Player* player, GameSession* session, Pickup* pickup) {
     case PickupKind::Raft:
         player->has_raft = true;
         set_message(session, pickup->shop_item ? "bought raft" : "got raft", 1.2F);
+        break;
+    case PickupKind::Food:
+        player->has_food = true;
+        select_if_unset(player, UseItemKind::Food);
+        set_message(session, pickup->shop_item ? "bought bait" : "got bait", 1.2F);
+        break;
+    case PickupKind::Letter:
+        player->has_letter = true;
+        set_message(session, "got letter", 1.2F);
+        break;
+    case PickupKind::MagicShield:
+        player->has_magic_shield = true;
+        set_message(session, pickup->shop_item ? "bought magic shield" : "got magic shield", 1.3F);
+        break;
+    case PickupKind::SilverArrows:
+        player->has_silver_arrows = true;
+        set_message(session, pickup->shop_item ? "bought silver arrows" : "got silver arrows",
+                    1.3F);
         break;
     }
 
@@ -2088,7 +2343,7 @@ void tick_projectiles(GameSession* session, const World* overworld_world, Player
             }
         }
 
-        if (projectile.kind != ProjectileKind::Bomb &&
+        if (projectile.kind != ProjectileKind::Bomb && projectile.kind != ProjectileKind::Food &&
             projectile.kind != ProjectileKind::Explosion) {
             const glm::vec2 candidate = projectile.position + projectile.velocity * dt_seconds;
             if (!world_is_walkable_tile(world, candidate)) {
@@ -2105,9 +2360,14 @@ void tick_projectiles(GameSession* session, const World* overworld_world, Player
         }
 
         if (projectile.from_player) {
+            if (projectile.kind == ProjectileKind::Food) {
+                continue;
+            }
+
             for (Enemy& enemy : session->enemies) {
                 if (!enemy.active || enemy.area_kind != projectile.area_kind ||
-                    enemy.cave_id != projectile.cave_id || enemy.hidden) {
+                    enemy.cave_id != projectile.cave_id ||
+                    (enemy.hidden && enemy.kind != EnemyKind::Ganon)) {
                     continue;
                 }
 
@@ -2177,8 +2437,51 @@ void tick_projectiles(GameSession* session, const World* overworld_world, Player
                     continue;
                 }
 
+                if (enemy.kind == EnemyKind::Manhandla && enemy.special_counter > 0) {
+                    bool hit_petal = false;
+                    for (int petal = 0; petal < enemy.special_counter; ++petal) {
+                        if (!overlaps_circle(projectile.position,
+                                             manhandla_petal_position(enemy, petal), radius)) {
+                            continue;
+                        }
+                        enemy.special_counter -= 1;
+                        enemy.health = glm::max(1, enemy.special_counter);
+                        projectile.active = false;
+                        if (enemy.special_counter <= 0) {
+                            damage_enemy(session, &enemy, enemy.health);
+                        } else {
+                            set_message(session, "manhandla petal down", 0.6F);
+                        }
+                        hit_petal = true;
+                        break;
+                    }
+                    if (hit_petal) {
+                        continue;
+                    }
+                    continue;
+                }
+
+                if (enemy.kind == EnemyKind::Gleeok) {
+                    bool hit_head = false;
+                    for (int head = 0; head < glm::max(enemy.special_counter, 1); ++head) {
+                        if (!overlaps_circle(projectile.position, gleeok_head_position(enemy, head),
+                                             radius)) {
+                            continue;
+                        }
+                        damage_enemy(session, &enemy, projectile.damage);
+                        projectile.active = false;
+                        hit_head = true;
+                        break;
+                    }
+                    if (hit_head) {
+                        continue;
+                    }
+                    continue;
+                }
+
                 if (enemy.kind == EnemyKind::Ganon) {
-                    if (projectile.kind != ProjectileKind::Arrow || enemy.special_counter == 0) {
+                    if (projectile.kind != ProjectileKind::Arrow || enemy.special_counter == 0 ||
+                        !player->has_silver_arrows || enemy.health > 1) {
                         continue;
                     }
                     damage_enemy(session, &enemy, enemy.health);
@@ -2316,6 +2619,64 @@ void process_player_command(GameSession* session, const World* overworld_world, 
     }
 }
 
+void resolve_npc_collisions(const GameSession* session, Player* player,
+                            const glm::vec2& previous_position) {
+    for (const Npc& npc : session->npcs) {
+        if (!npc.active || npc.solved || !in_area(session, npc.area_kind, npc.cave_id)) {
+            continue;
+        }
+
+        if (npc.kind != NpcKind::HungryGoriya) {
+            continue;
+        }
+
+        if (!overlaps_circle(player->position, npc.position, 0.95F)) {
+            continue;
+        }
+
+        player->position = previous_position;
+        return;
+    }
+}
+
+void tick_npcs(GameSession* session, Player* player, float dt_seconds) {
+    for (Npc& npc : session->npcs) {
+        if (!npc.active) {
+            continue;
+        }
+
+        npc.action_seconds_remaining = glm::max(0.0F, npc.action_seconds_remaining - dt_seconds);
+
+        if (npc.kind == NpcKind::Fairy) {
+            npc.state_seconds_remaining += dt_seconds;
+            const float phase = npc.state_seconds_remaining * 6.0F;
+            npc.position = npc.origin + glm::vec2(std::cos(phase) * 0.55F, std::sin(phase) * 0.35F);
+            if (in_area(session, npc.area_kind, npc.cave_id) &&
+                overlaps_circle(player->position, npc.position, 0.8F)) {
+                player->health = player->max_health;
+                set_message(session, "fairy healed", 1.0F);
+            }
+            continue;
+        }
+
+        npc.state_seconds_remaining = glm::max(0.0F, npc.state_seconds_remaining - dt_seconds);
+
+        if (npc.kind != NpcKind::HungryGoriya || npc.solved) {
+            continue;
+        }
+
+        Projectile* food = find_active_food(session, npc.area_kind, npc.cave_id);
+        if (food == nullptr || !overlaps_circle(food->position, npc.position, 1.2F)) {
+            continue;
+        }
+
+        food->active = false;
+        npc.solved = true;
+        npc.active = false;
+        set_message(session, "hungry goriya ate bait", 1.4F);
+    }
+}
+
 void update_npc_messages(GameSession* session, const Player* player) {
     if (session->message_seconds_remaining > 0.0F) {
         return;
@@ -2332,6 +2693,13 @@ void update_npc_messages(GameSession* session, const Player* player) {
 
         if (npc.kind == NpcKind::ShopKeeper) {
             set_message(session, "shop: touch item to buy", 0.2F);
+        } else if (npc.kind == NpcKind::OldWoman) {
+            set_message(session, player->has_letter ? "potion shop is open" : "show me the letter",
+                        0.2F);
+        } else if (npc.kind == NpcKind::HungryGoriya) {
+            set_message(session, "hungry goriya needs bait", 0.2F);
+        } else if (npc.kind == NpcKind::Fairy) {
+            set_message(session, "fairy restores hearts", 0.2F);
         } else {
             set_message(session, npc.label, 0.2F);
         }
@@ -2411,11 +2779,12 @@ void tick_game_session(GameSession* session, const World* overworld_world, Playe
     if (!player->has_sword) {
         resolved.attack_pressed = false;
     }
-    resolved.ignore_world_collision =
-        session->area_kind == AreaKind::EnemyZoo || session->area_kind == AreaKind::ItemZoo;
+    resolved.ignore_world_collision = session->area_kind == AreaKind::EnemyZoo;
 
     const World* active_world = get_active_world(session, overworld_world);
+    const glm::vec2 previous_player_position = player->position;
     tick_player(player, active_world, &resolved, dt_seconds);
+    resolve_npc_collisions(session, player, previous_player_position);
     process_player_command(session, overworld_world, player, &resolved);
     update_current_room(session, player);
 
@@ -2428,6 +2797,7 @@ void tick_game_session(GameSession* session, const World* overworld_world, Playe
     tick_enemy_respawns(session, dt_seconds);
     tick_projectiles(session, overworld_world, player, dt_seconds);
     tick_pickups(session, overworld_world, player, dt_seconds);
+    tick_npcs(session, player, dt_seconds);
 
     if (session->area_kind == AreaKind::Overworld) {
         try_enter_overworld_cave(session, overworld_world, player);
@@ -2448,6 +2818,8 @@ void set_area_kind(GameSession* session, Player* player, AreaKind area_kind, int
     session->current_cave_id = area_kind == AreaKind::Cave ? cave_id : -1;
     player->position = position;
     player->move_direction = MoveDirection::None;
+    player->sword_cursed = false;
+    player->sword_disabled_seconds = 0.0F;
     session->warp_cooldown_seconds = kAreaTransitionCooldownSeconds;
     update_current_room(session, player);
     if (area_kind == AreaKind::Cave) {
@@ -2511,6 +2883,14 @@ const char* pickup_name(PickupKind kind) {
         return "ladder";
     case PickupKind::Raft:
         return "raft";
+    case PickupKind::Food:
+        return "food";
+    case PickupKind::Letter:
+        return "letter";
+    case PickupKind::MagicShield:
+        return "magic-shield";
+    case PickupKind::SilverArrows:
+        return "silver-arrows";
     }
 
     return "none";
@@ -2605,6 +2985,8 @@ const char* projectile_name(ProjectileKind kind) {
         return "boomerang";
     case ProjectileKind::Fire:
         return "fire";
+    case ProjectileKind::Food:
+        return "food";
     case ProjectileKind::Bomb:
         return "bomb";
     case ProjectileKind::Explosion:
@@ -2620,6 +3002,12 @@ const char* npc_name(NpcKind kind) {
         return "old-man";
     case NpcKind::ShopKeeper:
         return "shopkeeper";
+    case NpcKind::HungryGoriya:
+        return "hungry-goriya";
+    case NpcKind::OldWoman:
+        return "old-woman";
+    case NpcKind::Fairy:
+        return "fairy";
     }
 
     return "npc";
