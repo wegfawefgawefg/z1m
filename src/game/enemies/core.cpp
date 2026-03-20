@@ -1,5 +1,5 @@
 #include "content/sandbox_content.hpp"
-#include "game/enemy_ticks.hpp"
+#include "game/enemies/ticks.hpp"
 #include "game/geometry.hpp"
 #include "game/items.hpp"
 #include "game/rng.hpp"

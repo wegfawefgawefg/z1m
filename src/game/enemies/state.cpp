@@ -1,7 +1,7 @@
-#include "game/enemy_state.hpp"
+#include "game/enemies/state.hpp"
 
 #include "content/sandbox_content.hpp"
-#include "game/enemy_ticks.hpp"
+#include "game/enemies/ticks.hpp"
 #include "game/rng.hpp"
 #include "game/tuning.hpp"
 

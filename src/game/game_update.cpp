@@ -3,7 +3,7 @@
 #include "game/area_state.hpp"
 #include "game/areas.hpp"
 #include "game/combat.hpp"
-#include "game/enemy_ticks.hpp"
+#include "game/enemies/ticks.hpp"
 #include "game/game_state.hpp"
 #include "game/items.hpp"
 #include "game/npcs.hpp"

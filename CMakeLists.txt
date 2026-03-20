@@ -37,21 +37,21 @@ add_executable(z1m
     src/game/rng.cpp
     src/game/geometry.cpp
     src/game/area_state.cpp
-    src/game/enemy_state.cpp
+    src/game/enemies/state.cpp
     src/game/areas.cpp
     src/game/npcs.cpp
     src/game/entity_names.cpp
     src/game/game_update.cpp
     src/game/items.cpp
     src/game/combat.cpp
-    src/game/enemy_core.cpp
-    src/game/enemy_ground.cpp
-    src/game/enemy_jumpers.cpp
-    src/game/enemy_wizzrobes.cpp
-    src/game/enemy_underworld.cpp
-    src/game/enemy_boss.cpp
-    src/game/enemy_boss_dodongo_gohma.cpp
-    src/game/enemy_update.cpp
+    src/game/enemies/core.cpp
+    src/game/enemies/ground.cpp
+    src/game/enemies/jumpers.cpp
+    src/game/enemies/wizzrobes.cpp
+    src/game/enemies/underworld.cpp
+    src/game/enemies/boss.cpp
+    src/game/enemies/boss_dodongo_gohma.cpp
+    src/game/enemies/update.cpp
     src/game/pickups.cpp
     src/game/player.cpp
     src/game/world.cpp

@@ -1,8 +1,8 @@
 #include "content/opening_content.hpp"
 #include "game/area_state.hpp"
 #include "game/combat.hpp"
-#include "game/enemy_state.hpp"
-#include "game/enemy_ticks.hpp"
+#include "game/enemies/state.hpp"
+#include "game/enemies/ticks.hpp"
 #include "game/geometry.hpp"
 #include "game/tuning.hpp"
 
