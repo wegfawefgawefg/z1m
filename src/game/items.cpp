@@ -16,7 +16,7 @@
 
 namespace z1m {
 
-void choose_cardinal_direction(Play* play, const World* world, Enemy* enemy) {
+void choose_cardinal_direction(GameState* play, const World* world, Enemy* enemy) {
     const std::array<Facing, 4> facings = {Facing::Up, Facing::Down, Facing::Left, Facing::Right};
 
     for (int attempt = 0; attempt < 8; ++attempt) {
@@ -86,14 +86,14 @@ glm::vec2 patra_orbiter_position(const Enemy& enemy, int orbiter_index) {
     return enemy.position + orbit_offset(angle, radius);
 }
 
-Projectile& spawn_projectile(Play* play) {
+Projectile& spawn_projectile(GameState* play) {
     play->projectiles.push_back(Projectile{});
     Projectile& projectile = play->projectiles.back();
     projectile.active = true;
     return projectile;
 }
 
-void make_projectile(Play* play, AreaKind area_kind, int cave_id, ProjectileKind kind,
+void make_projectile(GameState* play, AreaKind area_kind, int cave_id, ProjectileKind kind,
                      bool from_player, const glm::vec2& position, const glm::vec2& velocity,
                      float seconds_remaining, float radius, int damage) {
     Projectile& projectile = spawn_projectile(play);
@@ -109,13 +109,13 @@ void make_projectile(Play* play, AreaKind area_kind, int cave_id, ProjectileKind
     projectile.damage = damage;
 }
 
-void throw_enemy_rock(Play* play, const Enemy& enemy, const glm::vec2& velocity) {
+void throw_enemy_rock(GameState* play, const Enemy& enemy, const glm::vec2& velocity) {
     make_projectile(play, enemy.area_kind, enemy.cave_id, ProjectileKind::Rock, false,
                     enemy.position + glm::normalize(velocity) * 0.75F, velocity,
                     kProjectileLifetimeSeconds, kRockRadius, 1);
 }
 
-void throw_spread_rocks(Play* play, const Enemy& enemy, const glm::vec2& toward_player) {
+void throw_spread_rocks(GameState* play, const Enemy& enemy, const glm::vec2& toward_player) {
     const glm::vec2 base = glm::normalize(toward_player);
     const glm::vec2 left = glm::normalize(base + glm::vec2(-0.35F, -0.15F));
     const glm::vec2 right = glm::normalize(base + glm::vec2(0.35F, -0.15F));
@@ -182,13 +182,13 @@ void select_if_unset(Player* player, UseItemKind item) {
     }
 }
 
-void create_bomb(Play* play, const Player* player) {
+void create_bomb(GameState* play, const Player* player) {
     make_projectile(play, play->area_kind, play->current_cave_id, ProjectileKind::Bomb, true,
                     player->position + facing_vector(player->facing) * 0.9F, glm::vec2(0.0F),
                     kBombFuseSeconds, kBombRadius, 2);
 }
 
-void create_boomerang(Play* play, const Player* player) {
+void create_boomerang(GameState* play, const Player* player) {
     for (const Projectile& projectile : play->projectiles) {
         if (projectile.active && projectile.from_player &&
             projectile.kind == ProjectileKind::Boomerang &&
@@ -210,14 +210,14 @@ void create_boomerang(Play* play, const Player* player) {
     projectile.damage = 1;
 }
 
-void create_arrow(Play* play, const Player* player) {
+void create_arrow(GameState* play, const Player* player) {
     make_projectile(play, play->area_kind, play->current_cave_id, ProjectileKind::Arrow, true,
                     player->position + facing_vector(player->facing) * 0.9F,
                     facing_vector(player->facing) * kArrowSpeed, kProjectileLifetimeSeconds,
                     kArrowRadius, 1);
 }
 
-void create_sword_beam(Play* play, const Enemy& enemy, const glm::vec2& direction) {
+void create_sword_beam(GameState* play, const Enemy& enemy, const glm::vec2& direction) {
     if (glm::length(direction) < 0.001F) {
         return;
     }
@@ -228,7 +228,7 @@ void create_sword_beam(Play* play, const Enemy& enemy, const glm::vec2& directio
                     kArrowRadius, 1);
 }
 
-void create_player_sword_beam(Play* play, Player* player) {
+void create_player_sword_beam(GameState* play, Player* player) {
     for (const Projectile& projectile : play->projectiles) {
         if (!projectile.active || !projectile.from_player ||
             projectile.kind != ProjectileKind::SwordBeam ||
@@ -280,7 +280,7 @@ int gather_recorder_dungeons(const World* overworld_world,
     return count;
 }
 
-bool try_trigger_digdogger_split(Play* play) {
+bool try_trigger_digdogger_split(GameState* play) {
     for (Enemy& enemy : play->enemies) {
         if (!enemy.active || !in_area(play, enemy.area_kind, enemy.cave_id) ||
             enemy.kind != EnemyKind::Digdogger || enemy.special_counter != 0) {
@@ -315,7 +315,7 @@ bool try_trigger_digdogger_split(Play* play) {
     return false;
 }
 
-void use_recorder(Play* play, const World* overworld_world, Player* player) {
+void use_recorder(GameState* play, const World* overworld_world, Player* player) {
     if (try_trigger_digdogger_split(play)) {
         return;
     }
@@ -344,13 +344,13 @@ void use_recorder(Play* play, const World* overworld_world, Player* player) {
     set_message(play, "recorder -> dungeon " + std::to_string(warp.cave_id), 1.4F);
 }
 
-void create_fire(Play* play, const Player* player) {
+void create_fire(GameState* play, const Player* player) {
     make_projectile(play, play->area_kind, play->current_cave_id, ProjectileKind::Fire, true,
                     player->position + facing_vector(player->facing) * 0.8F,
                     facing_vector(player->facing) * kFireSpeed, kFireSeconds, kFireRadius, 1);
 }
 
-void create_food(Play* play, const Player* player) {
+void create_food(GameState* play, const Player* player) {
     if (find_active_food(play, play->area_kind, play->current_cave_id) != nullptr) {
         return;
     }
@@ -360,7 +360,7 @@ void create_food(Play* play, const Player* player) {
                     kFoodSeconds, 0.45F, 0);
 }
 
-void use_selected_item(Play* play, const World* overworld_world, Player* player) {
+void use_selected_item(GameState* play, const World* overworld_world, Player* player) {
     switch (player->selected_item) {
     case UseItemKind::Bombs:
         if (player->bombs <= 0) {

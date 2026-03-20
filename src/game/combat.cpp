@@ -13,7 +13,7 @@
 
 namespace z1m {
 
-void ensure_sword_cave_pickup(Play* play) {
+void ensure_sword_cave_pickup(GameState* play) {
     if (play->sword_cave_reward_taken) {
         return;
     }
@@ -42,7 +42,7 @@ void ensure_sword_cave_pickup(Play* play) {
     play->pickups.push_back(pickup);
 }
 
-void init_opening_overworld_enemies(Play* play) {
+void init_opening_overworld_enemies(GameState* play) {
     for (int room_id = 0; room_id < kScreenCount; ++room_id) {
         int spawn_count = 0;
         const EnemySpawnDef* spawns = get_room_enemy_spawns(room_id, &spawn_count);
@@ -63,7 +63,7 @@ void init_opening_overworld_enemies(Play* play) {
     }
 }
 
-void spawn_pickup_drop(Play* play, const Enemy& enemy) {
+void spawn_pickup_drop(GameState* play, const Enemy& enemy) {
     if (enemy.kind == EnemyKind::Moldorm && enemy.subtype > 0) {
         return;
     }
@@ -97,7 +97,7 @@ void spawn_pickup_drop(Play* play, const Enemy& enemy) {
     play->pickups.push_back(pickup);
 }
 
-void damage_player_from(Play* play, const World* world, Player* player, int damage,
+void damage_player_from(GameState* play, const World* world, Player* player, int damage,
                         const glm::vec2& source_position) {
     if (play->area_kind == AreaKind::EnemyZoo || play->area_kind == AreaKind::ItemZoo) {
         player->health = player->max_health;
@@ -138,7 +138,7 @@ void damage_player_from(Play* play, const World* world, Player* player, int dama
     update_current_room(play, player);
 }
 
-void damage_enemy(Play* play, Enemy* enemy, int damage) {
+void damage_enemy(GameState* play, Enemy* enemy, int damage) {
     if (!enemy->active || enemy->hidden || enemy->invulnerable ||
         enemy->hurt_seconds_remaining > 0.0F) {
         return;
@@ -214,7 +214,7 @@ void damage_enemy(Play* play, Enemy* enemy, int damage) {
     spawn_pickup_drop(play, *enemy);
 }
 
-void process_player_attacks(Play* play, Player* player) {
+void process_player_attacks(GameState* play, Player* player) {
     if (!player->has_sword || !is_sword_active(player)) {
         return;
     }

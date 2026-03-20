@@ -9,11 +9,11 @@
 
 namespace z1m {
 
-void tick_keese(Play* play, const World* world, Enemy* enemy, float dt_seconds) {
+void tick_keese(GameState* play, const World* world, Enemy* enemy, float dt_seconds) {
     tick_rom_flyer(play, world, enemy, nullptr, dt_seconds, kKeeseSpeed, 0xA0, false);
 }
 
-void tick_pols_voice(Play* play, const World* world, Enemy* enemy, float dt_seconds) {
+void tick_pols_voice(GameState* play, const World* world, Enemy* enemy, float dt_seconds) {
     enemy->action_seconds_remaining -= dt_seconds;
     enemy->move_seconds_remaining -= dt_seconds;
 
@@ -30,7 +30,7 @@ void tick_pols_voice(Play* play, const World* world, Enemy* enemy, float dt_seco
     }
 }
 
-void tick_wallmaster(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_wallmaster(GameState* play, const World* world, Enemy* enemy, const Player* player,
                      float dt_seconds) {
     if (player == nullptr) {
         return;
@@ -84,7 +84,7 @@ void tick_wallmaster(Play* play, const World* world, Enemy* enemy, const Player*
     enemy->action_seconds_remaining = 0.8F + random_unit(play) * 0.8F;
 }
 
-void tick_dodongo(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_dodongo(GameState* play, const World* world, Enemy* enemy, const Player* player,
                   float dt_seconds) {
     enemy->state_seconds_remaining -= dt_seconds;
     if (enemy->state_seconds_remaining > 0.0F) {
@@ -114,7 +114,7 @@ void tick_dodongo(Play* play, const World* world, Enemy* enemy, const Player* pl
     }
 }
 
-void tick_gohma(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_gohma(GameState* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
 
@@ -147,7 +147,7 @@ void tick_gohma(Play* play, const World* world, Enemy* enemy, const Player* play
     enemy->state_seconds_remaining = kGohmaEyeClosedSeconds + random_unit(play) * 0.6F;
 }
 
-void tick_moldorm(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_moldorm(GameState* play, const World* world, Enemy* enemy, const Player* player,
                   float dt_seconds) {
     if (enemy->subtype > 0) {
         Enemy* leader = nullptr;
@@ -194,7 +194,7 @@ void tick_moldorm(Play* play, const World* world, Enemy* enemy, const Player* pl
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
 }
 
-void tick_digdogger(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_digdogger(GameState* play, const World* world, Enemy* enemy, const Player* player,
                     float dt_seconds) {
     const float speed = enemy->special_counter == 0 ? kDigdoggerSpeed : kDigdoggerSpeed * 1.35F;
     if (enemy->special_counter == 0) {
@@ -219,7 +219,7 @@ void tick_digdogger(Play* play, const World* world, Enemy* enemy, const Player* 
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
 }
 
-void tick_manhandla(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_manhandla(GameState* play, const World* world, Enemy* enemy, const Player* player,
                     float dt_seconds) {
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
     enemy->action_seconds_remaining -= dt_seconds;
@@ -245,7 +245,7 @@ void tick_manhandla(Play* play, const World* world, Enemy* enemy, const Player* 
     }
 }
 
-void tick_gleeok(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_gleeok(GameState* play, const World* world, Enemy* enemy, const Player* player,
                  float dt_seconds) {
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
     enemy->action_seconds_remaining -= dt_seconds;
@@ -274,7 +274,7 @@ void tick_gleeok(Play* play, const World* world, Enemy* enemy, const Player* pla
     enemy->action_seconds_remaining = 1.2F;
 }
 
-void tick_patra(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_patra(GameState* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
     enemy->state_seconds_remaining -= dt_seconds;
@@ -296,7 +296,7 @@ void tick_patra(Play* play, const World* world, Enemy* enemy, const Player* play
     }
 }
 
-void tick_ganon(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_ganon(GameState* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
     if (enemy->special_counter > 0) {
         enemy->state_seconds_remaining -= dt_seconds;
@@ -313,7 +313,7 @@ void tick_ganon(Play* play, const World* world, Enemy* enemy, const Player* play
     enemy->hidden = true;
 }
 
-void tick_zora(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_zora(GameState* play, const World* world, Enemy* enemy, const Player* player,
                float dt_seconds) {
     enemy->state_seconds_remaining -= dt_seconds;
     enemy->action_seconds_remaining -= dt_seconds;
@@ -365,11 +365,11 @@ void tick_zora(Play* play, const World* world, Enemy* enemy, const Player* playe
     }
 }
 
-void tick_peahat(Play* play, const World* world, Enemy* enemy, float dt_seconds) {
+void tick_peahat(GameState* play, const World* world, Enemy* enemy, float dt_seconds) {
     tick_rom_flyer(play, world, enemy, nullptr, dt_seconds, kPeahatSpeed, 0xB0, true);
 }
 
-void tick_aquamentus(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_aquamentus(GameState* play, const World* world, Enemy* enemy, const Player* player,
                      float dt_seconds) {
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
     enemy->action_seconds_remaining -= dt_seconds;

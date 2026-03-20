@@ -2,12 +2,12 @@
 
 namespace z1m {
 
-void set_message(Play* play, const std::string& text, float seconds) {
+void set_message(GameState* play, const std::string& text, float seconds) {
     play->message_text = text;
     play->message_seconds_remaining = seconds;
 }
 
-Projectile* find_active_food(Play* play, AreaKind area_kind, int cave_id) {
+Projectile* find_active_food(GameState* play, AreaKind area_kind, int cave_id) {
     for (Projectile& projectile : play->projectiles) {
         if (!projectile.active || projectile.kind != ProjectileKind::Food ||
             projectile.area_kind != area_kind || projectile.cave_id != cave_id) {
@@ -20,8 +20,8 @@ Projectile* find_active_food(Play* play, AreaKind area_kind, int cave_id) {
     return nullptr;
 }
 
-const World* get_world_for_area(const Play* play, const World* overworld_world, AreaKind area_kind,
-                                int cave_id) {
+const World* get_world_for_area(const GameState* play, const World* overworld_world,
+                                AreaKind area_kind, int cave_id) {
     switch (area_kind) {
     case AreaKind::Overworld:
         return overworld_world;
@@ -39,7 +39,7 @@ const World* get_world_for_area(const Play* play, const World* overworld_world, 
     return overworld_world;
 }
 
-bool in_area(const Play* play, AreaKind area_kind, int cave_id) {
+bool in_area(const GameState* play, AreaKind area_kind, int cave_id) {
     if (play->area_kind != area_kind) {
         return false;
     }
@@ -51,11 +51,11 @@ bool in_area(const Play* play, AreaKind area_kind, int cave_id) {
     return true;
 }
 
-bool enemy_in_current_area(const Play* play, const Enemy& enemy) {
+bool enemy_in_current_area(const GameState* play, const Enemy& enemy) {
     return enemy.active && in_area(play, enemy.area_kind, enemy.cave_id);
 }
 
-bool pickup_in_current_area(const Play* play, const Pickup& pickup) {
+bool pickup_in_current_area(const GameState* play, const Pickup& pickup) {
     return pickup.active && in_area(play, pickup.area_kind, pickup.cave_id);
 }
 
@@ -63,7 +63,7 @@ int get_room_from_position(const glm::vec2& position) {
     return get_room_id_at_world_tile(static_cast<int>(position.x), static_cast<int>(position.y));
 }
 
-void update_current_room(Play* play, const Player* player) {
+void update_current_room(GameState* play, const Player* player) {
     if (play->area_kind != AreaKind::Overworld) {
         play->current_room_id = -1;
         play->previous_room_id = -1;

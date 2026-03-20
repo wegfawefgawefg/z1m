@@ -10,7 +10,7 @@
 
 namespace z1m {
 
-void tick_enemies(Play* play, const World* overworld_world, Player* player, float dt_seconds) {
+void tick_enemies(GameState* play, const World* overworld_world, Player* player, float dt_seconds) {
     for (Enemy& enemy : play->enemies) {
         if (!enemy.active) {
             continue;
@@ -189,7 +189,7 @@ void tick_enemies(Play* play, const World* overworld_world, Player* player, floa
     }
 }
 
-void tick_enemy_respawns(Play* play, float dt_seconds) {
+void tick_enemy_respawns(GameState* play, float dt_seconds) {
     for (Enemy& enemy : play->enemies) {
         if (enemy.active || !enemy.zoo_respawn) {
             continue;
@@ -222,7 +222,7 @@ void tick_enemy_respawns(Play* play, float dt_seconds) {
     }
 }
 
-void respawn_enemy_group_internal(Play* play, int respawn_group) {
+void respawn_enemy_group_internal(GameState* play, int respawn_group) {
     for (Enemy& enemy : play->enemies) {
         if (enemy.respawn_group != respawn_group) {
             continue;

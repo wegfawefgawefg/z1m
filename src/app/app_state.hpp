@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game/play.hpp"
+#include "game/game_state.hpp"
 #include "game/player.hpp"
 #include "game/world.hpp"
 #include "render/debug_tileset.hpp"
@@ -35,7 +35,7 @@ struct AppState {
     DebugView debug_view = {};
     DebugTileset debug_tileset = {};
     World world = make_world();
-    Play play = make_play();
+    GameState game_state = make_game_state();
     Player player = make_player();
 };
 

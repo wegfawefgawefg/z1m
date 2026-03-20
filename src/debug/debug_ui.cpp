@@ -4,6 +4,7 @@
 #include "backends/imgui_impl_sdlrenderer3.h"
 #include "content/opening_content.hpp"
 #include "content/overworld_warps.hpp"
+#include "game/areas.hpp"
 #include "imgui.h"
 
 #include <array>
@@ -69,14 +70,14 @@ void apply_debug_style() {
 }
 
 void render_current_room_warps(const AppState* app) {
-    if (app->play.area_kind != AreaKind::Overworld) {
+    if (app->game_state.area_kind != AreaKind::Overworld) {
         ImGui::TextUnformatted("cave room active");
         return;
     }
 
     std::array<OverworldWarp, kMaxRoomWarps> warps = {};
     const int warp_count =
-        gather_overworld_warps(&app->world.overworld, app->play.current_room_id, &warps);
+        gather_overworld_warps(&app->world.overworld, app->game_state.current_room_id, &warps);
     if (warp_count <= 0) {
         ImGui::TextUnformatted("no room warp metadata");
         return;
@@ -97,21 +98,23 @@ void render_current_room_warps(const AppState* app) {
 
 void render_travel_buttons(AppState* app) {
     if (ImGui::Button("Overworld")) {
-        set_area_kind(&app->play, &app->player, AreaKind::Overworld, -1,
+        set_area_kind(&app->game_state, &app->player, AreaKind::Overworld, -1,
                       get_opening_start_position());
     }
     ImGui::SameLine();
     if (ImGui::Button("Enemy Zoo")) {
-        set_area_kind(&app->play, &app->player, AreaKind::EnemyZoo, -1, glm::vec2(5.0F, 138.0F));
+        set_area_kind(&app->game_state, &app->player, AreaKind::EnemyZoo, -1,
+                      glm::vec2(5.0F, 138.0F));
     }
     ImGui::SameLine();
     if (ImGui::Button("Item Zoo")) {
-        set_area_kind(&app->play, &app->player, AreaKind::ItemZoo, -1, glm::vec2(10.0F, 10.0F));
+        set_area_kind(&app->game_state, &app->player, AreaKind::ItemZoo, -1,
+                      glm::vec2(10.0F, 10.0F));
     }
 }
 
 void render_enemy_zoo_controls(AppState* app) {
-    if (app->play.area_kind != AreaKind::EnemyZoo) {
+    if (app->game_state.area_kind != AreaKind::EnemyZoo) {
         return;
     }
 
@@ -123,7 +126,7 @@ void render_enemy_zoo_controls(AppState* app) {
         ImGui::Text("%s", group.label);
         ImGui::SameLine(150.0F);
         if (ImGui::Button("Respawn")) {
-            respawn_enemy_group(&app->play, group.group);
+            respawn_enemy_group(&app->game_state, group.group);
         }
         ImGui::PopID();
     }
@@ -209,9 +212,9 @@ void render_debug_ui(AppState* app) {
             ImGui::SeparatorText("Travel");
             render_travel_buttons(app);
 
-            ImGui::SeparatorText("Play");
-            ImGui::Text("area=%s room=%d cave=%d", area_name(&app->play), app->play.current_room_id,
-                        app->play.current_cave_id);
+            ImGui::SeparatorText("GameState");
+            ImGui::Text("area=%s room=%d cave=%d", area_name(&app->game_state),
+                        app->game_state.current_room_id, app->game_state.current_cave_id);
             ImGui::Text("player=(%.2f, %.2f) hp=%d/%d", app->player.position.x,
                         app->player.position.y, app->player.health, app->player.max_health);
             ImGui::Text("sword_disabled=%.2f stunned=%.2f", app->player.sword_disabled_seconds,
@@ -232,8 +235,9 @@ void render_debug_ui(AppState* app) {
                         app->player.has_magic_shield ? "yes" : "no",
                         app->player.has_silver_arrows ? "yes" : "no",
                         app->player.sword_cursed ? "yes" : "no");
-            ImGui::Text("message=%s",
-                        app->play.message_text.empty() ? "(none)" : app->play.message_text.c_str());
+            ImGui::Text("message=%s", app->game_state.message_text.empty()
+                                          ? "(none)"
+                                          : app->game_state.message_text.c_str());
 
             ImGui::SeparatorText("Current Room Warps");
             render_current_room_warps(app);

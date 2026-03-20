@@ -5,7 +5,9 @@
 #include "content/opening_content.hpp"
 #include "content/overworld_warps.hpp"
 #include "content/world_data.hpp"
-#include "game/play.hpp"
+#include "game/areas.hpp"
+#include "game/entity_names.hpp"
+#include "game/game_state.hpp"
 #include "game/player.hpp"
 #include "game/world.hpp"
 #include "render/camera.hpp"
@@ -30,7 +32,7 @@ constexpr float kProjectileDebugRadius = 0.18F;
 constexpr float kPickupDebugRadius = 0.30F;
 constexpr float kSwordDebugRadius = 0.48F;
 
-bool area_matches(const Play* play, AreaKind area_kind, int cave_id) {
+bool area_matches(const GameState* play, AreaKind area_kind, int cave_id) {
     if (play->area_kind != area_kind) {
         return false;
     }
@@ -90,7 +92,8 @@ Camera make_clamped_camera(const glm::vec2& focus, const World* world, float zoo
     return camera;
 }
 
-Camera make_play_camera(const Play* play, const World* world, const Player* player, float zoom) {
+Camera make_game_camera(const GameState* play, const World* world, const Player* player,
+                        float zoom) {
     return make_clamped_camera(player->position, get_active_world(play, world), zoom);
 }
 
@@ -443,7 +446,7 @@ void render_npc_sprite(SDL_Renderer* renderer, const Camera* camera, const Npc* 
     fill_rect(renderer, rect);
 }
 
-void render_portals(SDL_Renderer* renderer, const Camera* camera, const Play* play) {
+void render_portals(SDL_Renderer* renderer, const Camera* camera, const GameState* play) {
     std::array<AreaPortal, kMaxAreaPortals> portals = {};
     const int portal_count = gather_area_portals(play, &portals);
     for (int index = 0; index < portal_count; ++index) {
@@ -482,7 +485,7 @@ void draw_debug_label(SDL_Renderer* renderer, const glm::vec2& screen_position,
     SDL_RenderDebugText(renderer, screen_position.x, screen_position.y, label.c_str());
 }
 
-void render_message_box(SDL_Renderer* renderer, const Play* play) {
+void render_message_box(SDL_Renderer* renderer, const GameState* play) {
     if (play->message_text.empty()) {
         return;
     }
@@ -496,10 +499,10 @@ void render_message_box(SDL_Renderer* renderer, const Play* play) {
     draw_debug_label(renderer, glm::vec2(box.x + 8.0F, box.y + 9.0F), play->message_text);
 }
 
-void render_collision_overlay(SDL_Renderer* renderer, const Play* play, const World* world,
+void render_collision_overlay(SDL_Renderer* renderer, const GameState* play, const World* world,
                               const Player* player, float zoom) {
     const World* active_world = get_active_world(play, world);
-    const Camera camera = make_play_camera(play, world, player, zoom);
+    const Camera camera = make_game_camera(play, world, player, zoom);
 
     if (play->area_kind == AreaKind::Overworld) {
         const int room_id = play->current_room_id;
@@ -551,9 +554,9 @@ void render_collision_overlay(SDL_Renderer* renderer, const Play* play, const Wo
     }
 }
 
-void render_hitbox_overlay(SDL_Renderer* renderer, const Play* play, const World* world,
+void render_hitbox_overlay(SDL_Renderer* renderer, const GameState* play, const World* world,
                            const Player* player, float zoom) {
-    const Camera camera = make_play_camera(play, world, player, zoom);
+    const Camera camera = make_game_camera(play, world, player, zoom);
 
     set_draw_color(renderer, 255, 255, 255, 255);
     draw_rect_outline(renderer, world_rect_to_screen(&camera, player->position,
@@ -602,9 +605,9 @@ void render_hitbox_overlay(SDL_Renderer* renderer, const Play* play, const World
 }
 
 void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_view,
-                                 const Play* play, const World* world, const Player* player,
+                                 const GameState* play, const World* world, const Player* player,
                                  float zoom) {
-    const Camera camera = make_play_camera(play, world, player, zoom);
+    const Camera camera = make_game_camera(play, world, player, zoom);
 
     if (play->area_kind == AreaKind::Overworld) {
         std::array<OverworldWarp, kMaxRoomWarps> warps = {};
@@ -736,7 +739,7 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
 } // namespace
 
 void render_scene(SDL_Renderer* renderer, const DebugTileset* tileset, const DebugView* debug_view,
-                  const Play* play, const World* world, const Player* player, float zoom) {
+                  const GameState* play, const World* world, const Player* player, float zoom) {
     set_draw_color(renderer, 16, 24, 34);
     SDL_RenderClear(renderer);
 
@@ -749,7 +752,7 @@ void render_scene(SDL_Renderer* renderer, const DebugTileset* tileset, const Deb
         render_portals(renderer, &camera, play);
     }
 
-    render_play_entities(renderer, play, active_world, player, zoom);
+    render_game_entities(renderer, play, active_world, player, zoom);
     render_player(renderer, active_world, player, zoom);
     render_debug_overlay(renderer, debug_view, play, world, player, zoom);
     render_message_box(renderer, play);
@@ -781,7 +784,7 @@ void render_world(SDL_Renderer* renderer, const DebugTileset* tileset, const Wor
     }
 }
 
-void render_cave(SDL_Renderer* renderer, const Play* play, const Player* player, float zoom) {
+void render_cave(SDL_Renderer* renderer, const GameState* play, const Player* player, float zoom) {
     const World* cave_world = &play->cave_world;
     const Camera camera = make_clamped_camera(player->position, cave_world, zoom);
 
@@ -816,7 +819,7 @@ void render_cave(SDL_Renderer* renderer, const Play* play, const Player* player,
               world_rect_to_screen(&camera, glm::vec2(5.45F, 4.0F), glm::vec2(0.35F, 0.35F)));
 }
 
-void render_play_entities(SDL_Renderer* renderer, const Play* play, const World* world,
+void render_game_entities(SDL_Renderer* renderer, const GameState* play, const World* world,
                           const Player* player, float zoom) {
     const Camera camera = make_clamped_camera(player->position, world, zoom);
 
@@ -888,8 +891,9 @@ void render_player(SDL_Renderer* renderer, const World* world, const Player* pla
     fill_rect(renderer, make_rect(sword_position - sword_size * 0.5F, sword_size));
 }
 
-void render_debug_overlay(SDL_Renderer* renderer, const DebugView* debug_view, const Play* play,
-                          const World* world, const Player* player, float zoom) {
+void render_debug_overlay(SDL_Renderer* renderer, const DebugView* debug_view,
+                          const GameState* play, const World* world, const Player* player,
+                          float zoom) {
     if (debug_view == nullptr || !debug_view->enabled) {
         return;
     }

@@ -1,21 +1,9 @@
 #pragma once
 
+#include "game/area_data.hpp"
 #include "game/player.hpp"
-#include "game/world.hpp"
-
-#include <array>
-#include <cstdint>
-#include <string>
-#include <vector>
 
 namespace z1m {
-
-enum class AreaKind {
-    Overworld,
-    Cave,
-    EnemyZoo,
-    ItemZoo,
-};
 
 enum class EnemyKind {
     Octorok,
@@ -167,61 +155,5 @@ struct Npc {
     bool solved = false;
     const char* label = "";
 };
-
-struct AreaPortal {
-    AreaKind source_area_kind = AreaKind::Overworld;
-    int source_cave_id = -1;
-    glm::vec2 center = glm::vec2(0.0F, 0.0F);
-    glm::vec2 half_size = glm::vec2(0.0F, 0.0F);
-    AreaKind target_area_kind = AreaKind::Overworld;
-    int target_cave_id = -1;
-    glm::vec2 target_position = glm::vec2(0.0F, 0.0F);
-    bool requires_raft = false;
-    const char* label = "";
-};
-
-struct RoomRuntime {
-    bool cleared = false;
-};
-
-constexpr int kMaxAreaPortals = 8;
-
-struct Play {
-    AreaKind area_kind = AreaKind::Overworld;
-    int current_room_id = 0;
-    int previous_room_id = -1;
-    int current_cave_id = -1;
-    int recorder_destination_index = -1;
-    int cave_return_room_id = -1;
-    glm::vec2 cave_return_position = glm::vec2(0.0F, 0.0F);
-    float warp_cooldown_seconds = 0.0F;
-    bool sword_cave_reward_taken = false;
-    std::uint32_t rng_state = 0x13572468U;
-    float message_seconds_remaining = 0.0F;
-    std::string message_text = {};
-    World cave_world = {};
-    World enemy_zoo_world = {};
-    World item_zoo_world = {};
-    std::array<RoomRuntime, kScreenCount> room_runtime = {};
-    std::vector<Enemy> enemies = {};
-    std::vector<Projectile> projectiles = {};
-    std::vector<Pickup> pickups = {};
-    std::vector<Npc> npcs = {};
-};
-
-Play make_play();
-void init_play(Play* play, Player* player);
-const World* get_active_world(const Play* play, const World* overworld_world);
-void set_area_kind(Play* play, Player* player, AreaKind area_kind, int cave_id,
-                   const glm::vec2& position);
-int gather_area_portals(const Play* play, std::array<AreaPortal, kMaxAreaPortals>* portals);
-void tick_play(Play* play, const World* overworld_world, Player* player,
-               const PlayerCommand* command, float dt_seconds);
-void respawn_enemy_group(Play* play, int respawn_group);
-const char* area_name(const Play* play);
-const char* pickup_name(PickupKind kind);
-const char* enemy_name(EnemyKind kind);
-const char* projectile_name(ProjectileKind kind);
-const char* npc_name(NpcKind kind);
 
 } // namespace z1m

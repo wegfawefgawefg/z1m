@@ -13,7 +13,7 @@
 
 namespace z1m {
 
-void apply_player_pickup(Player* player, Play* play, Pickup* pickup) {
+void apply_player_pickup(Player* player, GameState* play, Pickup* pickup) {
     if (pickup->shop_item && player->rupees < pickup->price_rupees) {
         set_message(play, "need " + std::to_string(pickup->price_rupees) + " rupees", 1.4F);
         return;
@@ -114,7 +114,7 @@ void apply_player_pickup(Player* player, Play* play, Pickup* pickup) {
     pickup->active = false;
 }
 
-void tick_pickups(Play* play, const World* overworld_world, Player* player, float dt_seconds) {
+void tick_pickups(GameState* play, const World* overworld_world, Player* player, float dt_seconds) {
     for (Pickup& pickup : play->pickups) {
         if (!pickup.active) {
             continue;
@@ -149,12 +149,13 @@ void tick_pickups(Play* play, const World* overworld_world, Player* player, floa
     }
 }
 
-void trigger_explosion(Play* play, const Projectile& bomb) {
+void trigger_explosion(GameState* play, const Projectile& bomb) {
     make_projectile(play, bomb.area_kind, bomb.cave_id, ProjectileKind::Explosion, true,
                     bomb.position, glm::vec2(0.0F), kExplosionSeconds, kExplosionRadius, 2);
 }
 
-void tick_projectiles(Play* play, const World* overworld_world, Player* player, float dt_seconds) {
+void tick_projectiles(GameState* play, const World* overworld_world, Player* player,
+                      float dt_seconds) {
     for (Projectile& projectile : play->projectiles) {
         if (!projectile.active) {
             continue;
@@ -356,7 +357,7 @@ void tick_projectiles(Play* play, const World* overworld_world, Player* player, 
     }
 }
 
-void compact_vectors(Play* play) {
+void compact_vectors(GameState* play) {
     play->projectiles.erase(
         std::remove_if(play->projectiles.begin(), play->projectiles.end(),
                        [](const Projectile& projectile) { return !projectile.active; }),

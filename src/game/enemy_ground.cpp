@@ -11,13 +11,13 @@
 
 namespace z1m {
 
-void tick_goriya(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_goriya(GameState* play, const World* world, Enemy* enemy, const Player* player,
                  float dt_seconds) {
     tick_rom_goriya_like(play, world, enemy, player, dt_seconds, kGoriyaSpeed,
                          ProjectileKind::Boomerang);
 }
 
-float zol_or_gel_edge_delay_seconds(Play* play, EnemyKind kind) {
+float zol_or_gel_edge_delay_seconds(GameState* play, EnemyKind kind) {
     constexpr std::array<int, 4> kZolFrames = {0x18, 0x28, 0x38, 0x48};
     constexpr std::array<int, 4> kGelFrames = {0x08, 0x18, 0x28, 0x38};
     const int index = random_int(play, 4);
@@ -26,7 +26,7 @@ float zol_or_gel_edge_delay_seconds(Play* play, EnemyKind kind) {
     return frames_to_seconds(frames);
 }
 
-void tick_rom_zol_or_gel(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_rom_zol_or_gel(GameState* play, const World* world, Enemy* enemy, const Player* player,
                          float dt_seconds) {
     if (enemy->kind == EnemyKind::Gel && enemy->subtype == 1) {
         enemy->action_seconds_remaining =
@@ -70,7 +70,7 @@ void tick_rom_zol_or_gel(Play* play, const World* world, Enemy* enemy, const Pla
                               ProjectileKind::Rock, false, false);
 }
 
-void tick_rope(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_rope(GameState* play, const World* world, Enemy* enemy, const Player* player,
                float dt_seconds) {
     if (enemy->state_seconds_remaining > 0.0F) {
         enemy->state_seconds_remaining =
@@ -114,12 +114,12 @@ void tick_rope(Play* play, const World* world, Enemy* enemy, const Player* playe
     }
 }
 
-void tick_ghini(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_ghini(GameState* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
     tick_rom_common_wanderer(play, world, enemy, player, dt_seconds, qspeed_to_speed(0x20), 0xFF);
 }
 
-void tick_flying_ghini(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_flying_ghini(GameState* play, const World* world, Enemy* enemy, const Player* player,
                        float dt_seconds) {
     enemy->action_seconds_remaining -= dt_seconds;
     if (enemy->action_seconds_remaining <= 0.0F) {
@@ -139,7 +139,7 @@ void tick_flying_ghini(Play* play, const World* world, Enemy* enemy, const Playe
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
 }
 
-void tick_vire(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_vire(GameState* play, const World* world, Enemy* enemy, const Player* player,
                float dt_seconds) {
     enemy->move_seconds_remaining -= dt_seconds;
     if (enemy->move_seconds_remaining <= 0.0F) {
@@ -164,7 +164,7 @@ void tick_vire(Play* play, const World* world, Enemy* enemy, const Player* playe
     }
 }
 
-void tick_blue_wizzrobe(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_blue_wizzrobe(GameState* play, const World* world, Enemy* enemy, const Player* player,
                         float dt_seconds) {
     if (enemy->hidden) {
         enemy->state_seconds_remaining -= dt_seconds;
@@ -223,7 +223,7 @@ void tick_blue_wizzrobe(Play* play, const World* world, Enemy* enemy, const Play
     }
 }
 
-void tick_red_wizzrobe(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_red_wizzrobe(GameState* play, const World* world, Enemy* enemy, const Player* player,
                        float dt_seconds) {
     enemy->state_seconds_remaining -= dt_seconds;
     if (enemy->hidden) {
@@ -299,7 +299,7 @@ void tick_trap(const World* world, Enemy* enemy, const Player* player, float dt_
     }
 }
 
-void tick_armos(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_armos(GameState* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
     if (enemy->special_counter == 0) {
         if (player != nullptr && glm::length(player->position - enemy->position) <= 2.5F) {
@@ -312,7 +312,7 @@ void tick_armos(Play* play, const World* world, Enemy* enemy, const Player* play
     tick_rom_goriya_movement(play, world, enemy, player, dt_seconds, kArmosSpeed);
 }
 
-void tick_tektite(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_tektite(GameState* play, const World* world, Enemy* enemy, const Player* player,
                   float dt_seconds) {
     if (enemy->move_seconds_remaining > 0.0F) {
         enemy->move_seconds_remaining = glm::max(0.0F, enemy->move_seconds_remaining - dt_seconds);
@@ -360,7 +360,7 @@ void tick_tektite(Play* play, const World* world, Enemy* enemy, const Player* pl
     enemy->move_seconds_remaining = 0.34F + random_unit(play) * 0.08F;
 }
 
-void tick_rom_flyer(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_rom_flyer(GameState* play, const World* world, Enemy* enemy, const Player* player,
                     float dt_seconds, float max_speed, int chase_threshold,
                     bool vulnerable_only_in_delay) {
     if (glm::length(enemy->velocity) < 0.001F) {
@@ -426,7 +426,7 @@ void tick_rom_flyer(Play* play, const World* world, Enemy* enemy, const Player* 
     }
 }
 
-void tick_leever(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_leever(GameState* play, const World* world, Enemy* enemy, const Player* player,
                  float dt_seconds) {
     enemy->state_seconds_remaining -= dt_seconds;
     if (enemy->hidden) {

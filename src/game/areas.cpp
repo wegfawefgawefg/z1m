@@ -13,7 +13,7 @@
 
 namespace z1m {
 
-void try_enter_overworld_cave(Play* play, const World* overworld_world, Player* player) {
+void try_enter_overworld_cave(GameState* play, const World* overworld_world, Player* player) {
     if (play->area_kind != AreaKind::Overworld || play->warp_cooldown_seconds > 0.0F) {
         return;
     }
@@ -40,7 +40,7 @@ void try_enter_overworld_cave(Play* play, const World* overworld_world, Player* 
     set_area_kind(play, player, AreaKind::Cave, warp->cave_id, cave->player_spawn);
 }
 
-void try_exit_cave(Play* play, Player* player) {
+void try_exit_cave(GameState* play, Player* player) {
     if (play->area_kind != AreaKind::Cave || play->warp_cooldown_seconds > 0.0F) {
         return;
     }
@@ -58,7 +58,7 @@ void try_exit_cave(Play* play, Player* player) {
     set_area_kind(play, player, AreaKind::Overworld, -1, play->cave_return_position);
 }
 
-void try_area_portals(Play* play, Player* player) {
+void try_area_portals(GameState* play, Player* player) {
     if (play->warp_cooldown_seconds > 0.0F) {
         return;
     }
@@ -87,7 +87,7 @@ void try_area_portals(Play* play, Player* player) {
     }
 }
 
-const World* get_active_world(const Play* play, const World* overworld_world) {
+const World* get_active_world(const GameState* play, const World* overworld_world) {
     switch (play->area_kind) {
     case AreaKind::Overworld:
         return overworld_world;
@@ -102,7 +102,7 @@ const World* get_active_world(const Play* play, const World* overworld_world) {
     return overworld_world;
 }
 
-void set_area_kind(Play* play, Player* player, AreaKind area_kind, int cave_id,
+void set_area_kind(GameState* play, Player* player, AreaKind area_kind, int cave_id,
                    const glm::vec2& position) {
     play->area_kind = area_kind;
     play->current_cave_id = area_kind == AreaKind::Cave ? cave_id : -1;
@@ -123,11 +123,11 @@ void set_area_kind(Play* play, Player* player, AreaKind area_kind, int cave_id,
     }
 }
 
-int gather_area_portals(const Play* play, std::array<AreaPortal, kMaxAreaPortals>* portals) {
+int gather_area_portals(const GameState* play, std::array<AreaPortal, kMaxAreaPortals>* portals) {
     return gather_sandbox_portals(play, portals);
 }
 
-const char* area_name(const Play* play) {
+const char* area_name(const GameState* play) {
     switch (play->area_kind) {
     case AreaKind::Overworld:
         return "overworld";

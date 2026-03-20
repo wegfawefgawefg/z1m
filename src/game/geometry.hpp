@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game/play.hpp"
+#include "game/game_state.hpp"
 
 namespace z1m {
 
@@ -13,8 +13,8 @@ glm::vec2 eight_way_direction_toward(const glm::vec2& from, const glm::vec2& to)
 glm::vec2 flyer_direction_toward(const glm::vec2& from, const glm::vec2& to);
 int dir8_index_from_vector(const glm::vec2& direction);
 glm::vec2 rotate_dir8_once_toward(const glm::vec2& current, const glm::vec2& target);
-glm::vec2 rotate_dir8_random(Play* play, const glm::vec2& current);
-bool choose_cardinal_shot_direction(const Play* play, const Enemy& enemy, const Player& player,
+glm::vec2 rotate_dir8_random(GameState* play, const glm::vec2& current);
+bool choose_cardinal_shot_direction(const GameState* play, const Enemy& enemy, const Player& player,
                                     Facing* facing_out);
 bool overlaps_circle(const glm::vec2& a, const glm::vec2& b, float radius);
 

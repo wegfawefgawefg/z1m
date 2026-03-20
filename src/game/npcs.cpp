@@ -8,7 +8,8 @@
 
 namespace z1m {
 
-void resolve_npc_collisions(const Play* play, Player* player, const glm::vec2& previous_position) {
+void resolve_npc_collisions(const GameState* play, Player* player,
+                            const glm::vec2& previous_position) {
     for (const Npc& npc : play->npcs) {
         if (!npc.active || npc.solved || !in_area(play, npc.area_kind, npc.cave_id)) {
             continue;
@@ -27,7 +28,7 @@ void resolve_npc_collisions(const Play* play, Player* player, const glm::vec2& p
     }
 }
 
-void tick_npcs(Play* play, Player* player, float dt_seconds) {
+void tick_npcs(GameState* play, Player* player, float dt_seconds) {
     for (Npc& npc : play->npcs) {
         if (!npc.active) {
             continue;
@@ -65,7 +66,7 @@ void tick_npcs(Play* play, Player* player, float dt_seconds) {
     }
 }
 
-void update_npc_messages(Play* play, const Player* player) {
+void update_npc_messages(GameState* play, const Player* player) {
     if (play->message_seconds_remaining > 0.0F) {
         return;
     }

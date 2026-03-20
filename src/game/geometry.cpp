@@ -133,7 +133,7 @@ glm::vec2 rotate_dir8_once_toward(const glm::vec2& current, const glm::vec2& tar
     return kDir8Vectors[static_cast<std::size_t>((current_index + 7) % 8)];
 }
 
-glm::vec2 rotate_dir8_random(Play* play, const glm::vec2& current) {
+glm::vec2 rotate_dir8_random(GameState* play, const glm::vec2& current) {
     const int current_index = dir8_index_from_vector(current);
     const int roll = random_int(play, 256);
     if (roll >= 0xA0) {
@@ -145,7 +145,7 @@ glm::vec2 rotate_dir8_random(Play* play, const glm::vec2& current) {
     return kDir8Vectors[static_cast<std::size_t>((current_index + 7) % 8)];
 }
 
-bool choose_cardinal_shot_direction(const Play* play, const Enemy& enemy, const Player& player,
+bool choose_cardinal_shot_direction(const GameState* play, const Enemy& enemy, const Player& player,
                                     Facing* facing_out) {
     if (enemy.area_kind == AreaKind::Overworld && enemy.room_id != play->current_room_id) {
         return false;

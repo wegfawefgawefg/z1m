@@ -24,11 +24,11 @@ void bounce_velocity(const World* world, glm::vec2* position, glm::vec2* velocit
     }
 }
 
-float random_turn_timer_seconds(Play* play) {
+float random_turn_timer_seconds(GameState* play) {
     return static_cast<float>(random_int(play, 256)) / 60.0F;
 }
 
-int random_byte(Play* play) {
+int random_byte(GameState* play) {
     return random_int(play, 256);
 }
 
@@ -36,7 +36,7 @@ float frames_to_seconds(int frames) {
     return static_cast<float>(frames) / 60.0F;
 }
 
-bool try_fire_monster_projectile(Play* play, Enemy* enemy, ProjectileKind shot_kind) {
+bool try_fire_monster_projectile(GameState* play, Enemy* enemy, ProjectileKind shot_kind) {
     if (shot_kind == ProjectileKind::SwordBeam) {
         create_sword_beam(play, *enemy, facing_vector(enemy->facing));
         return true;
@@ -62,7 +62,7 @@ bool try_fire_monster_projectile(Play* play, Enemy* enemy, ProjectileKind shot_k
     return true;
 }
 
-bool tick_monster_shot_windup(Play* play, Enemy* enemy, ProjectileKind shot_kind,
+bool tick_monster_shot_windup(GameState* play, Enemy* enemy, ProjectileKind shot_kind,
                               float dt_seconds) {
     if (enemy->action_seconds_remaining > 0.0F) {
         const float previous = enemy->action_seconds_remaining;
@@ -79,7 +79,7 @@ bool tick_monster_shot_windup(Play* play, Enemy* enemy, ProjectileKind shot_kind
     return false;
 }
 
-void try_begin_monster_shot_windup(Play* play, Enemy* enemy, bool blue_walker) {
+void try_begin_monster_shot_windup(GameState* play, Enemy* enemy, bool blue_walker) {
     if (enemy->special_counter == 0 || enemy->action_seconds_remaining > 0.0F) {
         return;
     }
@@ -91,8 +91,8 @@ void try_begin_monster_shot_windup(Play* play, Enemy* enemy, bool blue_walker) {
     enemy->action_seconds_remaining = frames_to_seconds(48);
 }
 
-void tick_rom_wanderer_shooter(Play* play, const World* world, Enemy* enemy, const Player* player,
-                               float dt_seconds, float speed, int turn_rate,
+void tick_rom_wanderer_shooter(GameState* play, const World* world, Enemy* enemy,
+                               const Player* player, float dt_seconds, float speed, int turn_rate,
                                ProjectileKind shot_kind, bool allow_shoot, bool blue_walker) {
     if (tick_monster_shot_windup(play, enemy, shot_kind, dt_seconds)) {
         return;
@@ -151,8 +151,8 @@ void face_goriya_toward_player(Enemy* enemy, const Player* player) {
     }
 }
 
-void tick_rom_goriya_movement(Play* play, const World* world, Enemy* enemy, const Player* player,
-                              float dt_seconds, float speed) {
+void tick_rom_goriya_movement(GameState* play, const World* world, Enemy* enemy,
+                              const Player* player, float dt_seconds, float speed) {
     if (near_tile_center(enemy->position)) {
         snap_to_tile_center(&enemy->position);
         enemy->special_counter = 0;
@@ -188,7 +188,7 @@ void tick_rom_goriya_movement(Play* play, const World* world, Enemy* enemy, cons
     }
 }
 
-void tick_rom_goriya_like(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_rom_goriya_like(GameState* play, const World* world, Enemy* enemy, const Player* player,
                           float dt_seconds, float speed, ProjectileKind shot_kind) {
     if (tick_monster_shot_windup(play, enemy, shot_kind, dt_seconds)) {
         return;
@@ -209,7 +209,7 @@ void tick_rom_goriya_like(Play* play, const World* world, Enemy* enemy, const Pl
     enemy->action_seconds_remaining = frames_to_seconds(48);
 }
 
-void tick_rom_lynel(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_rom_lynel(GameState* play, const World* world, Enemy* enemy, const Player* player,
                     float dt_seconds) {
     if (tick_monster_shot_windup(play, enemy, ProjectileKind::SwordBeam, dt_seconds)) {
         return;
@@ -219,20 +219,20 @@ void tick_rom_lynel(Play* play, const World* world, Enemy* enemy, const Player* 
     try_begin_monster_shot_windup(play, enemy, enemy->subtype == 0);
 }
 
-void tick_rom_darknut(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_rom_darknut(GameState* play, const World* world, Enemy* enemy, const Player* player,
                       float dt_seconds) {
     const float speed = enemy->subtype == 0 ? qspeed_to_speed(0x20) : qspeed_to_speed(0x28);
     tick_rom_wanderer_shooter(play, world, enemy, player, dt_seconds, speed, 0x80,
                               ProjectileKind::Rock, false, false);
 }
 
-void tick_rom_common_wanderer(Play* play, const World* world, Enemy* enemy, const Player* player,
-                              float dt_seconds, float speed, int turn_rate) {
+void tick_rom_common_wanderer(GameState* play, const World* world, Enemy* enemy,
+                              const Player* player, float dt_seconds, float speed, int turn_rate) {
     tick_rom_wanderer_shooter(play, world, enemy, player, dt_seconds, speed, turn_rate,
                               ProjectileKind::Rock, false, false);
 }
 
-void tick_octorok_like(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_octorok_like(GameState* play, const World* world, Enemy* enemy, const Player* player,
                        float dt_seconds, float speed, float shoot_period_min,
                        float shoot_period_random, ProjectileKind shot_kind) {
     static_cast<void>(speed);
@@ -257,7 +257,7 @@ void tick_octorok_like(Play* play, const World* world, Enemy* enemy, const Playe
                               shot_kind, true, blue_walker);
 }
 
-void tick_basic_walker(Play* play, const World* world, Enemy* enemy, const Player* player,
+void tick_basic_walker(GameState* play, const World* world, Enemy* enemy, const Player* player,
                        float dt_seconds, float speed, bool bias_toward_player) {
     enemy->move_seconds_remaining -= dt_seconds;
     enemy->action_seconds_remaining -= dt_seconds;

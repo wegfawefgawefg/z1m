@@ -581,7 +581,7 @@ void build_item_zoo_world(World* world) {
     fill_world_rect(world, 62, 24, 2, 2, TileKind::Ground);
 }
 
-void populate_sandbox_entities(Play* play) {
+void populate_sandbox_entities(GameState* play) {
     for (const EnemySpawnSpec& spawn : kEnemyZooSpawns) {
         Enemy enemy;
         enemy.active = true;
@@ -628,7 +628,8 @@ void populate_sandbox_entities(Play* play) {
     }
 }
 
-int gather_sandbox_portals(const Play* play, std::array<AreaPortal, kMaxAreaPortals>* portals) {
+int gather_sandbox_portals(const GameState* play,
+                           std::array<AreaPortal, kMaxAreaPortals>* portals) {
     portals->fill(AreaPortal{});
     int count = 0;
 

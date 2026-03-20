@@ -23,7 +23,7 @@ void clamp_enemy_to_zoo_pen(Enemy* enemy) {
     enemy->position.y = glm::clamp(enemy->position.y, min_position.y, max_position.y);
 }
 
-void reset_enemy_state(Play* play, Enemy* enemy) {
+void reset_enemy_state(GameState* play, Enemy* enemy) {
     enemy->health = glm::max(enemy->max_health, 1);
     enemy->hurt_seconds_remaining = 0.0F;
     enemy->hidden = false;

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "game/play.hpp"
+#include "game/game_state.hpp"
 
 namespace z1m {
 
-std::uint32_t next_random(Play* play);
-float random_unit(Play* play);
-int random_int(Play* play, int max_value);
+std::uint32_t next_random(GameState* play);
+float random_unit(GameState* play);
+int random_int(GameState* play, int max_value);
 
 } // namespace z1m
