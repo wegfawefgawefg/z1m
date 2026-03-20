@@ -9,6 +9,23 @@
 
 namespace z1m {
 
+namespace {
+
+Facing random_reset_facing(GameState* play) {
+    switch (random_int(play, 4)) {
+    case 0:
+        return Facing::Up;
+    case 1:
+        return Facing::Down;
+    case 2:
+        return Facing::Left;
+    default:
+        return Facing::Right;
+    }
+}
+
+} // namespace
+
 void clamp_enemy_to_zoo_pen(Enemy* enemy) {
     if (enemy->area_kind != AreaKind::EnemyZoo || enemy->respawn_group < 0) {
         return;
@@ -31,6 +48,7 @@ void reset_enemy_state(GameState* play, Enemy* enemy) {
     enemy->invulnerable = false;
     enemy->velocity = glm::vec2(0.0F, 0.0F);
     enemy->special_counter = 0;
+    enemy->facing = random_reset_facing(play);
 
     switch (enemy->kind) {
     case EnemyKind::Octorok:

@@ -103,6 +103,7 @@ void tick_rom_wanderer_shooter(GameState* play, const World* world, Enemy* enemy
     if (near_tile_center(enemy->position)) {
         snap_to_tile_center(&enemy->position);
         enemy->special_counter = 0;
+        bool changed_direction = false;
 
         if (player != nullptr) {
             const bool can_turn_toward_player = random_byte(play) <= turn_rate;
@@ -112,22 +113,32 @@ void tick_rom_wanderer_shooter(GameState* play, const World* world, Enemy* enemy
                     enemy->facing = axis_facing_toward(enemy->position, player->position, true);
                     enemy->move_seconds_remaining = random_turn_timer_seconds(play);
                     enemy->special_counter = allow_shoot ? 1 : 0;
+                    changed_direction = true;
                 } else if (std::abs(delta.y) < kWandererTargetThreshold) {
                     enemy->facing = axis_facing_toward(enemy->position, player->position, false);
                     enemy->move_seconds_remaining = random_turn_timer_seconds(play);
                     enemy->special_counter = allow_shoot ? 1 : 0;
+                    changed_direction = true;
                 } else if (enemy->move_seconds_remaining <= 0.0F) {
                     const bool facing_vertical =
                         enemy->facing == Facing::Up || enemy->facing == Facing::Down;
                     enemy->facing =
                         axis_facing_toward(enemy->position, player->position, facing_vertical);
+                    enemy->move_seconds_remaining = random_turn_timer_seconds(play);
+                    changed_direction = true;
                 }
             } else if (enemy->move_seconds_remaining <= 0.0F) {
                 const bool facing_vertical =
                     enemy->facing == Facing::Up || enemy->facing == Facing::Down;
                 enemy->facing =
                     axis_facing_toward(enemy->position, player->position, facing_vertical);
+                enemy->move_seconds_remaining = random_turn_timer_seconds(play);
+                changed_direction = true;
             }
+        }
+
+        if (!changed_direction && enemy->move_seconds_remaining <= 0.0F) {
+            choose_cardinal_direction(play, world, enemy);
         }
     }
 
@@ -156,6 +167,7 @@ void tick_rom_goriya_movement(GameState* play, const World* world, Enemy* enemy,
     if (near_tile_center(enemy->position)) {
         snap_to_tile_center(&enemy->position);
         enemy->special_counter = 0;
+        bool changed_direction = false;
 
         if (player != nullptr) {
             const float vertical_distance = std::abs(player->position.y - enemy->position.y);
@@ -166,7 +178,12 @@ void tick_rom_goriya_movement(GameState* play, const World* world, Enemy* enemy,
                 enemy->facing =
                     axis_facing_toward(enemy->position, player->position, !use_horizontal);
                 enemy->special_counter = 1;
+                changed_direction = true;
             }
+        }
+
+        if (!changed_direction && enemy->move_seconds_remaining <= 0.0F) {
+            choose_cardinal_direction(play, world, enemy);
         }
     }
 
