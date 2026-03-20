@@ -21,11 +21,28 @@ enum class EnemyKind {
     Octorok,
     Moblin,
     Lynel,
+    Goriya,
+    Darknut,
     Tektite,
     Leever,
     Keese,
+    Zol,
+    Gel,
+    Rope,
+    Stalfos,
+    Gibdo,
+    LikeLike,
+    PolsVoice,
+    Wallmaster,
+    Ghini,
+    Bubble,
+    Trap,
+    Armos,
     Zora,
     Peahat,
+    Dodongo,
+    Gohma,
+    Moldorm,
     Aquamentus,
 };
 
@@ -68,15 +85,22 @@ struct Enemy {
     int cave_id = -1;
     int room_id = -1;
     glm::vec2 position = glm::vec2(0.0F, 0.0F);
+    glm::vec2 spawn_position = glm::vec2(0.0F, 0.0F);
+    glm::vec2 origin = glm::vec2(0.0F, 0.0F);
     glm::vec2 velocity = glm::vec2(0.0F, 0.0F);
     Facing facing = Facing::Down;
     int health = 1;
+    int max_health = 1;
+    int respawn_group = -1;
+    int special_counter = 0;
     float move_seconds_remaining = 0.0F;
     float action_seconds_remaining = 0.0F;
     float hurt_seconds_remaining = 0.0F;
     float state_seconds_remaining = 0.0F;
+    float respawn_seconds_remaining = 0.0F;
     bool hidden = false;
     bool invulnerable = false;
+    bool zoo_respawn = false;
 };
 
 struct Projectile {
@@ -171,6 +195,7 @@ int gather_area_portals(const GameSession* session,
                         std::array<AreaPortal, kMaxAreaPortals>* portals);
 void tick_game_session(GameSession* session, const World* overworld_world, Player* player,
                        const PlayerCommand* command, float dt_seconds);
+void respawn_enemy_group(GameSession* session, int respawn_group);
 const char* area_name(const GameSession* session);
 const char* pickup_name(PickupKind kind);
 const char* enemy_name(EnemyKind kind);

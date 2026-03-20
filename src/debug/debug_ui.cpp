@@ -6,9 +6,38 @@
 #include "content/overworld_warps.hpp"
 #include "imgui.h"
 
+#include <array>
+
 namespace z1m {
 
 namespace {
+
+struct EnemyZooGroupLabel {
+    int group = -1;
+    const char* label = "";
+};
+
+constexpr std::array<EnemyZooGroupLabel, 19> kEnemyZooGroups = {{
+    EnemyZooGroupLabel{0, "octorok"},
+    EnemyZooGroupLabel{1, "moblin"},
+    EnemyZooGroupLabel{2, "lynel"},
+    EnemyZooGroupLabel{3, "goriya"},
+    EnemyZooGroupLabel{4, "darknut"},
+    EnemyZooGroupLabel{5, "tektite"},
+    EnemyZooGroupLabel{6, "leever"},
+    EnemyZooGroupLabel{7, "zol-gel"},
+    EnemyZooGroupLabel{8, "rope"},
+    EnemyZooGroupLabel{9, "stalfos-gibdo"},
+    EnemyZooGroupLabel{10, "like-pols"},
+    EnemyZooGroupLabel{11, "keese-ghini-bubble"},
+    EnemyZooGroupLabel{12, "wallmaster-trap"},
+    EnemyZooGroupLabel{13, "armos"},
+    EnemyZooGroupLabel{14, "zora"},
+    EnemyZooGroupLabel{15, "peahat"},
+    EnemyZooGroupLabel{16, "dodongo"},
+    EnemyZooGroupLabel{17, "gohma-moldorm"},
+    EnemyZooGroupLabel{18, "aquamentus"},
+}};
 
 void apply_debug_style() {
     ImGuiStyle& style = ImGui::GetStyle();
@@ -64,11 +93,30 @@ void render_travel_buttons(AppState* app) {
     }
     ImGui::SameLine();
     if (ImGui::Button("Enemy Zoo")) {
-        set_area_kind(&app->session, &app->player, AreaKind::EnemyZoo, -1, glm::vec2(10.0F, 10.0F));
+        set_area_kind(&app->session, &app->player, AreaKind::EnemyZoo, -1, glm::vec2(10.0F, 90.0F));
     }
     ImGui::SameLine();
     if (ImGui::Button("Item Zoo")) {
         set_area_kind(&app->session, &app->player, AreaKind::ItemZoo, -1, glm::vec2(10.0F, 10.0F));
+    }
+}
+
+void render_enemy_zoo_controls(AppState* app) {
+    if (app->session.area_kind != AreaKind::EnemyZoo) {
+        return;
+    }
+
+    ImGui::SeparatorText("Enemy Zoo");
+    ImGui::TextUnformatted("pens auto-respawn when cleared");
+    for (std::size_t index = 0; index < kEnemyZooGroups.size(); ++index) {
+        const EnemyZooGroupLabel& group = kEnemyZooGroups[index];
+        ImGui::PushID(static_cast<int>(index));
+        ImGui::Text("%s", group.label);
+        ImGui::SameLine(150.0F);
+        if (ImGui::Button("Respawn")) {
+            respawn_enemy_group(&app->session, group.group);
+        }
+        ImGui::PopID();
     }
 }
 
@@ -157,6 +205,8 @@ void render_debug_ui(AppState* app) {
                         app->session.current_room_id, app->session.current_cave_id);
             ImGui::Text("player=(%.2f, %.2f) hp=%d/%d", app->player.position.x,
                         app->player.position.y, app->player.health, app->player.max_health);
+            ImGui::Text("sword_disabled=%.2f stunned=%.2f", app->player.sword_disabled_seconds,
+                        app->player.stunned_seconds);
             ImGui::Text("rupees=%d bombs=%d keys=%d", app->player.rupees, app->player.bombs,
                         app->player.keys);
             ImGui::Text("sword=%s item=%s", app->player.has_sword ? "yes" : "no",
@@ -173,6 +223,7 @@ void render_debug_ui(AppState* app) {
 
             ImGui::SeparatorText("Current Room Warps");
             render_current_room_warps(app);
+            render_enemy_zoo_controls(app);
         }
 
         ImGui::End();

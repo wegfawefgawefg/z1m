@@ -11,6 +11,8 @@ struct EnemySpawnSpec {
     EnemyKind kind = EnemyKind::Octorok;
     glm::vec2 position = glm::vec2(0.0F, 0.0F);
     int health = 1;
+    int respawn_group = -1;
+    bool zoo_respawn = false;
 };
 
 struct PickupSpawnSpec {
@@ -29,79 +31,193 @@ struct NpcSpawnSpec {
     const char* label = "";
 };
 
-constexpr std::array<EnemySpawnSpec, 19> kEnemyZooSpawns = {
+constexpr std::array<EnemySpawnSpec, 32> kEnemyZooSpawns = {
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Octorok,
                    .position = glm::vec2(16.0F, 12.0F),
-                   .health = 1},
+                   .health = 1,
+                   .respawn_group = 0,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Octorok,
                    .position = glm::vec2(20.0F, 18.0F),
-                   .health = 1},
+                   .health = 1,
+                   .respawn_group = 0,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Moblin,
-                   .position = glm::vec2(34.0F, 12.0F),
-                   .health = 2},
-    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
-                   .kind = EnemyKind::Moblin,
-                   .position = glm::vec2(38.0F, 18.0F),
-                   .health = 2},
+                   .position = glm::vec2(40.0F, 12.0F),
+                   .health = 2,
+                   .respawn_group = 1,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Lynel,
-                   .position = glm::vec2(44.0F, 15.0F),
-                   .health = 4},
+                   .position = glm::vec2(64.0F, 12.0F),
+                   .health = 4,
+                   .respawn_group = 2,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Goriya,
+                   .position = glm::vec2(88.0F, 12.0F),
+                   .health = 3,
+                   .respawn_group = 3,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Darknut,
+                   .position = glm::vec2(112.0F, 12.0F),
+                   .health = 4,
+                   .respawn_group = 4,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Tektite,
-                   .position = glm::vec2(54.0F, 14.0F),
-                   .health = 1},
-    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
-                   .kind = EnemyKind::Tektite,
-                   .position = glm::vec2(58.0F, 20.0F),
-                   .health = 1},
+                   .position = glm::vec2(136.0F, 12.0F),
+                   .health = 1,
+                   .respawn_group = 5,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Leever,
                    .position = glm::vec2(16.0F, 38.0F),
-                   .health = 2},
+                   .health = 2,
+                   .respawn_group = 6,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Leever,
                    .position = glm::vec2(20.0F, 44.0F),
-                   .health = 2},
+                   .health = 2,
+                   .respawn_group = 6,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
-                   .kind = EnemyKind::Keese,
-                   .position = glm::vec2(36.0F, 40.0F),
-                   .health = 1},
+                   .kind = EnemyKind::Zol,
+                   .position = glm::vec2(40.0F, 38.0F),
+                   .health = 2,
+                   .respawn_group = 7,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
-                   .kind = EnemyKind::Keese,
-                   .position = glm::vec2(42.0F, 44.0F),
-                   .health = 1},
+                   .kind = EnemyKind::Gel,
+                   .position = glm::vec2(44.0F, 42.0F),
+                   .health = 1,
+                   .respawn_group = 7,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
-                   .kind = EnemyKind::Keese,
-                   .position = glm::vec2(46.0F, 38.0F),
-                   .health = 1},
-    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
-                   .kind = EnemyKind::Peahat,
-                   .position = glm::vec2(34.0F, 42.0F),
-                   .health = 2},
-    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
-                   .kind = EnemyKind::Peahat,
-                   .position = glm::vec2(48.0F, 42.0F),
-                   .health = 2},
-    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
-                   .kind = EnemyKind::Lynel,
+                   .kind = EnemyKind::Rope,
                    .position = glm::vec2(64.0F, 38.0F),
-                   .health = 4},
+                   .health = 2,
+                   .respawn_group = 8,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Stalfos,
+                   .position = glm::vec2(88.0F, 38.0F),
+                   .health = 2,
+                   .respawn_group = 9,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Gibdo,
+                   .position = glm::vec2(92.0F, 42.0F),
+                   .health = 3,
+                   .respawn_group = 9,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::LikeLike,
+                   .position = glm::vec2(112.0F, 38.0F),
+                   .health = 3,
+                   .respawn_group = 10,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::PolsVoice,
+                   .position = glm::vec2(116.0F, 42.0F),
+                   .health = 2,
+                   .respawn_group = 10,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Keese,
+                   .position = glm::vec2(136.0F, 38.0F),
+                   .health = 1,
+                   .respawn_group = 11,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Ghini,
+                   .position = glm::vec2(140.0F, 42.0F),
+                   .health = 1,
+                   .respawn_group = 11,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Bubble,
+                   .position = glm::vec2(144.0F, 40.0F),
+                   .health = 99,
+                   .respawn_group = 11,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Wallmaster,
+                   .position = glm::vec2(16.0F, 62.0F),
+                   .health = 3,
+                   .respawn_group = 12,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Trap,
+                   .position = glm::vec2(20.0F, 66.0F),
+                   .health = 99,
+                   .respawn_group = 12,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Armos,
+                   .position = glm::vec2(40.0F, 62.0F),
+                   .health = 3,
+                   .respawn_group = 13,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Armos,
+                   .position = glm::vec2(44.0F, 66.0F),
+                   .health = 3,
+                   .respawn_group = 13,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Zora,
-                   .position = glm::vec2(69.0F, 36.0F),
-                   .health = 1},
+                   .position = glm::vec2(64.0F, 62.0F),
+                   .health = 1,
+                   .respawn_group = 14,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Zora,
-                   .position = glm::vec2(76.0F, 44.0F),
-                   .health = 1},
+                   .position = glm::vec2(68.0F, 66.0F),
+                   .health = 1,
+                   .respawn_group = 14,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Peahat,
+                   .position = glm::vec2(88.0F, 62.0F),
+                   .health = 2,
+                   .respawn_group = 15,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Peahat,
+                   .position = glm::vec2(92.0F, 66.0F),
+                   .health = 2,
+                   .respawn_group = 15,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Dodongo,
+                   .position = glm::vec2(112.0F, 62.0F),
+                   .health = 6,
+                   .respawn_group = 16,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Gohma,
+                   .position = glm::vec2(136.0F, 62.0F),
+                   .health = 5,
+                   .respawn_group = 17,
+                   .zoo_respawn = true},
+    EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
+                   .kind = EnemyKind::Moldorm,
+                   .position = glm::vec2(140.0F, 66.0F),
+                   .health = 5,
+                   .respawn_group = 17,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Aquamentus,
-                   .position = glm::vec2(72.0F, 40.0F),
-                   .health = 6},
+                   .position = glm::vec2(112.0F, 84.0F),
+                   .health = 6,
+                   .respawn_group = 18,
+                   .zoo_respawn = true},
     EnemySpawnSpec{.area_kind = AreaKind::Overworld,
                    .kind = EnemyKind::Octorok,
                    .position = glm::vec2(232.0F, 162.0F),
@@ -184,9 +300,9 @@ constexpr std::array<NpcSpawnSpec, 3> kNpcSpawns = {
                  .label = "take anything you want"},
     NpcSpawnSpec{.area_kind = AreaKind::EnemyZoo,
                  .kind = NpcKind::OldMan,
-                 .position = glm::vec2(74.0F, 10.0F),
+                 .position = glm::vec2(74.0F, 88.0F),
                  .shop_item_index = -1,
-                 .label = "boss pen ahead"},
+                 .label = "enemy zoo respawns by pen"},
 };
 
 void build_box_walls(World* world) {
@@ -194,6 +310,11 @@ void build_box_walls(World* world) {
     fill_world_rect(world, 0, world->height - 1, world->width, 1, TileKind::Wall);
     fill_world_rect(world, 0, 0, 1, world->height, TileKind::Wall);
     fill_world_rect(world, world->width - 1, 0, 1, world->height, TileKind::Wall);
+}
+
+void build_pen(World* world, int x, int y, int width, int height, TileKind fill) {
+    fill_world_rect(world, x, y, width, height, TileKind::Wall);
+    fill_world_rect(world, x + 2, y + 2, width - 4, height - 4, fill);
 }
 
 void push_portal(std::array<AreaPortal, kMaxAreaPortals>* portals, int* count, AreaKind source_area,
@@ -218,34 +339,32 @@ void push_portal(std::array<AreaPortal, kMaxAreaPortals>* portals, int* count, A
 } // namespace
 
 void build_enemy_zoo_world(World* world) {
-    resize_world(world, 96, 64);
+    resize_world(world, 152, 96);
     fill_world(world, TileKind::Ground);
     build_box_walls(world);
 
-    fill_world_rect(world, 8, 8, 20, 18, TileKind::Wall);
-    fill_world_rect(world, 10, 10, 16, 14, TileKind::Ground);
-    fill_world_rect(world, 28, 8, 20, 18, TileKind::Wall);
-    fill_world_rect(world, 30, 10, 16, 14, TileKind::Ground);
-    fill_world_rect(world, 48, 8, 20, 18, TileKind::Wall);
-    fill_world_rect(world, 50, 10, 16, 14, TileKind::Ground);
+    build_pen(world, 8, 8, 20, 18, TileKind::Ground);
+    build_pen(world, 32, 8, 20, 18, TileKind::Ground);
+    build_pen(world, 56, 8, 20, 18, TileKind::Ground);
+    build_pen(world, 80, 8, 20, 18, TileKind::Ground);
+    build_pen(world, 104, 8, 20, 18, TileKind::Ground);
+    build_pen(world, 128, 8, 20, 18, TileKind::Ground);
 
-    fill_world_rect(world, 8, 32, 20, 18, TileKind::Wall);
-    fill_world_rect(world, 10, 34, 16, 14, TileKind::Ground);
-    fill_world_rect(world, 28, 32, 24, 18, TileKind::Wall);
-    fill_world_rect(world, 30, 34, 20, 14, TileKind::Ground);
-    fill_world_rect(world, 58, 30, 30, 22, TileKind::Wall);
-    fill_world_rect(world, 60, 32, 26, 18, TileKind::Ground);
+    build_pen(world, 8, 32, 20, 18, TileKind::Ground);
+    build_pen(world, 32, 32, 20, 18, TileKind::Ground);
+    build_pen(world, 56, 32, 20, 18, TileKind::Ground);
+    build_pen(world, 80, 32, 20, 18, TileKind::Ground);
+    build_pen(world, 104, 32, 20, 18, TileKind::Ground);
+    build_pen(world, 128, 32, 20, 18, TileKind::Ground);
 
-    fill_world_rect(world, 66, 34, 16, 10, TileKind::Water);
-    fill_world_rect(world, 70, 36, 8, 6, TileKind::Ground);
+    build_pen(world, 8, 56, 20, 18, TileKind::Ground);
+    build_pen(world, 32, 56, 20, 18, TileKind::Ground);
+    build_pen(world, 56, 56, 20, 18, TileKind::Water);
+    build_pen(world, 80, 56, 20, 18, TileKind::Ground);
+    build_pen(world, 104, 56, 20, 18, TileKind::Ground);
+    build_pen(world, 128, 56, 20, 18, TileKind::Ground);
 
-    fill_world_rect(world, 16, 26, 1, 6, TileKind::Ground);
-    fill_world_rect(world, 38, 26, 1, 6, TileKind::Ground);
-    fill_world_rect(world, 58, 26, 1, 6, TileKind::Ground);
-    fill_world_rect(world, 18, 50, 1, 5, TileKind::Ground);
-    fill_world_rect(world, 40, 50, 1, 5, TileKind::Ground);
-
-    fill_world_rect(world, 5, 56, 86, 2, TileKind::Rock);
+    fill_world_rect(world, 10, 82, 132, 4, TileKind::Rock);
 }
 
 void build_item_zoo_world(World* world) {
@@ -276,7 +395,12 @@ void populate_sandbox_entities(GameSession* session) {
         enemy.kind = spawn.kind;
         enemy.area_kind = spawn.area_kind;
         enemy.position = spawn.position;
+        enemy.spawn_position = spawn.position;
+        enemy.origin = spawn.position;
         enemy.health = spawn.health;
+        enemy.max_health = spawn.health;
+        enemy.respawn_group = spawn.respawn_group;
+        enemy.zoo_respawn = spawn.zoo_respawn;
         enemy.room_id = spawn.area_kind == AreaKind::Overworld
                             ? get_room_id_at_world_tile(static_cast<int>(spawn.position.x),
                                                         static_cast<int>(spawn.position.y))
@@ -314,10 +438,10 @@ int gather_sandbox_portals(const GameSession* session,
     int count = 0;
 
     if (session->area_kind == AreaKind::EnemyZoo) {
-        push_portal(portals, &count, AreaKind::EnemyZoo, glm::vec2(10.0F, 60.0F),
+        push_portal(portals, &count, AreaKind::EnemyZoo, glm::vec2(10.0F, 90.0F),
                     glm::vec2(2.0F, 1.5F), AreaKind::Overworld, get_opening_start_position(),
                     "to overworld");
-        push_portal(portals, &count, AreaKind::EnemyZoo, glm::vec2(86.0F, 60.0F),
+        push_portal(portals, &count, AreaKind::EnemyZoo, glm::vec2(142.0F, 90.0F),
                     glm::vec2(2.0F, 1.5F), AreaKind::ItemZoo, glm::vec2(10.0F, 10.0F),
                     "to item zoo");
     }

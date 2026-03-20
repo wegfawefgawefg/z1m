@@ -14,6 +14,13 @@ Status labels:
 - `zoo`: implemented in sandbox only
 - `opening`: implemented in the main opening slice
 
+Current count:
+
+- `39` catalog entries below
+- `25` currently modeled in code
+- enemy zoo currently covers the implemented hostile set, with pen respawns and
+  debug respawn buttons
+
 ## Overworld Enemies
 
 - `Octorok`: cardinal wandering, cardinal rocks, should not fire diagonal aimed shots, `opening`
@@ -23,37 +30,37 @@ Status labels:
 - `Leever`: burrow/emerge cycle, `zoo`
 - `Zora`: water-only emerge/shoot/submerge, `zoo`
 - `Peahat`: flying/invulnerable phase and vulnerable grounded phase, `zoo`
-- `Armos`: dormant statue until triggered, `none`
+- `Armos`: dormant statue until triggered, `zoo`
 
 ## Underworld Common Enemies
 
-- `Goriya`: boomerang user, red/blue variants, `none`
-- `Darknut`: directional shielded melee, red/blue variants, `none`
+- `Goriya`: boomerang user, red/blue variants, `zoo`
+- `Darknut`: directional shielded melee, red/blue variants, `zoo`
 - `Keese`: flying bat, `zoo`
-- `Gel`: small split slime, `none`
-- `Zol`: larger slime that splits, `none`
-- `Rope`: charge snake, `none`
+- `Gel`: small split slime, `zoo`
+- `Zol`: larger slime that splits, `zoo`
+- `Rope`: charge snake, `zoo`
 - `Vire`: split-capable flyer, `none`
-- `Pols Voice`: hopping rabbit-like enemy, `none`
-- `Like Like`: shield eater, `none`
-- `Gibdo`: mummy walker, `none`
-- `Stalfos`: skeleton walker, `none`
-- `Wallmaster`: wall grabber, `none`
+- `Pols Voice`: hopping rabbit-like enemy, `zoo`
+- `Like Like`: shield eater, `partial`
+- `Gibdo`: mummy walker, `zoo`
+- `Stalfos`: skeleton walker, `zoo`
+- `Wallmaster`: wall grabber, `partial`
 - `Blue Wizzrobe`: teleporting mage, `none`
 - `Red Wizzrobe`: fade/shoot mage, `none`
-- `Ghini`: graveyard ghost, `none`
+- `Ghini`: graveyard ghost, `zoo`
 - `Flying Ghini`: airborne ghost, `none`
-- `Bubbles`: anti-sword curse skull, `none`
-- `Traps`: blade traps, `none`
+- `Bubbles`: anti-sword curse skull, `partial`
+- `Traps`: blade traps, `zoo`
 
 ## Bosses
 
 - `Aquamentus`: move and 3-way fireball spread, `zoo`
-- `Dodongo`: bomb-eating boss, `none`
+- `Dodongo`: bomb-eating boss, `partial`
 - `Digdogger`: recorder-reactive boss, large and split forms, `none`
 - `Manhandla`: segmented plant boss, `none`
-- `Gohma`: eye-state bow boss, red/blue variants, `none`
-- `Moldorm`: segmented worm boss, `none`
+- `Gohma`: eye-state bow boss, red/blue variants, `partial`
+- `Moldorm`: segmented worm boss, `partial`
 - `Gleeok`: multi-head dragon, `none`
 - `Patra`: orbiting eye boss, two patterns, `none`
 - `Ganon`: final boss, `none`

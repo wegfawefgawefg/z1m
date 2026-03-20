@@ -28,6 +28,7 @@ Current panel contents:
 - current transient gameplay message
 - current room warp metadata
 - quick travel buttons for overworld, enemy zoo, and item zoo
+- enemy-zoo pen respawn buttons
 
 Current hotkeys:
 
@@ -70,6 +71,7 @@ Shows:
 - sandbox portal pads, including raft-only docks
 - pickup labels
 - NPC labels
+- enemy labels and zoo respawn-group ids
 - hidden cave room attributes when a room has cave metadata but no visible
   entrance tiles yet
 
@@ -89,6 +91,8 @@ despawning everything outside the currently viewed room.
 The player is also treated as a zoo inspector there right now: effectively
 infinite health, and no collision against zoo walls, while enemies still obey
 their pen collision.
+Enemy pens auto-respawn when cleared, and the debug panel also exposes a manual
+respawn button per pen group.
 
 Recorder now uses real visible dungeon warp metadata from the overworld loader
 to cycle between dungeon entrances instead of using a fake hardcoded list.

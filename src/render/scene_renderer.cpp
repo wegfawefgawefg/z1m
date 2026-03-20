@@ -192,6 +192,12 @@ void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Ene
     case EnemyKind::Lynel:
         set_draw_color(renderer, 232, 120, 56);
         break;
+    case EnemyKind::Goriya:
+        set_draw_color(renderer, 84, 168, 216);
+        break;
+    case EnemyKind::Darknut:
+        set_draw_color(renderer, 88, 88, 140);
+        break;
     case EnemyKind::Tektite:
         set_draw_color(renderer, 160, 0, 200);
         break;
@@ -200,6 +206,45 @@ void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Ene
         break;
     case EnemyKind::Keese:
         set_draw_color(renderer, 96, 96, 140);
+        break;
+    case EnemyKind::Zol:
+        set_draw_color(renderer, 44, 164, 120);
+        break;
+    case EnemyKind::Gel:
+        set_draw_color(renderer, 72, 188, 152);
+        rect = world_rect_to_screen(camera, enemy->position, glm::vec2(0.5F, 0.5F));
+        break;
+    case EnemyKind::Rope:
+        set_draw_color(renderer, 176, 96, 48);
+        break;
+    case EnemyKind::Stalfos:
+        set_draw_color(renderer, 212, 212, 212);
+        break;
+    case EnemyKind::Gibdo:
+        set_draw_color(renderer, 184, 160, 132);
+        break;
+    case EnemyKind::LikeLike:
+        set_draw_color(renderer, 188, 132, 60);
+        break;
+    case EnemyKind::PolsVoice:
+        set_draw_color(renderer, 236, 236, 236);
+        break;
+    case EnemyKind::Wallmaster:
+        set_draw_color(renderer, 188, 148, 96);
+        break;
+    case EnemyKind::Ghini:
+        set_draw_color(renderer, 220, 220, 255);
+        break;
+    case EnemyKind::Bubble:
+        set_draw_color(renderer, 255, 128, 180);
+        rect = world_rect_to_screen(camera, enemy->position, glm::vec2(0.6F, 0.6F));
+        break;
+    case EnemyKind::Trap:
+        set_draw_color(renderer, 184, 184, 184);
+        rect = world_rect_to_screen(camera, enemy->position, glm::vec2(0.7F, 0.7F));
+        break;
+    case EnemyKind::Armos:
+        set_draw_color(renderer, 168, 112, 96);
         break;
     case EnemyKind::Zora:
         set_draw_color(renderer, 72, 168, 236);
@@ -210,6 +255,26 @@ void render_enemy_sprite(SDL_Renderer* renderer, const Camera* camera, const Ene
         } else {
             set_draw_color(renderer, 216, 216, 96);
         }
+        break;
+    case EnemyKind::Dodongo:
+        if (enemy->special_counter > 0) {
+            set_draw_color(renderer, 224, 168, 84);
+        } else {
+            set_draw_color(renderer, 200, 120, 40);
+        }
+        rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.4F, 1.0F));
+        break;
+    case EnemyKind::Gohma:
+        if (enemy->special_counter == 0) {
+            set_draw_color(renderer, 120, 40, 40);
+        } else {
+            set_draw_color(renderer, 224, 64, 64);
+        }
+        rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.3F, 1.1F));
+        break;
+    case EnemyKind::Moldorm:
+        set_draw_color(renderer, 216, 168, 88);
+        rect = world_rect_to_screen(camera, enemy->position, glm::vec2(1.2F, 0.9F));
         break;
     case EnemyKind::Aquamentus:
         set_draw_color(renderer, 40, 170, 150);
@@ -520,6 +585,26 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
 
         draw_debug_label(renderer, world_to_screen(&camera, npc.position + glm::vec2(-0.5F, -0.8F)),
                          std::string(npc_name(npc.kind)) + " " + npc.label);
+    }
+
+    for (const Enemy& enemy : session->enemies) {
+        if (!enemy.active || enemy.hidden ||
+            !area_matches(session, enemy.area_kind, enemy.cave_id)) {
+            continue;
+        }
+
+        std::string label = enemy_name(enemy.kind);
+        if (enemy.area_kind == AreaKind::EnemyZoo && enemy.respawn_group >= 0) {
+            label += " g=" + std::to_string(enemy.respawn_group);
+        }
+        if (enemy.kind == EnemyKind::Gohma) {
+            label += enemy.special_counter == 0 ? " eye=closed" : " eye=open";
+        }
+        if (enemy.kind == EnemyKind::Dodongo && enemy.special_counter > 0) {
+            label += " bombed";
+        }
+        draw_debug_label(renderer,
+                         world_to_screen(&camera, enemy.position + glm::vec2(-0.6F, -0.9F)), label);
     }
 }
 

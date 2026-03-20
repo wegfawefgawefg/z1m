@@ -231,17 +231,19 @@ void tick_player(Player* player, const World* world, const PlayerCommand* comman
         player->sword_seconds_remaining =
             glm::max(0.0F, player->sword_seconds_remaining - dt_seconds);
     }
+    player->sword_disabled_seconds = glm::max(0.0F, player->sword_disabled_seconds - dt_seconds);
+    player->stunned_seconds = glm::max(0.0F, player->stunned_seconds - dt_seconds);
 
     const MoveDirection move_direction = choose_move_direction(player, command);
     player->move_direction = move_direction;
 
-    if (move_direction != MoveDirection::None) {
+    if (player->stunned_seconds <= 0.0F && move_direction != MoveDirection::None) {
         player->facing = facing_from_move_direction(move_direction);
         move_with_collision(player, world, move_direction, kMoveSpeedTilesPerSecond * dt_seconds,
                             command->ignore_world_collision);
     }
 
-    if (command->attack_pressed) {
+    if (command->attack_pressed && player->sword_disabled_seconds <= 0.0F) {
         player->sword_seconds_remaining = kSwordDurationSeconds;
     }
 }

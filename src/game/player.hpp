@@ -45,6 +45,8 @@ struct Player {
     Facing facing = Facing::Down;
     MoveDirection move_direction = MoveDirection::None;
     float sword_seconds_remaining = 0.0F;
+    float sword_disabled_seconds = 0.0F;
+    float stunned_seconds = 0.0F;
     float invincibility_seconds = 0.0F;
     int max_health = 3;
     int health = 3;
