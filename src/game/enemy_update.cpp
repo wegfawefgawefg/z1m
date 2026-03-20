@@ -1,4 +1,5 @@
 #include "content/opening_content.hpp"
+#include "content/sandbox_content.hpp"
 #include "game/area_state.hpp"
 #include "game/combat.hpp"
 #include "game/enemy_state.hpp"
@@ -10,6 +11,34 @@
 
 namespace z1m {
 
+namespace {
+
+const Player* get_enemy_target_player(const GameState* play, const Enemy& enemy,
+                                      const Player* player) {
+    if (player == nullptr || !in_area(play, enemy.area_kind, enemy.cave_id)) {
+        return nullptr;
+    }
+
+    if (enemy.area_kind != AreaKind::EnemyZoo || enemy.respawn_group < 0) {
+        return player;
+    }
+
+    glm::vec2 min_position(0.0F);
+    glm::vec2 max_position(0.0F);
+    if (!get_enemy_zoo_pen_bounds(enemy.respawn_group, &min_position, &max_position)) {
+        return player;
+    }
+
+    if (player->position.x < min_position.x || player->position.x > max_position.x ||
+        player->position.y < min_position.y || player->position.y > max_position.y) {
+        return nullptr;
+    }
+
+    return player;
+}
+
+} // namespace
+
 void tick_enemies(GameState* play, const World* overworld_world, Player* player, float dt_seconds) {
     for (Enemy& enemy : play->enemies) {
         if (!enemy.active) {
@@ -18,8 +47,7 @@ void tick_enemies(GameState* play, const World* overworld_world, Player* player,
 
         const World* world =
             get_world_for_area(play, overworld_world, enemy.area_kind, enemy.cave_id);
-        const Player* target_player =
-            in_area(play, enemy.area_kind, enemy.cave_id) ? player : nullptr;
+        const Player* target_player = get_enemy_target_player(play, enemy, player);
         enemy.room_id =
             enemy.area_kind == AreaKind::Overworld ? get_room_from_position(enemy.position) : -1;
         enemy.hurt_seconds_remaining = glm::max(0.0F, enemy.hurt_seconds_remaining - dt_seconds);
