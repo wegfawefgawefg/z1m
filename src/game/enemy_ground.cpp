@@ -290,46 +290,6 @@ void tick_rom_zol_or_gel(GameState* play, const World* world, Enemy* enemy, cons
                               ProjectileKind::Rock, false, false);
 }
 
-void tick_rope(GameState* play, const World* world, Enemy* enemy, const Player* player,
-               float dt_seconds) {
-    if (enemy->special_counter == 0) {
-        enemy->action_seconds_remaining =
-            glm::max(0.0F, enemy->action_seconds_remaining - dt_seconds);
-    }
-
-    const float speed = enemy->special_counter == 1 ? qspeed_to_speed(0x60) : qspeed_to_speed(0x20);
-    const glm::vec2 candidate = enemy->position + facing_vector(enemy->facing) * speed * dt_seconds;
-    if (enemy_can_move_to(enemy, world, candidate)) {
-        enemy->position = candidate;
-    } else {
-        enemy->special_counter = 0;
-        enemy->action_seconds_remaining = 0.0F;
-    }
-
-    if (!near_tile_center(enemy->position)) {
-        return;
-    }
-
-    snap_to_tile_center(&enemy->position);
-    if (enemy->special_counter == 0 && enemy->action_seconds_remaining <= 0.0F) {
-        enemy->action_seconds_remaining = frames_to_seconds(random_byte(play) & 0x3F);
-        choose_cardinal_direction(play, world, enemy);
-    }
-
-    if (player == nullptr || enemy->special_counter != 0) {
-        return;
-    }
-
-    const glm::vec2 delta = player->position - enemy->position;
-    if (std::abs(delta.x) < kRopeRushAlignThreshold) {
-        enemy->facing = delta.y < 0.0F ? Facing::Up : Facing::Down;
-        enemy->special_counter = 1;
-    } else if (std::abs(delta.y) < kRopeRushAlignThreshold) {
-        enemy->facing = delta.x < 0.0F ? Facing::Left : Facing::Right;
-        enemy->special_counter = 1;
-    }
-}
-
 void tick_ghini(GameState* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
     tick_rom_common_wanderer(play, world, enemy, player, dt_seconds, qspeed_to_speed(0x20), 0xFF);

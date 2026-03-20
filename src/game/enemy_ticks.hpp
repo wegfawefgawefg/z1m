@@ -41,6 +41,14 @@ void tick_rom_zol_or_gel(GameState* play, const World* world, Enemy* enemy, cons
                          float dt_seconds);
 void tick_rope(GameState* play, const World* world, Enemy* enemy, const Player* player,
                float dt_seconds);
+void tick_stalfos(GameState* play, const World* world, Enemy* enemy, const Player* player,
+                  float dt_seconds);
+void tick_gibdo(GameState* play, const World* world, Enemy* enemy, const Player* player,
+                float dt_seconds);
+void tick_like_like(GameState* play, const World* world, Enemy* enemy, const Player* player,
+                    float dt_seconds);
+void tick_bubble(GameState* play, const World* world, Enemy* enemy, const Player* player,
+                 float dt_seconds);
 void tick_ghini(GameState* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds);
 void tick_flying_ghini(GameState* play, const World* world, Enemy* enemy, const Player* player,

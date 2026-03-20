@@ -23,10 +23,6 @@ void tick_enemies(GameState* play, const World* overworld_world, Player* player,
         enemy.room_id =
             enemy.area_kind == AreaKind::Overworld ? get_room_from_position(enemy.position) : -1;
         enemy.hurt_seconds_remaining = glm::max(0.0F, enemy.hurt_seconds_remaining - dt_seconds);
-        if (enemy.kind == EnemyKind::LikeLike && enemy.special_counter > 0) {
-            enemy.special_counter -= 1;
-        }
-
         switch (enemy.kind) {
         case EnemyKind::Octorok:
             tick_octorok_like(play, world, &enemy, target_player, dt_seconds, kOctorokSpeed, 1.1F,
@@ -67,15 +63,13 @@ void tick_enemies(GameState* play, const World* overworld_world, Player* player,
             tick_vire(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Stalfos:
-            tick_rom_common_wanderer(play, world, &enemy, target_player, dt_seconds,
-                                     qspeed_to_speed(0x20), 0x80);
+            tick_stalfos(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Gibdo:
-            tick_rom_common_wanderer(play, world, &enemy, target_player, dt_seconds,
-                                     qspeed_to_speed(0x20), 0x80);
+            tick_gibdo(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::LikeLike:
-            tick_basic_walker(play, world, &enemy, target_player, dt_seconds, kLikeLikeSpeed, true);
+            tick_like_like(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::PolsVoice:
             tick_pols_voice(play, world, &enemy, dt_seconds);
@@ -93,8 +87,7 @@ void tick_enemies(GameState* play, const World* overworld_world, Player* player,
             tick_ghini(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Bubble:
-            tick_rom_common_wanderer(play, world, &enemy, target_player, dt_seconds,
-                                     qspeed_to_speed(0x40), 0x40);
+            tick_bubble(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::FlyingGhini:
             tick_flying_ghini(play, world, &enemy, target_player, dt_seconds);
@@ -175,15 +168,22 @@ void tick_enemies(GameState* play, const World* overworld_world, Player* player,
             }
 
             if (enemy.kind == EnemyKind::LikeLike) {
-                player->stunned_seconds = glm::max(player->stunned_seconds, kLikeLikeGrabSeconds);
+                if (enemy.special_counter == 0) {
+                    enemy.special_counter = 1;
+                    enemy.action_seconds_remaining = 0.0F;
+                }
+                player->stunned_seconds = glm::max(player->stunned_seconds, 0.2F);
                 player->position = enemy.position;
-                enemy.special_counter += 1;
-                if (enemy.special_counter >= 60 && player->has_magic_shield) {
+                if (enemy.special_counter == 1 &&
+                    enemy.action_seconds_remaining >= frames_to_seconds(0x60) &&
+                    player->has_magic_shield) {
                     player->has_magic_shield = false;
+                    enemy.special_counter = 2;
                     set_message(play, "like-like ate shield", 1.0F);
                 } else {
                     set_message(play, "like-like grab", 0.2F);
                 }
+                continue;
             }
 
             damage_player_from(play, world, player, 1, enemy.position);
