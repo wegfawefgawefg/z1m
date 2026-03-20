@@ -166,6 +166,78 @@ glm::vec2 eight_way_direction_toward(const glm::vec2& from, const glm::vec2& to)
     return glm::normalize(direction);
 }
 
+constexpr float kDiag8 = 0.70710678F;
+
+const std::array<glm::vec2, 8> kDir8Vectors = {
+    glm::vec2(1.0F, 0.0F),      glm::vec2(kDiag8, kDiag8),  glm::vec2(0.0F, 1.0F),
+    glm::vec2(-kDiag8, kDiag8), glm::vec2(-1.0F, 0.0F),     glm::vec2(-kDiag8, -kDiag8),
+    glm::vec2(0.0F, -1.0F),     glm::vec2(kDiag8, -kDiag8),
+};
+
+glm::vec2 flyer_direction_toward(const glm::vec2& from, const glm::vec2& to) {
+    glm::vec2 delta = to - from;
+    glm::vec2 direction(0.0F);
+
+    if (std::abs(delta.x) > 0.2F) {
+        direction.x = delta.x < 0.0F ? -1.0F : 1.0F;
+    }
+    if (std::abs(delta.y) > 0.2F) {
+        direction.y = delta.y < 0.0F ? -1.0F : 1.0F;
+    }
+
+    if (direction.x == 0.0F && direction.y == 0.0F) {
+        return glm::vec2(1.0F, 0.0F);
+    }
+
+    return glm::normalize(direction);
+}
+
+int dir8_index_from_vector(const glm::vec2& direction) {
+    if (glm::length(direction) < 0.001F) {
+        return 0;
+    }
+
+    float best_dot = -2.0F;
+    int best_index = 0;
+    const glm::vec2 unit = glm::normalize(direction);
+    for (int index = 0; index < static_cast<int>(kDir8Vectors.size()); ++index) {
+        const float dot = glm::dot(unit, kDir8Vectors[static_cast<std::size_t>(index)]);
+        if (dot > best_dot) {
+            best_dot = dot;
+            best_index = index;
+        }
+    }
+    return best_index;
+}
+
+glm::vec2 rotate_dir8_once_toward(const glm::vec2& current, const glm::vec2& target) {
+    const int current_index = dir8_index_from_vector(current);
+    const int target_index = dir8_index_from_vector(target);
+    const int clockwise = (target_index - current_index + 8) % 8;
+    const int counter_clockwise = (current_index - target_index + 8) % 8;
+    if (clockwise == 0 || counter_clockwise == 0) {
+        return kDir8Vectors[static_cast<std::size_t>(current_index)];
+    }
+
+    if (clockwise <= counter_clockwise) {
+        return kDir8Vectors[static_cast<std::size_t>((current_index + 1) % 8)];
+    }
+
+    return kDir8Vectors[static_cast<std::size_t>((current_index + 7) % 8)];
+}
+
+glm::vec2 rotate_dir8_random(GameSession* session, const glm::vec2& current) {
+    const int current_index = dir8_index_from_vector(current);
+    const int roll = random_int(session, 256);
+    if (roll >= 0xA0) {
+        return kDir8Vectors[static_cast<std::size_t>(current_index)];
+    }
+    if (roll >= 0x50) {
+        return kDir8Vectors[static_cast<std::size_t>((current_index + 1) % 8)];
+    }
+    return kDir8Vectors[static_cast<std::size_t>((current_index + 7) % 8)];
+}
+
 bool choose_cardinal_shot_direction(const GameSession* session, const Enemy& enemy,
                                     const Player& player, Facing* facing_out) {
     if (enemy.area_kind == AreaKind::Overworld && enemy.room_id != session->current_room_id) {
@@ -1010,6 +1082,9 @@ void damage_enemy(GameSession* session, Enemy* enemy, int damage) {
             child.max_health = 1;
             child.health = 1;
             reset_enemy_state(session, &child);
+            child.facing = index == 0 ? Facing::Left : Facing::Right;
+            child.subtype = 1;
+            child.action_seconds_remaining = 5.0F / 60.0F;
             session->enemies.push_back(child);
         }
     }
@@ -1381,6 +1456,12 @@ void tick_rom_darknut(GameSession* session, const World* world, Enemy* enemy, co
                               ProjectileKind::Rock, false, false);
 }
 
+void tick_rom_common_wanderer(GameSession* session, const World* world, Enemy* enemy,
+                              const Player* player, float dt_seconds, float speed, int turn_rate) {
+    tick_rom_wanderer_shooter(session, world, enemy, player, dt_seconds, speed, turn_rate,
+                              ProjectileKind::Rock, false, false);
+}
+
 void tick_octorok_like(GameSession* session, const World* world, Enemy* enemy, const Player* player,
                        float dt_seconds, float speed, float shoot_period_min,
                        float shoot_period_random, ProjectileKind shot_kind) {
@@ -1438,50 +1519,107 @@ void tick_goriya(GameSession* session, const World* world, Enemy* enemy, const P
                          ProjectileKind::Boomerang);
 }
 
-void tick_rope(GameSession* session, const World* world, Enemy* enemy, const Player* player,
-               float dt_seconds) {
-    enemy->state_seconds_remaining -= dt_seconds;
-    if (enemy->state_seconds_remaining > 0.0F) {
-        bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+float zol_or_gel_edge_delay_seconds(GameSession* session, EnemyKind kind) {
+    constexpr std::array<int, 4> kZolFrames = {0x18, 0x28, 0x38, 0x48};
+    constexpr std::array<int, 4> kGelFrames = {0x08, 0x18, 0x28, 0x38};
+    const int index = random_int(session, 4);
+    const int frames = kind == EnemyKind::Zol ? kZolFrames[static_cast<std::size_t>(index)]
+                                              : kGelFrames[static_cast<std::size_t>(index)];
+    return frames_to_seconds(frames);
+}
+
+void tick_rom_zol_or_gel(GameSession* session, const World* world, Enemy* enemy,
+                         const Player* player, float dt_seconds) {
+    if (enemy->kind == EnemyKind::Gel && enemy->subtype == 1) {
+        enemy->action_seconds_remaining =
+            glm::max(0.0F, enemy->action_seconds_remaining - dt_seconds);
+        const glm::vec2 candidate =
+            enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0xFF) * dt_seconds;
+        if (world_is_walkable_tile(world, candidate)) {
+            enemy->position = candidate;
+        } else {
+            enemy->action_seconds_remaining = 0.0F;
+        }
+
+        if (enemy->action_seconds_remaining <= 0.0F) {
+            snap_to_tile_center(&enemy->position);
+            enemy->subtype = 0;
+            enemy->state_seconds_remaining = 0.0F;
+        }
         return;
     }
 
-    if (player != nullptr) {
-        const glm::vec2 delta = player->position - enemy->position;
-        if (std::abs(delta.x) <= kShootAlignThreshold ||
-            std::abs(delta.y) <= kShootAlignThreshold) {
-            enemy->velocity = glm::normalize(glm::vec2(delta.x, delta.y)) * kRopeChargeSpeed;
-            if (std::abs(delta.x) > std::abs(delta.y)) {
-                enemy->velocity.y = 0.0F;
-            } else {
-                enemy->velocity.x = 0.0F;
-            }
-            enemy->state_seconds_remaining = 0.55F;
+    if (!near_tile_center(enemy->position)) {
+        enemy->state_seconds_remaining = 0.0F;
+    } else {
+        snap_to_tile_center(&enemy->position);
+        if (enemy->state_seconds_remaining <= 0.0F && enemy->action_seconds_remaining <= 0.0F) {
+            enemy->action_seconds_remaining = zol_or_gel_edge_delay_seconds(session, enemy->kind);
+            enemy->state_seconds_remaining = 1.0F;
             return;
         }
     }
 
-    tick_basic_walker(session, world, enemy, player, dt_seconds, kRopeSpeed, false);
+    if (enemy->action_seconds_remaining > 0.0F) {
+        enemy->action_seconds_remaining =
+            glm::max(0.0F, enemy->action_seconds_remaining - dt_seconds);
+        return;
+    }
+
+    const float speed =
+        enemy->kind == EnemyKind::Zol ? qspeed_to_speed(0x18) : qspeed_to_speed(0x40);
+    tick_rom_wanderer_shooter(session, world, enemy, player, dt_seconds, speed, 0x20,
+                              ProjectileKind::Rock, false, false);
+}
+
+void tick_rope(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+               float dt_seconds) {
+    if (enemy->state_seconds_remaining > 0.0F) {
+        enemy->state_seconds_remaining =
+            glm::max(0.0F, enemy->state_seconds_remaining - dt_seconds);
+        const glm::vec2 candidate =
+            enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0x60) * dt_seconds;
+        if (world_is_walkable_tile(world, candidate)) {
+            enemy->position = candidate;
+        } else {
+            enemy->state_seconds_remaining = 0.0F;
+        }
+        return;
+    }
+
+    enemy->move_seconds_remaining = glm::max(0.0F, enemy->move_seconds_remaining - dt_seconds);
+    if (near_tile_center(enemy->position)) {
+        snap_to_tile_center(&enemy->position);
+        if (player != nullptr) {
+            const glm::vec2 delta = player->position - enemy->position;
+            if (std::abs(delta.x) < 1.0F) {
+                enemy->facing = delta.y < 0.0F ? Facing::Up : Facing::Down;
+                enemy->state_seconds_remaining = frames_to_seconds(40);
+            } else if (std::abs(delta.y) < 1.0F) {
+                enemy->facing = delta.x < 0.0F ? Facing::Left : Facing::Right;
+                enemy->state_seconds_remaining = frames_to_seconds(40);
+            }
+        }
+
+        if (enemy->state_seconds_remaining <= 0.0F && enemy->move_seconds_remaining <= 0.0F) {
+            choose_cardinal_direction(session, world, enemy);
+            enemy->move_seconds_remaining = frames_to_seconds(random_byte(session) & 0x3F);
+        }
+    }
+
+    const glm::vec2 candidate =
+        enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0x20) * dt_seconds;
+    if (world_is_walkable_tile(world, candidate)) {
+        enemy->position = candidate;
+    } else {
+        enemy->move_seconds_remaining = 0.0F;
+    }
 }
 
 void tick_ghini(GameSession* session, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
-    enemy->action_seconds_remaining -= dt_seconds;
-    if (enemy->action_seconds_remaining <= 0.0F) {
-        glm::vec2 direction(random_unit(session) * 2.0F - 1.0F, random_unit(session) * 2.0F - 1.0F);
-        if (player != nullptr) {
-            direction = player->position - enemy->position;
-        }
-        if (glm::length(direction) < 0.1F) {
-            direction = glm::vec2(0.0F, 1.0F);
-        } else {
-            direction = glm::normalize(direction);
-        }
-        enemy->velocity = direction * kGhiniSpeed;
-        enemy->action_seconds_remaining = 0.25F + random_unit(session) * 0.35F;
-    }
-
-    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+    tick_rom_common_wanderer(session, world, enemy, player, dt_seconds, qspeed_to_speed(0x20),
+                             0xFF);
 }
 
 void tick_flying_ghini(GameSession* session, const World* world, Enemy* enemy, const Player* player,
@@ -1669,13 +1807,12 @@ void tick_armos(GameSession* session, const World* world, Enemy* enemy, const Pl
     if (enemy->special_counter == 0) {
         if (player != nullptr && glm::length(player->position - enemy->position) <= 2.5F) {
             enemy->special_counter = 1;
-            enemy->move_seconds_remaining = 0.0F;
         } else {
             return;
         }
     }
 
-    tick_basic_walker(session, world, enemy, player, dt_seconds, kArmosSpeed, true);
+    tick_rom_goriya_movement(session, world, enemy, player, dt_seconds, kArmosSpeed);
 }
 
 void tick_tektite(GameSession* session, const World* world, Enemy* enemy, const Player* player,
@@ -1726,6 +1863,73 @@ void tick_tektite(GameSession* session, const World* world, Enemy* enemy, const 
     enemy->move_seconds_remaining = 0.34F + random_unit(session) * 0.08F;
 }
 
+void tick_rom_flyer(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+                    float dt_seconds, float max_speed, int chase_threshold,
+                    bool vulnerable_only_in_delay) {
+    if (glm::length(enemy->velocity) < 0.001F) {
+        enemy->velocity = glm::vec2(1.0F, 0.0F);
+    }
+    if (enemy->state_seconds_remaining <= 0.0F) {
+        enemy->state_seconds_remaining = max_speed * 0.25F;
+    }
+
+    enemy->invulnerable = vulnerable_only_in_delay && enemy->special_counter != 5;
+
+    if (enemy->special_counter == 5) {
+        enemy->action_seconds_remaining =
+            glm::max(0.0F, enemy->action_seconds_remaining - dt_seconds);
+        if (enemy->action_seconds_remaining <= 0.0F) {
+            enemy->special_counter = 0;
+        }
+    } else if (enemy->special_counter == 0) {
+        enemy->state_seconds_remaining =
+            glm::min(max_speed, enemy->state_seconds_remaining + max_speed * 1.8F * dt_seconds);
+        if (enemy->state_seconds_remaining >= max_speed) {
+            enemy->special_counter = 1;
+        }
+    } else if (enemy->special_counter == 1) {
+        const int roll = random_byte(session);
+        enemy->special_counter = roll >= chase_threshold ? 2 : (roll >= 0x20 ? 3 : 4);
+        enemy->move_seconds_remaining = 6.0F;
+        enemy->action_seconds_remaining = 0.0F;
+    } else if (enemy->special_counter == 2 || enemy->special_counter == 3) {
+        enemy->action_seconds_remaining =
+            glm::max(0.0F, enemy->action_seconds_remaining - dt_seconds);
+        if (enemy->action_seconds_remaining <= 0.0F) {
+            enemy->move_seconds_remaining -= 1.0F;
+            if (enemy->move_seconds_remaining <= 0.0F) {
+                enemy->special_counter = 1;
+            } else {
+                enemy->action_seconds_remaining = frames_to_seconds(16);
+                const glm::vec2 current_dir = glm::normalize(enemy->velocity);
+                if (enemy->special_counter == 2 && player != nullptr) {
+                    const glm::vec2 target_dir =
+                        flyer_direction_toward(enemy->position, player->position);
+                    enemy->velocity = rotate_dir8_once_toward(current_dir, target_dir);
+                } else {
+                    enemy->velocity = rotate_dir8_random(session, current_dir);
+                }
+            }
+        }
+    } else if (enemy->special_counter == 4) {
+        enemy->state_seconds_remaining =
+            glm::max(0.0F, enemy->state_seconds_remaining - max_speed * 1.8F * dt_seconds);
+        if (enemy->state_seconds_remaining <= max_speed * 0.20F) {
+            enemy->special_counter = 5;
+            enemy->action_seconds_remaining =
+                frames_to_seconds(0x40 + (random_byte(session) & 0x3F));
+        }
+    }
+
+    const float speed = glm::max(enemy->state_seconds_remaining, 0.0F);
+    if (speed > 0.0F) {
+        bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+        if (glm::length(enemy->velocity) > 0.001F) {
+            enemy->velocity = glm::normalize(enemy->velocity) * speed;
+        }
+    }
+}
+
 void tick_leever(GameSession* session, const World* world, Enemy* enemy, const Player* player,
                  float dt_seconds) {
     enemy->state_seconds_remaining -= dt_seconds;
@@ -1760,27 +1964,7 @@ void tick_leever(GameSession* session, const World* world, Enemy* enemy, const P
 }
 
 void tick_keese(GameSession* session, const World* world, Enemy* enemy, float dt_seconds) {
-    enemy->action_seconds_remaining -= dt_seconds;
-    enemy->move_seconds_remaining -= dt_seconds;
-
-    if (enemy->action_seconds_remaining <= 0.0F) {
-        glm::vec2 direction(random_unit(session) * 2.0F - 1.0F, random_unit(session) * 2.0F - 1.0F);
-        const Projectile* food = find_active_food(session, enemy->area_kind, enemy->cave_id);
-        if (food != nullptr) {
-            direction = food->position - enemy->position;
-        }
-        if (glm::length(direction) < 0.1F) {
-            direction = glm::vec2(0.0F, 1.0F);
-        } else {
-            direction = glm::normalize(direction);
-        }
-
-        enemy->velocity = direction * kKeeseSpeed;
-        enemy->action_seconds_remaining = 0.35F + random_unit(session) * 0.35F;
-        enemy->move_seconds_remaining = 0.8F + random_unit(session) * 1.0F;
-    }
-
-    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+    tick_rom_flyer(session, world, enemy, nullptr, dt_seconds, kKeeseSpeed, 0xA0, false);
 }
 
 void tick_pols_voice(GameSession* session, const World* world, Enemy* enemy, float dt_seconds) {
@@ -2136,42 +2320,7 @@ void tick_zora(GameSession* session, const World* world, Enemy* enemy, const Pla
 }
 
 void tick_peahat(GameSession* session, const World* world, Enemy* enemy, float dt_seconds) {
-    enemy->state_seconds_remaining -= dt_seconds;
-    enemy->action_seconds_remaining -= dt_seconds;
-    enemy->move_seconds_remaining -= dt_seconds;
-
-    if (enemy->invulnerable) {
-        if (enemy->action_seconds_remaining <= 0.0F) {
-            glm::vec2 direction(random_unit(session) * 2.0F - 1.0F,
-                                random_unit(session) * 2.0F - 1.0F);
-            if (glm::length(direction) < 0.1F) {
-                direction = glm::vec2(0.0F, -1.0F);
-            } else {
-                direction = glm::normalize(direction);
-            }
-
-            enemy->velocity = direction * kPeahatSpeed;
-            enemy->action_seconds_remaining = 0.22F + random_unit(session) * 0.28F;
-        }
-
-        bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
-        if (enemy->state_seconds_remaining > 0.0F) {
-            return;
-        }
-
-        enemy->invulnerable = false;
-        enemy->velocity = glm::vec2(0.0F);
-        enemy->state_seconds_remaining = 0.9F + random_unit(session) * 0.5F;
-        return;
-    }
-
-    if (enemy->state_seconds_remaining > 0.0F) {
-        return;
-    }
-
-    enemy->invulnerable = true;
-    enemy->state_seconds_remaining = 1.7F + random_unit(session) * 0.8F;
-    enemy->action_seconds_remaining = 0.0F;
+    tick_rom_flyer(session, world, enemy, nullptr, dt_seconds, kPeahatSpeed, 0xB0, true);
 }
 
 void tick_aquamentus(GameSession* session, const World* world, Enemy* enemy, const Player* player,
@@ -2240,10 +2389,10 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
             tick_keese(session, world, &enemy, dt_seconds);
             break;
         case EnemyKind::Zol:
-            tick_basic_walker(session, world, &enemy, target_player, dt_seconds, kZolSpeed, true);
+            tick_rom_zol_or_gel(session, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Gel:
-            tick_basic_walker(session, world, &enemy, target_player, dt_seconds, kGelSpeed, false);
+            tick_rom_zol_or_gel(session, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Rope:
             tick_rope(session, world, &enemy, target_player, dt_seconds);
@@ -2252,9 +2401,12 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
             tick_vire(session, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Stalfos:
+            tick_rom_common_wanderer(session, world, &enemy, target_player, dt_seconds,
+                                     qspeed_to_speed(0x20), 0x80);
+            break;
         case EnemyKind::Gibdo:
-            tick_basic_walker(session, world, &enemy, target_player, dt_seconds, kWalkerSpeed,
-                              false);
+            tick_rom_common_wanderer(session, world, &enemy, target_player, dt_seconds,
+                                     qspeed_to_speed(0x20), 0x80);
             break;
         case EnemyKind::LikeLike:
             tick_basic_walker(session, world, &enemy, target_player, dt_seconds, kLikeLikeSpeed,
@@ -2273,8 +2425,11 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
             tick_wallmaster(session, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Ghini:
-        case EnemyKind::Bubble:
             tick_ghini(session, world, &enemy, target_player, dt_seconds);
+            break;
+        case EnemyKind::Bubble:
+            tick_rom_common_wanderer(session, world, &enemy, target_player, dt_seconds,
+                                     qspeed_to_speed(0x40), 0x40);
             break;
         case EnemyKind::FlyingGhini:
             tick_flying_ghini(session, world, &enemy, target_player, dt_seconds);
