@@ -33,6 +33,43 @@ struct NpcSpawnSpec {
     const char* label = "";
 };
 
+struct EnemyZooPenBounds {
+    int respawn_group = -1;
+    glm::vec2 min_position = glm::vec2(0.0F);
+    glm::vec2 max_position = glm::vec2(0.0F);
+};
+
+constexpr std::array<EnemyZooPenBounds, 28> kEnemyZooPenBounds = {{
+    EnemyZooPenBounds{0, glm::vec2(10.5F, 10.5F), glm::vec2(25.5F, 23.5F)},
+    EnemyZooPenBounds{1, glm::vec2(34.5F, 10.5F), glm::vec2(49.5F, 23.5F)},
+    EnemyZooPenBounds{2, glm::vec2(58.5F, 10.5F), glm::vec2(73.5F, 23.5F)},
+    EnemyZooPenBounds{3, glm::vec2(82.5F, 10.5F), glm::vec2(97.5F, 23.5F)},
+    EnemyZooPenBounds{4, glm::vec2(106.5F, 10.5F), glm::vec2(121.5F, 23.5F)},
+    EnemyZooPenBounds{5, glm::vec2(130.5F, 10.5F), glm::vec2(145.5F, 23.5F)},
+    EnemyZooPenBounds{6, glm::vec2(10.5F, 34.5F), glm::vec2(25.5F, 47.5F)},
+    EnemyZooPenBounds{7, glm::vec2(34.5F, 34.5F), glm::vec2(49.5F, 47.5F)},
+    EnemyZooPenBounds{8, glm::vec2(58.5F, 34.5F), glm::vec2(73.5F, 47.5F)},
+    EnemyZooPenBounds{9, glm::vec2(82.5F, 34.5F), glm::vec2(97.5F, 47.5F)},
+    EnemyZooPenBounds{10, glm::vec2(106.5F, 34.5F), glm::vec2(121.5F, 47.5F)},
+    EnemyZooPenBounds{11, glm::vec2(130.5F, 34.5F), glm::vec2(145.5F, 47.5F)},
+    EnemyZooPenBounds{12, glm::vec2(10.5F, 58.5F), glm::vec2(25.5F, 71.5F)},
+    EnemyZooPenBounds{13, glm::vec2(34.5F, 58.5F), glm::vec2(49.5F, 71.5F)},
+    EnemyZooPenBounds{14, glm::vec2(58.5F, 58.5F), glm::vec2(73.5F, 71.5F)},
+    EnemyZooPenBounds{15, glm::vec2(82.5F, 58.5F), glm::vec2(97.5F, 71.5F)},
+    EnemyZooPenBounds{16, glm::vec2(106.5F, 58.5F), glm::vec2(121.5F, 71.5F)},
+    EnemyZooPenBounds{17, glm::vec2(130.5F, 58.5F), glm::vec2(145.5F, 71.5F)},
+    EnemyZooPenBounds{18, glm::vec2(106.5F, 82.5F), glm::vec2(121.5F, 95.5F)},
+    EnemyZooPenBounds{19, glm::vec2(130.5F, 82.5F), glm::vec2(145.5F, 95.5F)},
+    EnemyZooPenBounds{20, glm::vec2(10.5F, 106.5F), glm::vec2(25.5F, 119.5F)},
+    EnemyZooPenBounds{21, glm::vec2(34.5F, 106.5F), glm::vec2(49.5F, 119.5F)},
+    EnemyZooPenBounds{22, glm::vec2(58.5F, 106.5F), glm::vec2(73.5F, 119.5F)},
+    EnemyZooPenBounds{23, glm::vec2(82.5F, 106.5F), glm::vec2(97.5F, 119.5F)},
+    EnemyZooPenBounds{24, glm::vec2(106.5F, 106.5F), glm::vec2(121.5F, 119.5F)},
+    EnemyZooPenBounds{25, glm::vec2(130.5F, 106.5F), glm::vec2(145.5F, 119.5F)},
+    EnemyZooPenBounds{26, glm::vec2(106.5F, 128.5F), glm::vec2(121.5F, 139.5F)},
+    EnemyZooPenBounds{27, glm::vec2(130.5F, 128.5F), glm::vec2(145.5F, 139.5F)},
+}};
+
 constexpr std::array<EnemySpawnSpec, 48> kEnemyZooSpawns = {
     EnemySpawnSpec{.area_kind = AreaKind::EnemyZoo,
                    .kind = EnemyKind::Octorok,
@@ -513,8 +550,10 @@ void build_enemy_zoo_world(World* world) {
     build_pen(world, 80, 104, 20, 18, TileKind::Ground);
     build_pen(world, 104, 104, 20, 18, TileKind::Ground);
     build_pen(world, 128, 104, 20, 18, TileKind::Ground);
+    build_pen(world, 104, 126, 20, 16, TileKind::Ground);
+    build_pen(world, 128, 126, 20, 16, TileKind::Ground);
 
-    fill_world_rect(world, 10, 130, 132, 4, TileKind::Rock);
+    fill_world_rect(world, 10, 130, 84, 4, TileKind::Rock);
 }
 
 void build_item_zoo_world(World* world) {
@@ -598,7 +637,7 @@ int gather_sandbox_portals(const GameSession* session,
         push_portal(portals, &count, AreaKind::EnemyZoo, glm::vec2(10.0F, 138.0F),
                     glm::vec2(2.0F, 1.5F), AreaKind::Overworld, get_opening_start_position(),
                     "to overworld");
-        push_portal(portals, &count, AreaKind::EnemyZoo, glm::vec2(142.0F, 138.0F),
+        push_portal(portals, &count, AreaKind::EnemyZoo, glm::vec2(98.0F, 138.0F),
                     glm::vec2(2.0F, 1.5F), AreaKind::ItemZoo, glm::vec2(10.0F, 10.0F),
                     "to item zoo");
     }
@@ -608,7 +647,7 @@ int gather_sandbox_portals(const GameSession* session,
                     glm::vec2(2.0F, 1.5F), AreaKind::Overworld, get_opening_start_position(),
                     "to overworld");
         push_portal(portals, &count, AreaKind::ItemZoo, glm::vec2(62.0F, 35.0F),
-                    glm::vec2(2.0F, 1.5F), AreaKind::EnemyZoo, glm::vec2(10.0F, 138.0F),
+                    glm::vec2(2.0F, 1.5F), AreaKind::EnemyZoo, glm::vec2(5.0F, 138.0F),
                     "to enemy zoo");
         push_portal(portals, &count, AreaKind::ItemZoo, glm::vec2(53.0F, 25.0F),
                     glm::vec2(0.9F, 0.9F), AreaKind::ItemZoo, glm::vec2(63.0F, 25.0F), "raft dock",
@@ -619,6 +658,20 @@ int gather_sandbox_portals(const GameSession* session,
     }
 
     return count;
+}
+
+bool get_enemy_zoo_pen_bounds(int respawn_group, glm::vec2* min_position, glm::vec2* max_position) {
+    for (const EnemyZooPenBounds& pen : kEnemyZooPenBounds) {
+        if (pen.respawn_group != respawn_group) {
+            continue;
+        }
+
+        *min_position = pen.min_position;
+        *max_position = pen.max_position;
+        return true;
+    }
+
+    return false;
 }
 
 } // namespace z1m

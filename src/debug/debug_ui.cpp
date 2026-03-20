@@ -102,8 +102,7 @@ void render_travel_buttons(AppState* app) {
     }
     ImGui::SameLine();
     if (ImGui::Button("Enemy Zoo")) {
-        set_area_kind(&app->session, &app->player, AreaKind::EnemyZoo, -1,
-                      glm::vec2(10.0F, 138.0F));
+        set_area_kind(&app->session, &app->player, AreaKind::EnemyZoo, -1, glm::vec2(5.0F, 138.0F));
     }
     ImGui::SameLine();
     if (ImGui::Button("Item Zoo")) {

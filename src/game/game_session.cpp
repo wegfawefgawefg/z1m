@@ -183,6 +183,21 @@ const World* get_world_for_area(const GameSession* session, const World* overwor
     return overworld_world;
 }
 
+void clamp_enemy_to_zoo_pen(Enemy* enemy) {
+    if (enemy->area_kind != AreaKind::EnemyZoo || enemy->respawn_group < 0) {
+        return;
+    }
+
+    glm::vec2 min_position(0.0F);
+    glm::vec2 max_position(0.0F);
+    if (!get_enemy_zoo_pen_bounds(enemy->respawn_group, &min_position, &max_position)) {
+        return;
+    }
+
+    enemy->position.x = glm::clamp(enemy->position.x, min_position.x, max_position.x);
+    enemy->position.y = glm::clamp(enemy->position.y, min_position.y, max_position.y);
+}
+
 bool in_area(const GameSession* session, AreaKind area_kind, int cave_id) {
     if (session->area_kind != area_kind) {
         return false;
@@ -2074,6 +2089,8 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
             tick_ganon(session, world, &enemy, target_player, dt_seconds);
             break;
         }
+
+        clamp_enemy_to_zoo_pen(&enemy);
 
         if (target_player == nullptr || enemy.hidden) {
             continue;
