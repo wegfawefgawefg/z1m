@@ -210,7 +210,7 @@ void tick_gohma(GameState* play, const World* world, Enemy* enemy, const Player*
     }
 
     const glm::vec2 candidate = enemy->position + enemy->velocity * dt_seconds;
-    if (world_is_walkable_tile(world, candidate)) {
+    if (enemy_can_move_to(enemy, world, candidate)) {
         enemy->position = candidate;
         enemy->move_seconds_remaining = glm::max(0.0F, enemy->move_seconds_remaining - dt_seconds);
     } else {
@@ -270,7 +270,7 @@ void tick_digdogger(GameState* play, const World* world, Enemy* enemy, const Pla
 
     const glm::vec2 candidate =
         enemy->position + glm::normalize(enemy->velocity) * speed * dt_seconds;
-    if (world_is_walkable_tile(world, candidate)) {
+    if (enemy_can_move_to(enemy, world, candidate)) {
         enemy->position = candidate;
         return;
     }
@@ -278,7 +278,7 @@ void tick_digdogger(GameState* play, const World* world, Enemy* enemy, const Pla
     enemy->velocity = rotate_dir8_random(play, -glm::normalize(enemy->velocity));
     const glm::vec2 bounce_candidate =
         enemy->position + glm::normalize(enemy->velocity) * speed * dt_seconds;
-    if (world_is_walkable_tile(world, bounce_candidate)) {
+    if (enemy_can_move_to(enemy, world, bounce_candidate)) {
         enemy->position = bounce_candidate;
     }
 }

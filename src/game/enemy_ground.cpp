@@ -79,7 +79,7 @@ bool try_place_red_leever(const World* world, GameState* play, Enemy* enemy, con
 
     position.x = glm::clamp(position.x, 0.5F, static_cast<float>(world_width(world)) - 0.5F);
     position.y = glm::clamp(position.y, 0.5F, static_cast<float>(world_height(world)) - 0.5F);
-    if (!world_is_walkable_tile(world, position)) {
+    if (!enemy_can_move_to(enemy, world, position)) {
         return false;
     }
 
@@ -126,7 +126,7 @@ bool choose_blue_wizzrobe_teleport_target(GameState* play, const World* world, E
         const glm::vec2 offset =
             kBlueWizzrobeTeleportOffsets[static_cast<std::size_t>((base_index + attempt) % 4)];
         const glm::vec2 target = enemy->position + offset;
-        if (!world_is_walkable_tile(world, target)) {
+        if (!enemy_can_move_to(enemy, world, target)) {
             continue;
         }
         begin_blue_wizzrobe_teleport(enemy, offset);
@@ -160,7 +160,7 @@ bool try_place_red_wizzrobe(GameState* play, const World* world, Enemy* enemy,
         if (target.y < 2.5F || target.y > static_cast<float>(world_height(world)) - 1.5F) {
             continue;
         }
-        if (!world_is_walkable_tile(world, target)) {
+        if (!enemy_can_move_to(enemy, world, target)) {
             continue;
         }
         enemy->position = target;
@@ -228,7 +228,7 @@ void tick_rom_zol_or_gel(GameState* play, const World* world, Enemy* enemy, cons
     if (enemy->kind == EnemyKind::Zol && enemy->special_counter == 1) {
         const glm::vec2 candidate =
             enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0xFF) * dt_seconds;
-        if (world_is_walkable_tile(world, candidate)) {
+        if (enemy_can_move_to(enemy, world, candidate)) {
             enemy->position = candidate;
             return;
         }
@@ -253,7 +253,7 @@ void tick_rom_zol_or_gel(GameState* play, const World* world, Enemy* enemy, cons
             glm::max(0.0F, enemy->action_seconds_remaining - dt_seconds);
         const glm::vec2 candidate =
             enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0xFF) * dt_seconds;
-        if (world_is_walkable_tile(world, candidate)) {
+        if (enemy_can_move_to(enemy, world, candidate)) {
             enemy->position = candidate;
         } else {
             enemy->action_seconds_remaining = 0.0F;
@@ -299,7 +299,7 @@ void tick_rope(GameState* play, const World* world, Enemy* enemy, const Player* 
 
     const float speed = enemy->special_counter == 1 ? qspeed_to_speed(0x60) : qspeed_to_speed(0x20);
     const glm::vec2 candidate = enemy->position + facing_vector(enemy->facing) * speed * dt_seconds;
-    if (world_is_walkable_tile(world, candidate)) {
+    if (enemy_can_move_to(enemy, world, candidate)) {
         enemy->position = candidate;
     } else {
         enemy->special_counter = 0;
@@ -349,7 +349,7 @@ void tick_vire(GameState* play, const World* world, Enemy* enemy, const Player* 
 
     glm::vec2 candidate = enemy->position + facing_vector(enemy->facing) * kVireSpeed * dt_seconds;
     candidate.y += std::sin(enemy->action_seconds_remaining * 14.0F) * 0.04F;
-    if (world_is_walkable_tile(world, candidate)) {
+    if (enemy_can_move_to(enemy, world, candidate)) {
         enemy->position = candidate;
     } else {
         enemy->move_seconds_remaining = 0.0F;
@@ -373,7 +373,7 @@ void tick_blue_wizzrobe(GameState* play, const World* world, Enemy* enemy, const
         const glm::vec2 candidate = enemy->position + step;
         enemy->move_seconds_remaining =
             glm::max(0.0F, enemy->move_seconds_remaining - glm::length(step));
-        if (world_is_walkable_tile(world, candidate)) {
+        if (enemy_can_move_to(enemy, world, candidate)) {
             enemy->position = candidate;
         }
         if (enemy->move_seconds_remaining <= 0.0F) {
@@ -413,7 +413,7 @@ void tick_blue_wizzrobe(GameState* play, const World* world, Enemy* enemy, const
 
     const glm::vec2 candidate =
         enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0x20) * dt_seconds * 2.0F;
-    if (world_is_walkable_tile(world, candidate)) {
+    if (enemy_can_move_to(enemy, world, candidate)) {
         enemy->position = candidate;
     } else {
         const bool hit_vertical_wall =
@@ -502,7 +502,7 @@ void tick_red_wizzrobe(GameState* play, const World* world, Enemy* enemy, const 
 void tick_trap(const World* world, Enemy* enemy, const Player* player, float dt_seconds) {
     if (glm::length(enemy->velocity) > 0.0F) {
         const glm::vec2 candidate = enemy->position + enemy->velocity * dt_seconds;
-        if (!world_is_walkable_tile(world, candidate)) {
+        if (!enemy_can_move_to(enemy, world, candidate)) {
             enemy->velocity *= -1.0F;
         } else {
             enemy->position = candidate;
@@ -548,7 +548,7 @@ void tick_tektite(GameState* play, const World* world, Enemy* enemy, const Playe
         enemy->move_seconds_remaining = glm::max(0.0F, enemy->move_seconds_remaining - dt_seconds);
         const glm::vec2 previous = enemy->position;
         const glm::vec2 candidate = enemy->position + enemy->velocity * dt_seconds;
-        if (!world_is_walkable_tile(world, candidate)) {
+        if (!enemy_can_move_to(enemy, world, candidate)) {
             enemy->special_counter += 1;
             enemy->velocity *= -1.0F;
             if (enemy->special_counter >= 2) {
@@ -649,7 +649,7 @@ void tick_rom_flyer(GameState* play, const World* world, Enemy* enemy, const Pla
 
     const float speed = glm::max(enemy->state_seconds_remaining, 0.0F);
     if (speed > 0.0F) {
-        bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+        bounce_velocity(enemy, world, &enemy->position, &enemy->velocity, dt_seconds);
         if (glm::length(enemy->velocity) > 0.001F) {
             enemy->velocity = glm::normalize(enemy->velocity) * speed;
         }
@@ -695,7 +695,7 @@ void tick_leever(GameState* play, const World* world, Enemy* enemy, const Player
     if (enemy->subtype == 0) {
         const glm::vec2 candidate =
             enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0x20) * dt_seconds;
-        if (world_is_walkable_tile(world, candidate)) {
+        if (enemy_can_move_to(enemy, world, candidate)) {
             enemy->position = candidate;
         } else {
             enemy->action_seconds_remaining = 0.0F;
@@ -712,7 +712,7 @@ void tick_leever(GameState* play, const World* world, Enemy* enemy, const Player
 
         const glm::vec2 candidate =
             enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0x20) * dt_seconds;
-        if (world_is_walkable_tile(world, candidate)) {
+        if (enemy_can_move_to(enemy, world, candidate)) {
             enemy->position = candidate;
         } else {
             enemy->action_seconds_remaining = 0.0F;

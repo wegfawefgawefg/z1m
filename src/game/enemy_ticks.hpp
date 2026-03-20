@@ -4,7 +4,9 @@
 
 namespace z1m {
 
-void bounce_velocity(const World* world, glm::vec2* position, glm::vec2* velocity, float dt);
+bool enemy_can_move_to(const Enemy* enemy, const World* world, const glm::vec2& position);
+void bounce_velocity(const Enemy* enemy, const World* world, glm::vec2* position,
+                     glm::vec2* velocity, float dt);
 float random_turn_timer_seconds(GameState* play);
 int random_byte(GameState* play);
 float frames_to_seconds(int frames);

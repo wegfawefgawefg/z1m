@@ -83,7 +83,7 @@ void tick_pols_voice(GameState* play, const World* world, Enemy* enemy, float dt
     }
 
     if (enemy->move_seconds_remaining > 0.0F) {
-        bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+        bounce_velocity(enemy, world, &enemy->position, &enemy->velocity, dt_seconds);
     }
 }
 
@@ -101,7 +101,7 @@ void tick_wallmaster(GameState* play, const World* world, Enemy* enemy, const Pl
     enemy->move_seconds_remaining =
         glm::max(0.0F, enemy->move_seconds_remaining - kWallmasterSpeed * dt_seconds);
     const glm::vec2 candidate = enemy->position + enemy->velocity * dt_seconds;
-    if (world_is_walkable_tile(world, candidate)) {
+    if (enemy_can_move_to(enemy, world, candidate)) {
         enemy->position = candidate;
     } else {
         enemy->move_seconds_remaining = 0.0F;
@@ -161,12 +161,12 @@ void tick_moldorm(GameState* play, const World* world, Enemy* enemy, const Playe
         enemy->action_seconds_remaining = 0.25F + random_unit(play) * 0.35F;
     }
 
-    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+    bounce_velocity(enemy, world, &enemy->position, &enemy->velocity, dt_seconds);
 }
 
 void tick_manhandla(GameState* play, const World* world, Enemy* enemy, const Player* player,
                     float dt_seconds) {
-    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+    bounce_velocity(enemy, world, &enemy->position, &enemy->velocity, dt_seconds);
     enemy->action_seconds_remaining -= dt_seconds;
     if (enemy->action_seconds_remaining <= 0.0F) {
         if (player != nullptr) {
@@ -192,7 +192,7 @@ void tick_manhandla(GameState* play, const World* world, Enemy* enemy, const Pla
 
 void tick_gleeok(GameState* play, const World* world, Enemy* enemy, const Player* player,
                  float dt_seconds) {
-    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+    bounce_velocity(enemy, world, &enemy->position, &enemy->velocity, dt_seconds);
     enemy->action_seconds_remaining -= dt_seconds;
     if (enemy->action_seconds_remaining > 0.0F) {
         return;
@@ -221,7 +221,7 @@ void tick_gleeok(GameState* play, const World* world, Enemy* enemy, const Player
 
 void tick_patra(GameState* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
-    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+    bounce_velocity(enemy, world, &enemy->position, &enemy->velocity, dt_seconds);
     enemy->state_seconds_remaining -= dt_seconds;
     if (enemy->state_seconds_remaining <= 0.0F) {
         enemy->state_seconds_remaining = 4.0F;
@@ -316,7 +316,7 @@ void tick_peahat(GameState* play, const World* world, Enemy* enemy, float dt_sec
 
 void tick_aquamentus(GameState* play, const World* world, Enemy* enemy, const Player* player,
                      float dt_seconds) {
-    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
+    bounce_velocity(enemy, world, &enemy->position, &enemy->velocity, dt_seconds);
     enemy->action_seconds_remaining -= dt_seconds;
     if (enemy->action_seconds_remaining > 0.0F) {
         return;

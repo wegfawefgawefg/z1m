@@ -1,3 +1,4 @@
+#include "content/sandbox_content.hpp"
 #include "game/enemy_ticks.hpp"
 #include "game/geometry.hpp"
 #include "game/items.hpp"
@@ -31,21 +32,41 @@ Facing goriya_secondary_facing(const Enemy& enemy, const Player& player) {
 
 bool try_set_walkable_facing(const World* world, const Enemy& enemy, Facing facing) {
     const glm::vec2 probe = enemy.position + facing_vector(facing) * 0.8F;
-    return world_is_walkable_tile(world, probe);
+    return enemy_can_move_to(&enemy, world, probe);
 }
 
 } // namespace
 
-void bounce_velocity(const World* world, glm::vec2* position, glm::vec2* velocity, float dt) {
+bool enemy_can_move_to(const Enemy* enemy, const World* world, const glm::vec2& position) {
+    if (!world_is_walkable_tile(world, position)) {
+        return false;
+    }
+
+    if (enemy == nullptr || enemy->area_kind != AreaKind::EnemyZoo || enemy->respawn_group < 0) {
+        return true;
+    }
+
+    glm::vec2 min_position(0.0F);
+    glm::vec2 max_position(0.0F);
+    if (!get_enemy_zoo_pen_bounds(enemy->respawn_group, &min_position, &max_position)) {
+        return true;
+    }
+
+    return position.x >= min_position.x && position.x <= max_position.x &&
+           position.y >= min_position.y && position.y <= max_position.y;
+}
+
+void bounce_velocity(const Enemy* enemy, const World* world, glm::vec2* position,
+                     glm::vec2* velocity, float dt) {
     const glm::vec2 candidate_x = *position + glm::vec2(velocity->x * dt, 0.0F);
-    if (world_is_walkable_tile(world, candidate_x)) {
+    if (enemy_can_move_to(enemy, world, candidate_x)) {
         position->x = candidate_x.x;
     } else {
         velocity->x *= -1.0F;
     }
 
     const glm::vec2 candidate_y = *position + glm::vec2(0.0F, velocity->y * dt);
-    if (world_is_walkable_tile(world, candidate_y)) {
+    if (enemy_can_move_to(enemy, world, candidate_y)) {
         position->y = candidate_y.y;
     } else {
         velocity->y *= -1.0F;
@@ -158,7 +179,7 @@ void tick_rom_wanderer_shooter(GameState* play, const World* world, Enemy* enemy
     }
 
     const glm::vec2 candidate = enemy->position + facing_vector(enemy->facing) * speed * dt_seconds;
-    if (world_is_walkable_tile(world, candidate)) {
+    if (enemy_can_move_to(enemy, world, candidate)) {
         enemy->position = candidate;
     } else {
         enemy->move_seconds_remaining = 0.0F;
@@ -194,7 +215,7 @@ void tick_rom_goriya_movement(GameState* play, const World* world, Enemy* enemy,
     }
 
     const glm::vec2 candidate = enemy->position + facing_vector(enemy->facing) * speed * dt_seconds;
-    if (world_is_walkable_tile(world, candidate)) {
+    if (enemy_can_move_to(enemy, world, candidate)) {
         enemy->position = candidate;
     } else {
         if (player != nullptr) {
@@ -299,7 +320,7 @@ void tick_basic_walker(GameState* play, const World* world, Enemy* enemy, const 
     }
 
     const glm::vec2 candidate = enemy->position + facing_vector(enemy->facing) * speed * dt_seconds;
-    if (world_is_walkable_tile(world, candidate)) {
+    if (enemy_can_move_to(enemy, world, candidate)) {
         enemy->position = candidate;
     } else {
         enemy->move_seconds_remaining = 0.0F;
