@@ -178,7 +178,7 @@ void tick_rom_goriya_movement(GameState* play, const World* world, Enemy* enemy,
             const float horizontal_distance = std::abs(player->position.x - enemy->position.x);
             const bool use_horizontal = horizontal_distance > vertical_distance;
             const float chosen_distance = use_horizontal ? horizontal_distance : vertical_distance;
-            if (chosen_distance < 10.125F) {
+            if (chosen_distance < kGoriyaTargetThreshold) {
                 const Facing primary = goriya_primary_facing(*enemy, *player);
                 const Facing secondary = goriya_secondary_facing(*enemy, *player);
                 if (try_set_walkable_facing(world, *enemy, primary)) {
