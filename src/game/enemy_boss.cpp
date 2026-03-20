@@ -1,3 +1,4 @@
+#include "content/sandbox_content.hpp"
 #include "game/enemy_ticks.hpp"
 #include "game/geometry.hpp"
 #include "game/items.hpp"
@@ -8,6 +9,62 @@
 #include <glm/geometric.hpp>
 
 namespace z1m {
+
+namespace {
+
+void get_wallmaster_bounds(const Enemy& enemy, const World* world, glm::vec2* min_position,
+                           glm::vec2* max_position) {
+    *min_position = glm::vec2(0.5F, 0.5F);
+    *max_position = glm::vec2(static_cast<float>(world_width(world)) - 0.5F,
+                              static_cast<float>(world_height(world)) - 0.5F);
+
+    if (enemy.area_kind == AreaKind::EnemyZoo && enemy.respawn_group >= 0) {
+        get_enemy_zoo_pen_bounds(enemy.respawn_group, min_position, max_position);
+    }
+}
+
+bool try_spawn_wallmaster(GameState* play, const World* world, Enemy* enemy, const Player* player) {
+    static_cast<void>(play);
+    if (player == nullptr) {
+        return false;
+    }
+
+    glm::vec2 min_position(0.5F);
+    glm::vec2 max_position(0.5F);
+    get_wallmaster_bounds(*enemy, world, &min_position, &max_position);
+
+    const float left = player->position.x - min_position.x;
+    const float right = max_position.x - player->position.x;
+    const float top = player->position.y - min_position.y;
+    const float bottom = max_position.y - player->position.y;
+    const float nearest = glm::min(glm::min(left, right), glm::min(top, bottom));
+    if (nearest > kWallmasterEdgeThreshold) {
+        return false;
+    }
+
+    if (left <= right && left <= top && left <= bottom) {
+        enemy->position = glm::vec2(min_position.x, player->position.y);
+        enemy->velocity = glm::vec2(kWallmasterSpeed, 0.0F);
+    } else if (right <= top && right <= bottom) {
+        enemy->position = glm::vec2(max_position.x, player->position.y);
+        enemy->velocity = glm::vec2(-kWallmasterSpeed, 0.0F);
+    } else if (top <= bottom) {
+        enemy->position = glm::vec2(player->position.x, min_position.y);
+        enemy->velocity = glm::vec2(0.0F, kWallmasterSpeed);
+    } else {
+        enemy->position = glm::vec2(player->position.x, max_position.y);
+        enemy->velocity = glm::vec2(0.0F, -kWallmasterSpeed);
+    }
+
+    enemy->origin = enemy->position;
+    enemy->hidden = false;
+    enemy->move_seconds_remaining = kWallmasterTravelTiles;
+    enemy->action_seconds_remaining = 0.0F;
+    enemy->special_counter = 1;
+    return true;
+}
+
+} // namespace
 
 void tick_keese(GameState* play, const World* world, Enemy* enemy, float dt_seconds) {
     tick_rom_flyer(play, world, enemy, nullptr, dt_seconds, kKeeseSpeed, 0xA0, false);
@@ -32,47 +89,22 @@ void tick_pols_voice(GameState* play, const World* world, Enemy* enemy, float dt
 
 void tick_wallmaster(GameState* play, const World* world, Enemy* enemy, const Player* player,
                      float dt_seconds) {
-    if (player == nullptr) {
-        return;
-    }
-
     if (enemy->hidden) {
         enemy->action_seconds_remaining -= dt_seconds;
         if (enemy->action_seconds_remaining > 0.0F) {
             return;
         }
-
-        const float left = player->position.x;
-        const float right = static_cast<float>(world_width(world)) - player->position.x;
-        const float top = player->position.y;
-        const float bottom = static_cast<float>(world_height(world)) - player->position.y;
-
-        if (left <= right && left <= top && left <= bottom) {
-            enemy->position = glm::vec2(1.5F, player->position.y);
-            enemy->velocity = glm::vec2(kWallmasterSpeed, 0.0F);
-        } else if (right <= top && right <= bottom) {
-            enemy->position =
-                glm::vec2(static_cast<float>(world_width(world)) - 1.5F, player->position.y);
-            enemy->velocity = glm::vec2(-kWallmasterSpeed, 0.0F);
-        } else if (top <= bottom) {
-            enemy->position = glm::vec2(player->position.x, 1.5F);
-            enemy->velocity = glm::vec2(0.0F, kWallmasterSpeed);
-        } else {
-            enemy->position =
-                glm::vec2(player->position.x, static_cast<float>(world_height(world)) - 1.5F);
-            enemy->velocity = glm::vec2(0.0F, -kWallmasterSpeed);
-        }
-
-        enemy->origin = enemy->position;
-        enemy->hidden = false;
-        enemy->move_seconds_remaining = 1.8F;
+        try_spawn_wallmaster(play, world, enemy, player);
         return;
     }
 
-    enemy->move_seconds_remaining -= dt_seconds;
+    enemy->move_seconds_remaining =
+        glm::max(0.0F, enemy->move_seconds_remaining - kWallmasterSpeed * dt_seconds);
     const glm::vec2 candidate = enemy->position + enemy->velocity * dt_seconds;
     if (world_is_walkable_tile(world, candidate)) {
         enemy->position = candidate;
+    } else {
+        enemy->move_seconds_remaining = 0.0F;
     }
 
     if (enemy->move_seconds_remaining > 0.0F) {
@@ -82,6 +114,7 @@ void tick_wallmaster(GameState* play, const World* world, Enemy* enemy, const Pl
     enemy->hidden = true;
     enemy->velocity = glm::vec2(0.0F);
     enemy->action_seconds_remaining = 0.8F + random_unit(play) * 0.8F;
+    enemy->special_counter = 0;
 }
 
 void tick_dodongo(GameState* play, const World* world, Enemy* enemy, const Player* player,

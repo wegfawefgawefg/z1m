@@ -75,10 +75,12 @@ Current count:
 
 ## Notes
 
-- The current zoo is the behavior-validation area;
-world assembly is still a separate pass.- For overworld shooters,
-    fidelity target is screen - local / cardinal threat, not
-  “always normalize directly toward Link from anywhere.” - Recent fidelity pass tightened `Octorok`, `Moblin`, `Lynel`, `Goriya`,
-  `Darknut`, `Tektite`, `Zol`, `Gel`, `Rope`,
-    and `Armos` toward the disassembly behavior families.The rest still need the same enemy - by -
-        enemy audit instead of assuming zoo presence means correctness.
+- The current zoo is the behavior-validation area; world assembly is still a
+  separate pass.
+- For overworld shooters, fidelity target is screen-local/cardinal threat, not
+  "always normalize directly toward Link from anywhere."
+- Recent fidelity passes tightened `Octorok`, `Moblin`, `Lynel`, `Goriya`,
+  `Darknut`, `Tektite`, `Zol`, `Gel`, `Rope`, `Armos`, `Leever`, and
+  `Wallmaster` toward the disassembly behavior families.
+- The rest still need the same enemy-by-enemy audit instead of assuming zoo
+  presence means correctness.

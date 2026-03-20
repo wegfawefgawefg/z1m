@@ -146,6 +146,10 @@ void tick_enemies(GameState* play, const World* overworld_world, Player* player,
             continue;
         }
 
+        if (enemy.kind == EnemyKind::Leever && enemy.special_counter != 3) {
+            continue;
+        }
+
         if (overlaps_circle(enemy.position, player->position, kEnemyTouchRadius)) {
             if (enemy.kind == EnemyKind::Wallmaster) {
                 player->position = play->area_kind == AreaKind::Overworld

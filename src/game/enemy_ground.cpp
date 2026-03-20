@@ -7,10 +7,70 @@
 #include "game/tuning.hpp"
 
 #include <array>
+#include <cmath>
 #include <glm/common.hpp>
 #include <glm/geometric.hpp>
 
 namespace z1m {
+
+namespace {
+
+constexpr std::array<int, 6> kBlueLeeverStateFrames = {0x80, 0x20, 0x0F, 0xFF, 0x10, 0x60};
+constexpr std::array<int, 6> kRedLeeverStateFrames = {0x00, 0x10, 0x08, 0xFF, 0x08, 0x10};
+
+void set_leever_state_frames(Enemy* enemy, const std::array<int, 6>& frames, int state) {
+    enemy->special_counter = state;
+    enemy->hidden = state != 3;
+    enemy->invulnerable = state != 3;
+    enemy->action_seconds_remaining = frames_to_seconds(frames[static_cast<std::size_t>(state)]);
+}
+
+bool try_place_red_leever(const World* world, GameState* play, Enemy* enemy, const Player* player) {
+    if (player == nullptr) {
+        return false;
+    }
+
+    Facing facing = player->facing;
+    if (random_byte(play) >= 0xC0) {
+        switch (facing) {
+        case Facing::Up:
+            facing = Facing::Down;
+            break;
+        case Facing::Down:
+            facing = Facing::Up;
+            break;
+        case Facing::Left:
+            facing = Facing::Right;
+            break;
+        case Facing::Right:
+            facing = Facing::Left;
+            break;
+        }
+    }
+
+    glm::vec2 position = player->position;
+    if (facing == Facing::Up || facing == Facing::Down) {
+        position.x = std::floor(position.x) + 0.5F;
+        position.y += facing == Facing::Down ? kLeeverSpawnOffset : -kLeeverSpawnOffset;
+    } else {
+        position.y = std::floor(position.y) + 0.5F;
+        position.x += facing == Facing::Right ? kLeeverSpawnOffset : -kLeeverSpawnOffset;
+    }
+
+    position.x = glm::clamp(position.x, 0.5F, static_cast<float>(world_width(world)) - 0.5F);
+    position.y = glm::clamp(position.y, 0.5F, static_cast<float>(world_height(world)) - 0.5F);
+    if (!world_is_walkable_tile(world, position)) {
+        return false;
+    }
+
+    enemy->position = position;
+    enemy->spawn_position = position;
+    enemy->origin = position;
+    choose_player_axis_direction(*enemy, *player, &enemy->facing);
+    return true;
+}
+
+} // namespace
 
 void spawn_zol_children(GameState* play, const Enemy& enemy) {
     const bool facing_vertical = enemy.facing == Facing::Up || enemy.facing == Facing::Down;
@@ -483,34 +543,73 @@ void tick_rom_flyer(GameState* play, const World* world, Enemy* enemy, const Pla
 
 void tick_leever(GameState* play, const World* world, Enemy* enemy, const Player* player,
                  float dt_seconds) {
-    enemy->state_seconds_remaining -= dt_seconds;
-    if (enemy->hidden) {
-        if (enemy->state_seconds_remaining <= 0.0F) {
-            enemy->hidden = false;
-            enemy->state_seconds_remaining = 1.4F + random_unit(play) * 0.8F;
+    enemy->action_seconds_remaining = glm::max(0.0F, enemy->action_seconds_remaining - dt_seconds);
+
+    if (enemy->subtype == 0 && enemy->special_counter == 0) {
+        if (enemy->action_seconds_remaining > 0.0F) {
+            return;
+        }
+
+        if (!try_place_red_leever(world, play, enemy, player)) {
+            enemy->action_seconds_remaining = frames_to_seconds(20);
+            return;
+        }
+
+        set_leever_state_frames(enemy, kRedLeeverStateFrames, 1);
+        return;
+    }
+
+    if (enemy->special_counter != 3) {
+        if (enemy->action_seconds_remaining > 0.0F) {
+            return;
+        }
+
+        int next_state = enemy->special_counter + 1;
+        if (next_state >= 6) {
+            next_state = 0;
+        }
+
+        if (enemy->subtype == 0) {
+            set_leever_state_frames(enemy, kRedLeeverStateFrames, next_state);
+        } else {
+            set_leever_state_frames(enemy, kBlueLeeverStateFrames, next_state);
         }
         return;
     }
 
-    if (enemy->state_seconds_remaining <= 0.0F) {
-        enemy->hidden = true;
-        enemy->state_seconds_remaining = 0.7F + random_unit(play) * 0.5F;
-        return;
-    }
-
-    glm::vec2 toward_player(random_unit(play) * 2.0F - 1.0F, random_unit(play) * 2.0F - 1.0F);
-    if (player != nullptr) {
-        toward_player = player->position - enemy->position;
-    }
-    if (glm::length(toward_player) > 0.001F) {
-        toward_player = glm::normalize(toward_player);
+    if (enemy->subtype == 0) {
+        const glm::vec2 candidate =
+            enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0x20) * dt_seconds;
+        if (world_is_walkable_tile(world, candidate)) {
+            enemy->position = candidate;
+        } else {
+            enemy->action_seconds_remaining = 0.0F;
+        }
     } else {
-        toward_player = glm::vec2(0.0F, 1.0F);
+        if (near_tile_center(enemy->position)) {
+            snap_to_tile_center(&enemy->position);
+            if (player != nullptr) {
+                choose_player_axis_direction(*enemy, *player, &enemy->facing);
+            } else {
+                choose_cardinal_direction(play, world, enemy);
+            }
+        }
+
+        const glm::vec2 candidate =
+            enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0x20) * dt_seconds;
+        if (world_is_walkable_tile(world, candidate)) {
+            enemy->position = candidate;
+        } else {
+            enemy->action_seconds_remaining = 0.0F;
+        }
     }
 
-    const glm::vec2 candidate = enemy->position + toward_player * kLeeverSpeed * dt_seconds;
-    if (world_is_walkable_tile(world, candidate)) {
-        enemy->position = candidate;
+    if (enemy->action_seconds_remaining <= 0.0F) {
+        if (enemy->subtype == 0) {
+            set_leever_state_frames(enemy, kRedLeeverStateFrames, 4);
+        } else {
+            set_leever_state_frames(enemy, kBlueLeeverStateFrames, 4);
+        }
     }
 }
 

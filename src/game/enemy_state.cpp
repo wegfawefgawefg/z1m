@@ -53,8 +53,10 @@ void reset_enemy_state(GameState* play, Enemy* enemy) {
         break;
     case EnemyKind::Leever:
         enemy->hidden = true;
-        enemy->state_seconds_remaining = 0.4F + random_unit(play) * 0.4F;
-        enemy->action_seconds_remaining = 0.0F;
+        enemy->invulnerable = true;
+        enemy->special_counter = 0;
+        enemy->action_seconds_remaining =
+            enemy->subtype == 0 ? frames_to_seconds(20) : frames_to_seconds(0x80);
         enemy->move_seconds_remaining = 0.0F;
         break;
     case EnemyKind::Keese:
