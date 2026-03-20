@@ -1,6 +1,7 @@
 #include "game/enemy_state.hpp"
 
 #include "content/sandbox_content.hpp"
+#include "game/enemy_ticks.hpp"
 #include "game/rng.hpp"
 #include "game/tuning.hpp"
 
@@ -58,6 +59,7 @@ void reset_enemy_state(GameState* play, Enemy* enemy) {
         break;
     case EnemyKind::Keese:
     case EnemyKind::Ghini:
+        enemy->special_counter = 0;
         enemy->action_seconds_remaining = 0.25F + random_unit(play) * 0.30F;
         enemy->move_seconds_remaining = 1.0F + random_unit(play) * 1.2F;
         break;
@@ -71,16 +73,33 @@ void reset_enemy_state(GameState* play, Enemy* enemy) {
         enemy->move_seconds_remaining = 1.0F + random_unit(play) * 1.2F;
         break;
     case EnemyKind::Zol:
+        enemy->special_counter = 0;
+        enemy->move_seconds_remaining = 0.0F;
+        enemy->action_seconds_remaining = 0.0F;
+        break;
     case EnemyKind::Gel:
+        enemy->special_counter = enemy->subtype == 1 ? 0 : 2;
+        enemy->move_seconds_remaining = 0.0F;
+        enemy->action_seconds_remaining = 0.0F;
+        break;
     case EnemyKind::Vire:
     case EnemyKind::Stalfos:
     case EnemyKind::Gibdo:
     case EnemyKind::LikeLike:
     case EnemyKind::PolsVoice:
-    case EnemyKind::Rope:
-    case EnemyKind::Armos:
         enemy->move_seconds_remaining = 0.25F + random_unit(play) * 0.45F;
         enemy->action_seconds_remaining = 0.35F + random_unit(play) * 0.55F;
+        break;
+    case EnemyKind::Rope:
+        enemy->special_counter = 0;
+        enemy->move_seconds_remaining = 0.0F;
+        enemy->action_seconds_remaining = frames_to_seconds(random_byte(play) & 0x3F);
+        break;
+    case EnemyKind::Armos:
+        enemy->special_counter = 0;
+        enemy->move_seconds_remaining = 0.0F;
+        enemy->action_seconds_remaining = 0.0F;
+        enemy->facing = Facing::Down;
         break;
     case EnemyKind::Wallmaster:
         enemy->hidden = true;

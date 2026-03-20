@@ -1,4 +1,5 @@
 #include "game/area_state.hpp"
+#include "game/enemy_state.hpp"
 #include "game/enemy_ticks.hpp"
 #include "game/geometry.hpp"
 #include "game/items.hpp"
@@ -10,6 +11,40 @@
 #include <glm/geometric.hpp>
 
 namespace z1m {
+
+void spawn_zol_children(GameState* play, const Enemy& enemy) {
+    const bool facing_vertical = enemy.facing == Facing::Up || enemy.facing == Facing::Down;
+    const std::array<glm::vec2, 2> offsets = facing_vertical
+                                                  ? std::array<glm::vec2, 2>{
+                                                        glm::vec2(-0.5F, 0.0F),
+                                                        glm::vec2(0.5F, 0.0F),
+                                                    }
+                                                  : std::array<glm::vec2, 2>{
+                                                        glm::vec2(0.0F, -0.5F),
+                                                        glm::vec2(0.0F, 0.5F),
+                                                    };
+    const std::array<Facing, 2> facings = facing_vertical
+                                              ? std::array<Facing, 2>{Facing::Left, Facing::Right}
+                                              : std::array<Facing, 2>{Facing::Up, Facing::Down};
+
+    for (int index = 0; index < 2; ++index) {
+        Enemy child;
+        child.active = true;
+        child.kind = EnemyKind::Gel;
+        child.area_kind = enemy.area_kind;
+        child.cave_id = enemy.cave_id;
+        child.room_id = enemy.room_id;
+        child.position = enemy.position + offsets[static_cast<std::size_t>(index)];
+        child.spawn_position = child.position;
+        child.origin = child.position;
+        child.max_health = 1;
+        child.health = 1;
+        child.facing = facings[static_cast<std::size_t>(index)];
+        child.subtype = 1;
+        reset_enemy_state(play, &child);
+        play->enemies.push_back(child);
+    }
+}
 
 void tick_goriya(GameState* play, const World* world, Enemy* enemy, const Player* player,
                  float dt_seconds) {
@@ -28,7 +63,30 @@ float zol_or_gel_edge_delay_seconds(GameState* play, EnemyKind kind) {
 
 void tick_rom_zol_or_gel(GameState* play, const World* world, Enemy* enemy, const Player* player,
                          float dt_seconds) {
-    if (enemy->kind == EnemyKind::Gel && enemy->subtype == 1) {
+    if (enemy->kind == EnemyKind::Zol && enemy->special_counter == 1) {
+        const glm::vec2 candidate =
+            enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0xFF) * dt_seconds;
+        if (world_is_walkable_tile(world, candidate)) {
+            enemy->position = candidate;
+            return;
+        }
+
+        enemy->special_counter = 2;
+    }
+
+    if (enemy->kind == EnemyKind::Zol && enemy->special_counter == 2) {
+        enemy->active = false;
+        spawn_zol_children(play, *enemy);
+        return;
+    }
+
+    if (enemy->kind == EnemyKind::Gel && enemy->special_counter == 0) {
+        enemy->special_counter = 1;
+        enemy->action_seconds_remaining = frames_to_seconds(5);
+        return;
+    }
+
+    if (enemy->kind == EnemyKind::Gel && enemy->special_counter == 1) {
         enemy->action_seconds_remaining =
             glm::max(0.0F, enemy->action_seconds_remaining - dt_seconds);
         const glm::vec2 candidate =
@@ -41,7 +99,7 @@ void tick_rom_zol_or_gel(GameState* play, const World* world, Enemy* enemy, cons
 
         if (enemy->action_seconds_remaining <= 0.0F) {
             snap_to_tile_center(&enemy->position);
-            enemy->subtype = 0;
+            enemy->special_counter = 2;
             enemy->state_seconds_remaining = 0.0F;
         }
         return;
@@ -72,45 +130,41 @@ void tick_rom_zol_or_gel(GameState* play, const World* world, Enemy* enemy, cons
 
 void tick_rope(GameState* play, const World* world, Enemy* enemy, const Player* player,
                float dt_seconds) {
-    if (enemy->state_seconds_remaining > 0.0F) {
-        enemy->state_seconds_remaining =
-            glm::max(0.0F, enemy->state_seconds_remaining - dt_seconds);
-        const glm::vec2 candidate =
-            enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0x60) * dt_seconds;
-        if (world_is_walkable_tile(world, candidate)) {
-            enemy->position = candidate;
-        } else {
-            enemy->state_seconds_remaining = 0.0F;
-        }
-        return;
+    if (enemy->special_counter == 0) {
+        enemy->action_seconds_remaining =
+            glm::max(0.0F, enemy->action_seconds_remaining - dt_seconds);
     }
 
-    enemy->move_seconds_remaining = glm::max(0.0F, enemy->move_seconds_remaining - dt_seconds);
-    if (near_tile_center(enemy->position)) {
-        snap_to_tile_center(&enemy->position);
-        if (player != nullptr) {
-            const glm::vec2 delta = player->position - enemy->position;
-            if (std::abs(delta.x) < 1.0F) {
-                enemy->facing = delta.y < 0.0F ? Facing::Up : Facing::Down;
-                enemy->state_seconds_remaining = frames_to_seconds(40);
-            } else if (std::abs(delta.y) < 1.0F) {
-                enemy->facing = delta.x < 0.0F ? Facing::Left : Facing::Right;
-                enemy->state_seconds_remaining = frames_to_seconds(40);
-            }
-        }
-
-        if (enemy->state_seconds_remaining <= 0.0F && enemy->move_seconds_remaining <= 0.0F) {
-            choose_cardinal_direction(play, world, enemy);
-            enemy->move_seconds_remaining = frames_to_seconds(random_byte(play) & 0x3F);
-        }
-    }
-
-    const glm::vec2 candidate =
-        enemy->position + facing_vector(enemy->facing) * qspeed_to_speed(0x20) * dt_seconds;
+    const float speed = enemy->special_counter == 1 ? qspeed_to_speed(0x60) : qspeed_to_speed(0x20);
+    const glm::vec2 candidate = enemy->position + facing_vector(enemy->facing) * speed * dt_seconds;
     if (world_is_walkable_tile(world, candidate)) {
         enemy->position = candidate;
     } else {
-        enemy->move_seconds_remaining = 0.0F;
+        enemy->special_counter = 0;
+        enemy->action_seconds_remaining = 0.0F;
+    }
+
+    if (!near_tile_center(enemy->position)) {
+        return;
+    }
+
+    snap_to_tile_center(&enemy->position);
+    if (enemy->special_counter == 0 && enemy->action_seconds_remaining <= 0.0F) {
+        enemy->action_seconds_remaining = frames_to_seconds(random_byte(play) & 0x3F);
+        choose_cardinal_direction(play, world, enemy);
+    }
+
+    if (player == nullptr || enemy->special_counter != 0) {
+        return;
+    }
+
+    const glm::vec2 delta = player->position - enemy->position;
+    if (std::abs(delta.x) < kRopeRushAlignThreshold) {
+        enemy->facing = delta.y < 0.0F ? Facing::Up : Facing::Down;
+        enemy->special_counter = 1;
+    } else if (std::abs(delta.y) < kRopeRushAlignThreshold) {
+        enemy->facing = delta.x < 0.0F ? Facing::Left : Facing::Right;
+        enemy->special_counter = 1;
     }
 }
 
@@ -302,7 +356,8 @@ void tick_trap(const World* world, Enemy* enemy, const Player* player, float dt_
 void tick_armos(GameState* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
     if (enemy->special_counter == 0) {
-        if (player != nullptr && glm::length(player->position - enemy->position) <= 2.5F) {
+        if (player != nullptr &&
+            overlaps_circle(player->position, enemy->position, kArmosWakeRadius)) {
             enemy->special_counter = 1;
         } else {
             return;

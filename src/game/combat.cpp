@@ -146,6 +146,23 @@ void damage_enemy(GameState* play, Enemy* enemy, int damage) {
 
     const int previous_special_counter = enemy->special_counter;
     enemy->hurt_seconds_remaining = 0.20F;
+
+    if (enemy->kind == EnemyKind::Zol) {
+        const float center_x = std::floor(enemy->position.x) + 0.5F;
+        const float center_y = std::floor(enemy->position.y) + 0.5F;
+        const bool on_center_x = std::abs(enemy->position.x - center_x) <= kGridCenterTolerance;
+        const bool on_center_y = std::abs(enemy->position.y - center_y) <= kGridCenterTolerance;
+        const bool facing_horizontal =
+            enemy->facing == Facing::Left || enemy->facing == Facing::Right;
+        const bool aligned_for_big_shove =
+            (facing_horizontal && on_center_y) || (!facing_horizontal && on_center_x);
+        enemy->special_counter = aligned_for_big_shove ? 1 : 2;
+        enemy->invulnerable = true;
+        enemy->move_seconds_remaining = 0.0F;
+        enemy->action_seconds_remaining = 0.0F;
+        return;
+    }
+
     enemy->health -= damage;
     if (enemy->health > 0) {
         if (enemy->kind == EnemyKind::Gleeok && previous_special_counter > 1 &&
@@ -165,26 +182,6 @@ void damage_enemy(GameState* play, Enemy* enemy, int damage) {
             play->enemies.push_back(head);
         }
         return;
-    }
-
-    if (enemy->kind == EnemyKind::Zol) {
-        for (int index = 0; index < 2; ++index) {
-            Enemy child;
-            child.active = true;
-            child.kind = EnemyKind::Gel;
-            child.area_kind = enemy->area_kind;
-            child.cave_id = enemy->cave_id;
-            child.position = enemy->position + glm::vec2(index == 0 ? -0.5F : 0.5F, 0.0F);
-            child.spawn_position = child.position;
-            child.origin = child.position;
-            child.max_health = 1;
-            child.health = 1;
-            reset_enemy_state(play, &child);
-            child.facing = index == 0 ? Facing::Left : Facing::Right;
-            child.subtype = 1;
-            child.action_seconds_remaining = 5.0F / 60.0F;
-            play->enemies.push_back(child);
-        }
     }
 
     if (enemy->kind == EnemyKind::Vire) {

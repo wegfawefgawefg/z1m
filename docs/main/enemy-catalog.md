@@ -1,4 +1,4 @@
-# Enemy Catalog
+#Enemy Catalog
 
 This is the concrete enemy and boss checklist for `z1m`.
 
@@ -75,7 +75,10 @@ Current count:
 
 ## Notes
 
-- The current zoo is the behavior-validation area; world assembly is still a
-  separate pass.
-- For overworld shooters, fidelity target is screen-local/cardinal threat, not
-  “always normalize directly toward Link from anywhere.”
+- The current zoo is the behavior-validation area;
+world assembly is still a separate pass.- For overworld shooters,
+    fidelity target is screen - local / cardinal threat, not
+  “always normalize directly toward Link from anywhere.” - Recent fidelity pass tightened `Octorok`, `Moblin`, `Lynel`, `Goriya`,
+  `Darknut`, `Tektite`, `Zol`, `Gel`, `Rope`,
+    and `Armos` toward the disassembly behavior families.The rest still need the same enemy - by -
+        enemy audit instead of assuming zoo presence means correctness.
