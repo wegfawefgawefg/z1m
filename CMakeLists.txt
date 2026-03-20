@@ -34,8 +34,14 @@ add_executable(z1m
     src/render/camera.cpp
     src/render/debug_tileset.cpp
     src/render/scene_renderer.cpp
-    src/game/play.cpp
-    src/game/play_rules.cpp
+    src/game/rng.cpp
+    src/game/geometry.cpp
+    src/game/area_state.cpp
+    src/game/enemy_state.cpp
+    src/game/areas.cpp
+    src/game/npcs.cpp
+    src/game/entity_names.cpp
+    src/game/game_update.cpp
     src/game/items.cpp
     src/game/combat.cpp
     src/game/enemy_core.cpp

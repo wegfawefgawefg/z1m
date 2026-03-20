@@ -1,4 +1,18 @@
-#include "game/play_core.hpp"
+#include "game/items.hpp"
+
+#include "content/opening_content.hpp"
+#include "content/overworld_warps.hpp"
+#include "game/area_state.hpp"
+#include "game/enemy_state.hpp"
+#include "game/geometry.hpp"
+#include "game/rng.hpp"
+#include "game/tuning.hpp"
+
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <glm/common.hpp>
+#include <glm/geometric.hpp>
 
 namespace z1m {
 

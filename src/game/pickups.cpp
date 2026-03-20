@@ -1,4 +1,15 @@
-#include "game/play_core.hpp"
+#include "game/pickups.hpp"
+
+#include "game/area_state.hpp"
+#include "game/combat.hpp"
+#include "game/geometry.hpp"
+#include "game/items.hpp"
+#include "game/tuning.hpp"
+
+#include <algorithm>
+#include <glm/common.hpp>
+#include <glm/geometric.hpp>
+#include <string>
 
 namespace z1m {
 

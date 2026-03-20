@@ -1,4 +1,12 @@
-#include "game/play_core.hpp"
+#include "content/opening_content.hpp"
+#include "game/area_state.hpp"
+#include "game/combat.hpp"
+#include "game/enemy_state.hpp"
+#include "game/enemy_ticks.hpp"
+#include "game/geometry.hpp"
+#include "game/tuning.hpp"
+
+#include <glm/common.hpp>
 
 namespace z1m {
 

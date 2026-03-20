@@ -1,4 +1,15 @@
-#include "game/play_core.hpp"
+#include "game/combat.hpp"
+
+#include "content/opening_content.hpp"
+#include "game/area_state.hpp"
+#include "game/enemy_state.hpp"
+#include "game/geometry.hpp"
+#include "game/items.hpp"
+#include "game/rng.hpp"
+#include "game/tuning.hpp"
+
+#include <glm/common.hpp>
+#include <glm/geometric.hpp>
 
 namespace z1m {
 
@@ -49,19 +60,6 @@ void init_opening_overworld_enemies(Play* play) {
             reset_enemy_state(play, &enemy);
             play->enemies.push_back(enemy);
         }
-    }
-}
-
-void update_current_room(Play* play, const Player* player) {
-    if (play->area_kind != AreaKind::Overworld) {
-        play->current_room_id = -1;
-        play->previous_room_id = -1;
-        return;
-    }
-
-    play->current_room_id = get_room_from_position(player->position);
-    if (play->current_room_id != play->previous_room_id) {
-        play->previous_room_id = play->current_room_id;
     }
 }
 

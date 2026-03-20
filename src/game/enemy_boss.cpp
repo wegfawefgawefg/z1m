@@ -1,4 +1,11 @@
-#include "game/play_core.hpp"
+#include "game/enemy_ticks.hpp"
+#include "game/geometry.hpp"
+#include "game/items.hpp"
+#include "game/rng.hpp"
+#include "game/tuning.hpp"
+
+#include <glm/common.hpp>
+#include <glm/geometric.hpp>
 
 namespace z1m {
 
