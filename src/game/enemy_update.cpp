@@ -1,14 +1,17 @@
-void tick_enemies(GameSession* session, const World* overworld_world, Player* player,
-                  float dt_seconds) {
-    for (Enemy& enemy : session->enemies) {
+#include "game/play_core.hpp"
+
+namespace z1m {
+
+void tick_enemies(Play* play, const World* overworld_world, Player* player, float dt_seconds) {
+    for (Enemy& enemy : play->enemies) {
         if (!enemy.active) {
             continue;
         }
 
         const World* world =
-            get_world_for_area(session, overworld_world, enemy.area_kind, enemy.cave_id);
+            get_world_for_area(play, overworld_world, enemy.area_kind, enemy.cave_id);
         const Player* target_player =
-            in_area(session, enemy.area_kind, enemy.cave_id) ? player : nullptr;
+            in_area(play, enemy.area_kind, enemy.cave_id) ? player : nullptr;
         enemy.room_id =
             enemy.area_kind == AreaKind::Overworld ? get_room_from_position(enemy.position) : -1;
         enemy.hurt_seconds_remaining = glm::max(0.0F, enemy.hurt_seconds_remaining - dt_seconds);
@@ -18,115 +21,114 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
 
         switch (enemy.kind) {
         case EnemyKind::Octorok:
-            tick_octorok_like(session, world, &enemy, target_player, dt_seconds, kOctorokSpeed,
-                              1.1F, 0.9F, ProjectileKind::Rock);
+            tick_octorok_like(play, world, &enemy, target_player, dt_seconds, kOctorokSpeed, 1.1F,
+                              0.9F, ProjectileKind::Rock);
             break;
         case EnemyKind::Moblin:
-            tick_octorok_like(session, world, &enemy, target_player, dt_seconds, kMoblinSpeed, 0.8F,
+            tick_octorok_like(play, world, &enemy, target_player, dt_seconds, kMoblinSpeed, 0.8F,
                               0.7F, ProjectileKind::Arrow);
             break;
         case EnemyKind::Lynel:
-            tick_rom_lynel(session, world, &enemy, target_player, dt_seconds);
+            tick_rom_lynel(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Goriya:
-            tick_goriya(session, world, &enemy, target_player, dt_seconds);
+            tick_goriya(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Darknut:
-            tick_rom_darknut(session, world, &enemy, target_player, dt_seconds);
+            tick_rom_darknut(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Tektite:
-            tick_tektite(session, world, &enemy, target_player, dt_seconds);
+            tick_tektite(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Leever:
-            tick_leever(session, world, &enemy, target_player, dt_seconds);
+            tick_leever(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Keese:
-            tick_keese(session, world, &enemy, dt_seconds);
+            tick_keese(play, world, &enemy, dt_seconds);
             break;
         case EnemyKind::Zol:
-            tick_rom_zol_or_gel(session, world, &enemy, target_player, dt_seconds);
+            tick_rom_zol_or_gel(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Gel:
-            tick_rom_zol_or_gel(session, world, &enemy, target_player, dt_seconds);
+            tick_rom_zol_or_gel(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Rope:
-            tick_rope(session, world, &enemy, target_player, dt_seconds);
+            tick_rope(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Vire:
-            tick_vire(session, world, &enemy, target_player, dt_seconds);
+            tick_vire(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Stalfos:
-            tick_rom_common_wanderer(session, world, &enemy, target_player, dt_seconds,
+            tick_rom_common_wanderer(play, world, &enemy, target_player, dt_seconds,
                                      qspeed_to_speed(0x20), 0x80);
             break;
         case EnemyKind::Gibdo:
-            tick_rom_common_wanderer(session, world, &enemy, target_player, dt_seconds,
+            tick_rom_common_wanderer(play, world, &enemy, target_player, dt_seconds,
                                      qspeed_to_speed(0x20), 0x80);
             break;
         case EnemyKind::LikeLike:
-            tick_basic_walker(session, world, &enemy, target_player, dt_seconds, kLikeLikeSpeed,
-                              true);
+            tick_basic_walker(play, world, &enemy, target_player, dt_seconds, kLikeLikeSpeed, true);
             break;
         case EnemyKind::PolsVoice:
-            tick_pols_voice(session, world, &enemy, dt_seconds);
+            tick_pols_voice(play, world, &enemy, dt_seconds);
             break;
         case EnemyKind::BlueWizzrobe:
-            tick_blue_wizzrobe(session, world, &enemy, target_player, dt_seconds);
+            tick_blue_wizzrobe(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::RedWizzrobe:
-            tick_red_wizzrobe(session, world, &enemy, target_player, dt_seconds);
+            tick_red_wizzrobe(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Wallmaster:
-            tick_wallmaster(session, world, &enemy, target_player, dt_seconds);
+            tick_wallmaster(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Ghini:
-            tick_ghini(session, world, &enemy, target_player, dt_seconds);
+            tick_ghini(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Bubble:
-            tick_rom_common_wanderer(session, world, &enemy, target_player, dt_seconds,
+            tick_rom_common_wanderer(play, world, &enemy, target_player, dt_seconds,
                                      qspeed_to_speed(0x40), 0x40);
             break;
         case EnemyKind::FlyingGhini:
-            tick_flying_ghini(session, world, &enemy, target_player, dt_seconds);
+            tick_flying_ghini(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Trap:
             tick_trap(world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Armos:
-            tick_armos(session, world, &enemy, target_player, dt_seconds);
+            tick_armos(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Zora:
-            tick_zora(session, world, &enemy, target_player, dt_seconds);
+            tick_zora(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Peahat:
-            tick_peahat(session, world, &enemy, dt_seconds);
+            tick_peahat(play, world, &enemy, dt_seconds);
             break;
         case EnemyKind::Dodongo:
-            tick_dodongo(session, world, &enemy, target_player, dt_seconds);
+            tick_dodongo(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Digdogger:
-            tick_digdogger(session, world, &enemy, target_player, dt_seconds);
+            tick_digdogger(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Manhandla:
-            tick_manhandla(session, world, &enemy, target_player, dt_seconds);
+            tick_manhandla(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Gohma:
-            tick_gohma(session, world, &enemy, target_player, dt_seconds);
+            tick_gohma(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Moldorm:
-            tick_moldorm(session, world, &enemy, target_player, dt_seconds);
+            tick_moldorm(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Aquamentus:
-            tick_aquamentus(session, world, &enemy, target_player, dt_seconds);
+            tick_aquamentus(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Gleeok:
-            tick_gleeok(session, world, &enemy, target_player, dt_seconds);
+            tick_gleeok(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Patra:
-            tick_patra(session, world, &enemy, target_player, dt_seconds);
+            tick_patra(play, world, &enemy, target_player, dt_seconds);
             break;
         case EnemyKind::Ganon:
-            tick_ganon(session, world, &enemy, target_player, dt_seconds);
+            tick_ganon(play, world, &enemy, target_player, dt_seconds);
             break;
         }
 
@@ -138,10 +140,10 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
 
         if (overlaps_circle(enemy.position, player->position, kEnemyTouchRadius)) {
             if (enemy.kind == EnemyKind::Wallmaster) {
-                player->position = session->area_kind == AreaKind::Overworld
+                player->position = play->area_kind == AreaKind::Overworld
                                        ? get_opening_start_position()
                                        : enemy.origin;
-                set_message(session, "wallmaster drag", 1.2F);
+                set_message(play, "wallmaster drag", 1.2F);
                 continue;
             }
 
@@ -149,15 +151,15 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
                 if (enemy.subtype == 0) {
                     player->sword_disabled_seconds =
                         glm::max(player->sword_disabled_seconds, kBubbleCurseSeconds);
-                    set_message(session, "bubble curse", 0.8F);
+                    set_message(play, "bubble curse", 0.8F);
                 } else if (enemy.subtype == 1) {
                     player->sword_cursed = true;
                     player->sword_disabled_seconds = 9999.0F;
-                    set_message(session, "bubble block", 0.8F);
+                    set_message(play, "bubble block", 0.8F);
                 } else {
                     player->sword_cursed = false;
                     player->sword_disabled_seconds = 0.0F;
-                    set_message(session, "bubble restore", 0.8F);
+                    set_message(play, "bubble restore", 0.8F);
                 }
                 continue;
             }
@@ -168,25 +170,25 @@ void tick_enemies(GameSession* session, const World* overworld_world, Player* pl
                 enemy.special_counter += 1;
                 if (enemy.special_counter >= 60 && player->has_magic_shield) {
                     player->has_magic_shield = false;
-                    set_message(session, "like-like ate shield", 1.0F);
+                    set_message(play, "like-like ate shield", 1.0F);
                 } else {
-                    set_message(session, "like-like grab", 0.2F);
+                    set_message(play, "like-like grab", 0.2F);
                 }
             }
 
-            damage_player_from(session, world, player, 1, enemy.position);
+            damage_player_from(play, world, player, 1, enemy.position);
         }
     }
 }
 
-void tick_enemy_respawns(GameSession* session, float dt_seconds) {
-    for (Enemy& enemy : session->enemies) {
+void tick_enemy_respawns(Play* play, float dt_seconds) {
+    for (Enemy& enemy : play->enemies) {
         if (enemy.active || !enemy.zoo_respawn) {
             continue;
         }
 
         bool group_active = false;
-        for (const Enemy& other : session->enemies) {
+        for (const Enemy& other : play->enemies) {
             if (!other.active || !other.zoo_respawn || other.respawn_group != enemy.respawn_group) {
                 continue;
             }
@@ -208,12 +210,12 @@ void tick_enemy_respawns(GameSession* session, float dt_seconds) {
         enemy.active = true;
         enemy.position = enemy.spawn_position;
         enemy.origin = enemy.spawn_position;
-        reset_enemy_state(session, &enemy);
+        reset_enemy_state(play, &enemy);
     }
 }
 
-void respawn_enemy_group_internal(GameSession* session, int respawn_group) {
-    for (Enemy& enemy : session->enemies) {
+void respawn_enemy_group_internal(Play* play, int respawn_group) {
+    for (Enemy& enemy : play->enemies) {
         if (enemy.respawn_group != respawn_group) {
             continue;
         }
@@ -222,6 +224,8 @@ void respawn_enemy_group_internal(GameSession* session, int respawn_group) {
         enemy.position = enemy.spawn_position;
         enemy.origin = enemy.spawn_position;
         enemy.respawn_seconds_remaining = 0.0F;
-        reset_enemy_state(session, &enemy);
+        reset_enemy_state(play, &enemy);
     }
 }
+
+} // namespace z1m

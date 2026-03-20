@@ -5,7 +5,7 @@
 #include "content/opening_content.hpp"
 #include "content/overworld_warps.hpp"
 #include "content/world_data.hpp"
-#include "game/game_session.hpp"
+#include "game/play.hpp"
 #include "game/player.hpp"
 #include "game/world.hpp"
 #include "render/camera.hpp"
@@ -30,13 +30,13 @@ constexpr float kProjectileDebugRadius = 0.18F;
 constexpr float kPickupDebugRadius = 0.30F;
 constexpr float kSwordDebugRadius = 0.48F;
 
-bool area_matches(const GameSession* session, AreaKind area_kind, int cave_id) {
-    if (session->area_kind != area_kind) {
+bool area_matches(const Play* play, AreaKind area_kind, int cave_id) {
+    if (play->area_kind != area_kind) {
         return false;
     }
 
     if (area_kind == AreaKind::Cave) {
-        return session->current_cave_id == cave_id;
+        return play->current_cave_id == cave_id;
     }
 
     return true;
@@ -90,9 +90,8 @@ Camera make_clamped_camera(const glm::vec2& focus, const World* world, float zoo
     return camera;
 }
 
-Camera make_session_camera(const GameSession* session, const World* world, const Player* player,
-                           float zoom) {
-    return make_clamped_camera(player->position, get_active_world(session, world), zoom);
+Camera make_play_camera(const Play* play, const World* world, const Player* player, float zoom) {
+    return make_clamped_camera(player->position, get_active_world(play, world), zoom);
 }
 
 void render_world_grid(SDL_Renderer* renderer, const Camera* camera) {
@@ -444,9 +443,9 @@ void render_npc_sprite(SDL_Renderer* renderer, const Camera* camera, const Npc* 
     fill_rect(renderer, rect);
 }
 
-void render_portals(SDL_Renderer* renderer, const Camera* camera, const GameSession* session) {
+void render_portals(SDL_Renderer* renderer, const Camera* camera, const Play* play) {
     std::array<AreaPortal, kMaxAreaPortals> portals = {};
-    const int portal_count = gather_area_portals(session, &portals);
+    const int portal_count = gather_area_portals(play, &portals);
     for (int index = 0; index < portal_count; ++index) {
         const AreaPortal& portal = portals[static_cast<std::size_t>(index)];
         if (portal.requires_raft) {
@@ -483,8 +482,8 @@ void draw_debug_label(SDL_Renderer* renderer, const glm::vec2& screen_position,
     SDL_RenderDebugText(renderer, screen_position.x, screen_position.y, label.c_str());
 }
 
-void render_message_box(SDL_Renderer* renderer, const GameSession* session) {
-    if (session->message_text.empty()) {
+void render_message_box(SDL_Renderer* renderer, const Play* play) {
+    if (play->message_text.empty()) {
         return;
     }
 
@@ -494,16 +493,16 @@ void render_message_box(SDL_Renderer* renderer, const GameSession* session) {
     fill_rect(renderer, box);
     set_draw_color(renderer, 255, 255, 255, 255);
     draw_rect_outline(renderer, box);
-    draw_debug_label(renderer, glm::vec2(box.x + 8.0F, box.y + 9.0F), session->message_text);
+    draw_debug_label(renderer, glm::vec2(box.x + 8.0F, box.y + 9.0F), play->message_text);
 }
 
-void render_collision_overlay(SDL_Renderer* renderer, const GameSession* session,
-                              const World* world, const Player* player, float zoom) {
-    const World* active_world = get_active_world(session, world);
-    const Camera camera = make_session_camera(session, world, player, zoom);
+void render_collision_overlay(SDL_Renderer* renderer, const Play* play, const World* world,
+                              const Player* player, float zoom) {
+    const World* active_world = get_active_world(play, world);
+    const Camera camera = make_play_camera(play, world, player, zoom);
 
-    if (session->area_kind == AreaKind::Overworld) {
-        const int room_id = session->current_room_id;
+    if (play->area_kind == AreaKind::Overworld) {
+        const int room_id = play->current_room_id;
         const int room_x0 = (room_id % kScreenColumns) * kScreenTileWidth;
         const int room_y0 = (room_id / kScreenColumns) * kScreenTileHeight;
 
@@ -552,9 +551,9 @@ void render_collision_overlay(SDL_Renderer* renderer, const GameSession* session
     }
 }
 
-void render_hitbox_overlay(SDL_Renderer* renderer, const GameSession* session, const World* world,
+void render_hitbox_overlay(SDL_Renderer* renderer, const Play* play, const World* world,
                            const Player* player, float zoom) {
-    const Camera camera = make_session_camera(session, world, player, zoom);
+    const Camera camera = make_play_camera(play, world, player, zoom);
 
     set_draw_color(renderer, 255, 255, 255, 255);
     draw_rect_outline(renderer, world_rect_to_screen(&camera, player->position,
@@ -568,9 +567,8 @@ void render_hitbox_overlay(SDL_Renderer* renderer, const GameSession* session, c
                                                                    kSwordDebugRadius * 2.0F)));
     }
 
-    for (const Enemy& enemy : session->enemies) {
-        if (!enemy.active || enemy.hidden ||
-            !area_matches(session, enemy.area_kind, enemy.cave_id)) {
+    for (const Enemy& enemy : play->enemies) {
+        if (!enemy.active || enemy.hidden || !area_matches(play, enemy.area_kind, enemy.cave_id)) {
             continue;
         }
 
@@ -580,9 +578,8 @@ void render_hitbox_overlay(SDL_Renderer* renderer, const GameSession* session, c
                                                                    kEnemyDebugRadius * 2.0F)));
     }
 
-    for (const Projectile& projectile : session->projectiles) {
-        if (!projectile.active ||
-            !area_matches(session, projectile.area_kind, projectile.cave_id)) {
+    for (const Projectile& projectile : play->projectiles) {
+        if (!projectile.active || !area_matches(play, projectile.area_kind, projectile.cave_id)) {
             continue;
         }
 
@@ -592,8 +589,8 @@ void render_hitbox_overlay(SDL_Renderer* renderer, const GameSession* session, c
                                                                    kProjectileDebugRadius * 2.0F)));
     }
 
-    for (const Pickup& pickup : session->pickups) {
-        if (!pickup.active || !area_matches(session, pickup.area_kind, pickup.cave_id)) {
+    for (const Pickup& pickup : play->pickups) {
+        if (!pickup.active || !area_matches(play, pickup.area_kind, pickup.cave_id)) {
             continue;
         }
 
@@ -605,14 +602,14 @@ void render_hitbox_overlay(SDL_Renderer* renderer, const GameSession* session, c
 }
 
 void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_view,
-                                 const GameSession* session, const World* world,
-                                 const Player* player, float zoom) {
-    const Camera camera = make_session_camera(session, world, player, zoom);
+                                 const Play* play, const World* world, const Player* player,
+                                 float zoom) {
+    const Camera camera = make_play_camera(play, world, player, zoom);
 
-    if (session->area_kind == AreaKind::Overworld) {
+    if (play->area_kind == AreaKind::Overworld) {
         std::array<OverworldWarp, kMaxRoomWarps> warps = {};
         const int warp_count =
-            gather_overworld_warps(&world->overworld, session->current_room_id, &warps);
+            gather_overworld_warps(&world->overworld, play->current_room_id, &warps);
 
         for (int index = 0; index < warp_count; ++index) {
             const OverworldWarp& warp = warps[static_cast<std::size_t>(index)];
@@ -633,8 +630,8 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
             }
 
             if (debug_view->show_labels) {
-                const int room_x = (session->current_room_id % kScreenColumns) * kScreenTileWidth;
-                const int room_y = (session->current_room_id / kScreenColumns) * kScreenTileHeight;
+                const int room_x = (play->current_room_id % kScreenColumns) * kScreenTileWidth;
+                const int room_y = (play->current_room_id / kScreenColumns) * kScreenTileHeight;
                 const glm::vec2 label_pos =
                     world_to_screen(&camera, glm::vec2(static_cast<float>(room_x) + 1.0F,
                                                        static_cast<float>(room_y) + 1.0F));
@@ -642,8 +639,8 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
                                  "hidden cave attr cave=" + std::to_string(warp.cave_id));
             }
         }
-    } else if (session->area_kind == AreaKind::Cave) {
-        const CaveDef* cave = get_cave_def(session->current_cave_id);
+    } else if (play->area_kind == AreaKind::Cave) {
+        const CaveDef* cave = get_cave_def(play->current_cave_id);
         if (cave != nullptr) {
             set_draw_color(renderer, 64, 255, 160, 255);
             draw_rect_outline(renderer, world_rect_to_screen(&camera, cave->exit_center,
@@ -655,7 +652,7 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
         }
     } else {
         std::array<AreaPortal, kMaxAreaPortals> portals = {};
-        const int portal_count = gather_area_portals(session, &portals);
+        const int portal_count = gather_area_portals(play, &portals);
         for (int index = 0; index < portal_count; ++index) {
             const AreaPortal& portal = portals[static_cast<std::size_t>(index)];
             if (portal.requires_raft) {
@@ -679,8 +676,8 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
         return;
     }
 
-    for (const Pickup& pickup : session->pickups) {
-        if (!pickup.active || !area_matches(session, pickup.area_kind, pickup.cave_id)) {
+    for (const Pickup& pickup : play->pickups) {
+        if (!pickup.active || !area_matches(play, pickup.area_kind, pickup.cave_id)) {
             continue;
         }
         std::string label = std::string("pickup ") + pickup_name(pickup.kind);
@@ -691,8 +688,8 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
             renderer, world_to_screen(&camera, pickup.position + glm::vec2(-0.3F, -0.7F)), label);
     }
 
-    for (const Npc& npc : session->npcs) {
-        if (!npc.active || !area_matches(session, npc.area_kind, npc.cave_id)) {
+    for (const Npc& npc : play->npcs) {
+        if (!npc.active || !area_matches(play, npc.area_kind, npc.cave_id)) {
             continue;
         }
 
@@ -700,9 +697,8 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
                          std::string(npc_name(npc.kind)) + " " + npc.label);
     }
 
-    for (const Enemy& enemy : session->enemies) {
-        if (!enemy.active || enemy.hidden ||
-            !area_matches(session, enemy.area_kind, enemy.cave_id)) {
+    for (const Enemy& enemy : play->enemies) {
+        if (!enemy.active || enemy.hidden || !area_matches(play, enemy.area_kind, enemy.cave_id)) {
             continue;
         }
 
@@ -740,24 +736,23 @@ void render_interactable_overlay(SDL_Renderer* renderer, const DebugView* debug_
 } // namespace
 
 void render_scene(SDL_Renderer* renderer, const DebugTileset* tileset, const DebugView* debug_view,
-                  const GameSession* session, const World* world, const Player* player,
-                  float zoom) {
+                  const Play* play, const World* world, const Player* player, float zoom) {
     set_draw_color(renderer, 16, 24, 34);
     SDL_RenderClear(renderer);
 
-    const World* active_world = get_active_world(session, world);
-    if (session->area_kind == AreaKind::Cave) {
-        render_cave(renderer, session, player, zoom);
+    const World* active_world = get_active_world(play, world);
+    if (play->area_kind == AreaKind::Cave) {
+        render_cave(renderer, play, player, zoom);
     } else {
         render_world(renderer, tileset, active_world, player, zoom);
         const Camera camera = make_clamped_camera(player->position, active_world, zoom);
-        render_portals(renderer, &camera, session);
+        render_portals(renderer, &camera, play);
     }
 
-    render_session_entities(renderer, session, active_world, player, zoom);
+    render_play_entities(renderer, play, active_world, player, zoom);
     render_player(renderer, active_world, player, zoom);
-    render_debug_overlay(renderer, debug_view, session, world, player, zoom);
-    render_message_box(renderer, session);
+    render_debug_overlay(renderer, debug_view, play, world, player, zoom);
+    render_message_box(renderer, play);
 }
 
 void render_world(SDL_Renderer* renderer, const DebugTileset* tileset, const World* world,
@@ -786,9 +781,8 @@ void render_world(SDL_Renderer* renderer, const DebugTileset* tileset, const Wor
     }
 }
 
-void render_cave(SDL_Renderer* renderer, const GameSession* session, const Player* player,
-                 float zoom) {
-    const World* cave_world = &session->cave_world;
+void render_cave(SDL_Renderer* renderer, const Play* play, const Player* player, float zoom) {
+    const World* cave_world = &play->cave_world;
     const Camera camera = make_clamped_camera(player->position, cave_world, zoom);
 
     set_draw_color(renderer, 0, 0, 0);
@@ -822,38 +816,36 @@ void render_cave(SDL_Renderer* renderer, const GameSession* session, const Playe
               world_rect_to_screen(&camera, glm::vec2(5.45F, 4.0F), glm::vec2(0.35F, 0.35F)));
 }
 
-void render_session_entities(SDL_Renderer* renderer, const GameSession* session, const World* world,
-                             const Player* player, float zoom) {
+void render_play_entities(SDL_Renderer* renderer, const Play* play, const World* world,
+                          const Player* player, float zoom) {
     const Camera camera = make_clamped_camera(player->position, world, zoom);
 
-    for (const Enemy& enemy : session->enemies) {
-        if (!enemy.active || enemy.hidden ||
-            !area_matches(session, enemy.area_kind, enemy.cave_id)) {
+    for (const Enemy& enemy : play->enemies) {
+        if (!enemy.active || enemy.hidden || !area_matches(play, enemy.area_kind, enemy.cave_id)) {
             continue;
         }
 
         render_enemy_sprite(renderer, &camera, &enemy);
     }
 
-    for (const Projectile& projectile : session->projectiles) {
-        if (!projectile.active ||
-            !area_matches(session, projectile.area_kind, projectile.cave_id)) {
+    for (const Projectile& projectile : play->projectiles) {
+        if (!projectile.active || !area_matches(play, projectile.area_kind, projectile.cave_id)) {
             continue;
         }
 
         render_projectile_sprite(renderer, &camera, &projectile);
     }
 
-    for (const Pickup& pickup : session->pickups) {
-        if (!pickup.active || !area_matches(session, pickup.area_kind, pickup.cave_id)) {
+    for (const Pickup& pickup : play->pickups) {
+        if (!pickup.active || !area_matches(play, pickup.area_kind, pickup.cave_id)) {
             continue;
         }
 
         render_pickup_sprite(renderer, &camera, &pickup);
     }
 
-    for (const Npc& npc : session->npcs) {
-        if (!npc.active || !area_matches(session, npc.area_kind, npc.cave_id)) {
+    for (const Npc& npc : play->npcs) {
+        if (!npc.active || !area_matches(play, npc.area_kind, npc.cave_id)) {
             continue;
         }
 
@@ -896,23 +888,22 @@ void render_player(SDL_Renderer* renderer, const World* world, const Player* pla
     fill_rect(renderer, make_rect(sword_position - sword_size * 0.5F, sword_size));
 }
 
-void render_debug_overlay(SDL_Renderer* renderer, const DebugView* debug_view,
-                          const GameSession* session, const World* world, const Player* player,
-                          float zoom) {
+void render_debug_overlay(SDL_Renderer* renderer, const DebugView* debug_view, const Play* play,
+                          const World* world, const Player* player, float zoom) {
     if (debug_view == nullptr || !debug_view->enabled) {
         return;
     }
 
     if (debug_view->show_collision_tiles) {
-        render_collision_overlay(renderer, session, world, player, zoom);
+        render_collision_overlay(renderer, play, world, player, zoom);
     }
 
     if (debug_view->show_hitboxes) {
-        render_hitbox_overlay(renderer, session, world, player, zoom);
+        render_hitbox_overlay(renderer, play, world, player, zoom);
     }
 
     if (debug_view->show_interactables) {
-        render_interactable_overlay(renderer, debug_view, session, world, player, zoom);
+        render_interactable_overlay(renderer, debug_view, play, world, player, zoom);
     }
 }
 

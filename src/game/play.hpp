@@ -186,7 +186,7 @@ struct RoomRuntime {
 
 constexpr int kMaxAreaPortals = 8;
 
-struct GameSession {
+struct Play {
     AreaKind area_kind = AreaKind::Overworld;
     int current_room_id = 0;
     int previous_room_id = -1;
@@ -209,17 +209,16 @@ struct GameSession {
     std::vector<Npc> npcs = {};
 };
 
-GameSession make_game_session();
-void init_game_session(GameSession* session, Player* player);
-const World* get_active_world(const GameSession* session, const World* overworld_world);
-void set_area_kind(GameSession* session, Player* player, AreaKind area_kind, int cave_id,
+Play make_play();
+void init_play(Play* play, Player* player);
+const World* get_active_world(const Play* play, const World* overworld_world);
+void set_area_kind(Play* play, Player* player, AreaKind area_kind, int cave_id,
                    const glm::vec2& position);
-int gather_area_portals(const GameSession* session,
-                        std::array<AreaPortal, kMaxAreaPortals>* portals);
-void tick_game_session(GameSession* session, const World* overworld_world, Player* player,
-                       const PlayerCommand* command, float dt_seconds);
-void respawn_enemy_group(GameSession* session, int respawn_group);
-const char* area_name(const GameSession* session);
+int gather_area_portals(const Play* play, std::array<AreaPortal, kMaxAreaPortals>* portals);
+void tick_play(Play* play, const World* overworld_world, Player* player,
+               const PlayerCommand* command, float dt_seconds);
+void respawn_enemy_group(Play* play, int respawn_group);
+const char* area_name(const Play* play);
 const char* pickup_name(PickupKind kind);
 const char* enemy_name(EnemyKind kind);
 const char* projectile_name(ProjectileKind kind);

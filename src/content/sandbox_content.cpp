@@ -581,7 +581,7 @@ void build_item_zoo_world(World* world) {
     fill_world_rect(world, 62, 24, 2, 2, TileKind::Ground);
 }
 
-void populate_sandbox_entities(GameSession* session) {
+void populate_sandbox_entities(Play* play) {
     for (const EnemySpawnSpec& spawn : kEnemyZooSpawns) {
         Enemy enemy;
         enemy.active = true;
@@ -599,7 +599,7 @@ void populate_sandbox_entities(GameSession* session) {
                             ? get_room_id_at_world_tile(static_cast<int>(spawn.position.x),
                                                         static_cast<int>(spawn.position.y))
                             : -1;
-        session->enemies.push_back(enemy);
+        play->enemies.push_back(enemy);
     }
 
     for (const PickupSpawnSpec& spawn : kItemZooPickups) {
@@ -611,7 +611,7 @@ void populate_sandbox_entities(GameSession* session) {
         pickup.position = spawn.position;
         pickup.shop_item = spawn.shop_item;
         pickup.price_rupees = spawn.price_rupees;
-        session->pickups.push_back(pickup);
+        play->pickups.push_back(pickup);
     }
 
     for (const NpcSpawnSpec& spawn : kNpcSpawns) {
@@ -624,16 +624,15 @@ void populate_sandbox_entities(GameSession* session) {
         npc.subtype = spawn.subtype;
         npc.shop_item_index = spawn.shop_item_index;
         npc.label = spawn.label;
-        session->npcs.push_back(npc);
+        play->npcs.push_back(npc);
     }
 }
 
-int gather_sandbox_portals(const GameSession* session,
-                           std::array<AreaPortal, kMaxAreaPortals>* portals) {
+int gather_sandbox_portals(const Play* play, std::array<AreaPortal, kMaxAreaPortals>* portals) {
     portals->fill(AreaPortal{});
     int count = 0;
 
-    if (session->area_kind == AreaKind::EnemyZoo) {
+    if (play->area_kind == AreaKind::EnemyZoo) {
         push_portal(portals, &count, AreaKind::EnemyZoo, glm::vec2(10.0F, 138.0F),
                     glm::vec2(2.0F, 1.5F), AreaKind::Overworld, get_opening_start_position(),
                     "to overworld");
@@ -642,7 +641,7 @@ int gather_sandbox_portals(const GameSession* session,
                     "to item zoo");
     }
 
-    if (session->area_kind == AreaKind::ItemZoo) {
+    if (play->area_kind == AreaKind::ItemZoo) {
         push_portal(portals, &count, AreaKind::ItemZoo, glm::vec2(10.0F, 35.0F),
                     glm::vec2(2.0F, 1.5F), AreaKind::Overworld, get_opening_start_position(),
                     "to overworld");

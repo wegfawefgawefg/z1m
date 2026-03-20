@@ -1,9 +1,13 @@
-void ensure_sword_cave_pickup(GameSession* session) {
-    if (session->sword_cave_reward_taken) {
+#include "game/play_core.hpp"
+
+namespace z1m {
+
+void ensure_sword_cave_pickup(Play* play) {
+    if (play->sword_cave_reward_taken) {
         return;
     }
 
-    for (const Pickup& pickup : session->pickups) {
+    for (const Pickup& pickup : play->pickups) {
         if (!pickup.active || pickup.kind != PickupKind::Sword || pickup.cave_id != kSwordCaveId) {
             continue;
         }
@@ -24,10 +28,10 @@ void ensure_sword_cave_pickup(GameSession* session) {
     pickup.kind = PickupKind::Sword;
     pickup.position = cave->reward_position;
     pickup.seconds_remaining = 9999.0F;
-    session->pickups.push_back(pickup);
+    play->pickups.push_back(pickup);
 }
 
-void init_opening_overworld_enemies(GameSession* session) {
+void init_opening_overworld_enemies(Play* play) {
     for (int room_id = 0; room_id < kScreenCount; ++room_id) {
         int spawn_count = 0;
         const EnemySpawnDef* spawns = get_room_enemy_spawns(room_id, &spawn_count);
@@ -42,26 +46,26 @@ void init_opening_overworld_enemies(GameSession* session) {
             enemy.area_kind = AreaKind::Overworld;
             enemy.room_id = room_id;
             enemy.position = make_world_position(room_id, spawns[index].local_position);
-            reset_enemy_state(session, &enemy);
-            session->enemies.push_back(enemy);
+            reset_enemy_state(play, &enemy);
+            play->enemies.push_back(enemy);
         }
     }
 }
 
-void update_current_room(GameSession* session, const Player* player) {
-    if (session->area_kind != AreaKind::Overworld) {
-        session->current_room_id = -1;
-        session->previous_room_id = -1;
+void update_current_room(Play* play, const Player* player) {
+    if (play->area_kind != AreaKind::Overworld) {
+        play->current_room_id = -1;
+        play->previous_room_id = -1;
         return;
     }
 
-    session->current_room_id = get_room_from_position(player->position);
-    if (session->current_room_id != session->previous_room_id) {
-        session->previous_room_id = session->current_room_id;
+    play->current_room_id = get_room_from_position(player->position);
+    if (play->current_room_id != play->previous_room_id) {
+        play->previous_room_id = play->current_room_id;
     }
 }
 
-void spawn_pickup_drop(GameSession* session, const Enemy& enemy) {
+void spawn_pickup_drop(Play* play, const Enemy& enemy) {
     if (enemy.kind == EnemyKind::Moldorm && enemy.subtype > 0) {
         return;
     }
@@ -79,11 +83,11 @@ void spawn_pickup_drop(GameSession* session, const Enemy& enemy) {
         pickup.kind = PickupKind::HeartContainer;
         pickup.persistent = true;
         pickup.seconds_remaining = 9999.0F;
-        session->pickups.push_back(pickup);
+        play->pickups.push_back(pickup);
         return;
     }
 
-    const int roll = random_int(session, 7);
+    const int roll = random_int(play, 7);
     if (roll <= 1) {
         pickup.kind = PickupKind::Heart;
     } else if (roll <= 4) {
@@ -92,12 +96,12 @@ void spawn_pickup_drop(GameSession* session, const Enemy& enemy) {
         pickup.kind = PickupKind::Bombs;
     }
 
-    session->pickups.push_back(pickup);
+    play->pickups.push_back(pickup);
 }
 
-void damage_player_from(GameSession* session, const World* world, Player* player, int damage,
+void damage_player_from(Play* play, const World* world, Player* player, int damage,
                         const glm::vec2& source_position) {
-    if (session->area_kind == AreaKind::EnemyZoo || session->area_kind == AreaKind::ItemZoo) {
+    if (play->area_kind == AreaKind::EnemyZoo || play->area_kind == AreaKind::ItemZoo) {
         player->health = player->max_health;
         return;
     }
@@ -128,15 +132,15 @@ void damage_player_from(GameSession* session, const World* world, Player* player
     player->health = player->max_health;
     player->position = get_opening_start_position();
     player->facing = Facing::Down;
-    session->area_kind = AreaKind::Overworld;
-    session->current_cave_id = -1;
-    session->cave_return_room_id = -1;
-    session->cave_return_position = glm::vec2(0.0F);
-    session->warp_cooldown_seconds = kAreaTransitionCooldownSeconds;
-    update_current_room(session, player);
+    play->area_kind = AreaKind::Overworld;
+    play->current_cave_id = -1;
+    play->cave_return_room_id = -1;
+    play->cave_return_position = glm::vec2(0.0F);
+    play->warp_cooldown_seconds = kAreaTransitionCooldownSeconds;
+    update_current_room(play, player);
 }
 
-void damage_enemy(GameSession* session, Enemy* enemy, int damage) {
+void damage_enemy(Play* play, Enemy* enemy, int damage) {
     if (!enemy->active || enemy->hidden || enemy->invulnerable ||
         enemy->hurt_seconds_remaining > 0.0F) {
         return;
@@ -159,8 +163,8 @@ void damage_enemy(GameSession* session, Enemy* enemy, int damage) {
             head.origin = head.position;
             head.max_health = 2;
             head.health = 2;
-            reset_enemy_state(session, &head);
-            session->enemies.push_back(head);
+            reset_enemy_state(play, &head);
+            play->enemies.push_back(head);
         }
         return;
     }
@@ -177,11 +181,11 @@ void damage_enemy(GameSession* session, Enemy* enemy, int damage) {
             child.origin = child.position;
             child.max_health = 1;
             child.health = 1;
-            reset_enemy_state(session, &child);
+            reset_enemy_state(play, &child);
             child.facing = index == 0 ? Facing::Left : Facing::Right;
             child.subtype = 1;
             child.action_seconds_remaining = 5.0F / 60.0F;
-            session->enemies.push_back(child);
+            play->enemies.push_back(child);
         }
     }
 
@@ -197,8 +201,8 @@ void damage_enemy(GameSession* session, Enemy* enemy, int damage) {
             child.origin = child.position;
             child.max_health = 1;
             child.health = 1;
-            reset_enemy_state(session, &child);
-            session->enemies.push_back(child);
+            reset_enemy_state(play, &child);
+            play->enemies.push_back(child);
         }
     }
 
@@ -209,17 +213,17 @@ void damage_enemy(GameSession* session, Enemy* enemy, int damage) {
     }
 
     enemy->active = false;
-    spawn_pickup_drop(session, *enemy);
+    spawn_pickup_drop(play, *enemy);
 }
 
-void process_player_attacks(GameSession* session, Player* player) {
+void process_player_attacks(Play* play, Player* player) {
     if (!player->has_sword || !is_sword_active(player)) {
         return;
     }
 
     const glm::vec2 sword_pos = sword_world_position(player);
-    for (Enemy& enemy : session->enemies) {
-        if (!enemy_in_current_area(session, enemy)) {
+    for (Enemy& enemy : play->enemies) {
+        if (!enemy_in_current_area(play, enemy)) {
             continue;
         }
 
@@ -245,9 +249,9 @@ void process_player_attacks(GameSession* session, Player* player) {
                 enemy.special_counter -= 1;
                 enemy.health = glm::max(1, enemy.special_counter);
                 if (enemy.special_counter <= 0) {
-                    damage_enemy(session, &enemy, enemy.health);
+                    damage_enemy(play, &enemy, enemy.health);
                 } else {
-                    set_message(session, "manhandla petal down", 0.6F);
+                    set_message(play, "manhandla petal down", 0.6F);
                 }
                 hit_petal = true;
                 break;
@@ -264,7 +268,7 @@ void process_player_attacks(GameSession* session, Player* player) {
                 if (!overlaps_circle(sword_pos, gleeok_head_position(enemy, head), 0.65F)) {
                     continue;
                 }
-                damage_enemy(session, &enemy, 1);
+                damage_enemy(play, &enemy, 1);
                 hit_head = true;
                 break;
             }
@@ -281,7 +285,7 @@ void process_player_attacks(GameSession* session, Player* player) {
                     continue;
                 }
                 enemy.special_counter -= 1;
-                set_message(session, "patra orbiter down", 0.6F);
+                set_message(play, "patra orbiter down", 0.6F);
                 hit_orbiter = true;
                 break;
             }
@@ -296,14 +300,14 @@ void process_player_attacks(GameSession* session, Player* player) {
             enemy.special_counter = 1;
             enemy.state_seconds_remaining = 1.0F;
             if (enemy.health > 1) {
-                damage_enemy(session, &enemy, 1);
+                damage_enemy(play, &enemy, 1);
                 if (enemy.active) {
                     enemy.hidden = false;
                     enemy.special_counter = 1;
                     enemy.state_seconds_remaining = 1.0F;
                 }
             }
-            set_message(session, enemy.health <= 1 ? "ganon is weak" : "ganon revealed", 0.6F);
+            set_message(play, enemy.health <= 1 ? "ganon is weak" : "ganon revealed", 0.6F);
             continue;
         }
 
@@ -329,6 +333,8 @@ void process_player_attacks(GameSession* session, Player* player) {
             }
         }
 
-        damage_enemy(session, &enemy, 1);
+        damage_enemy(play, &enemy, 1);
     }
 }
+
+} // namespace z1m

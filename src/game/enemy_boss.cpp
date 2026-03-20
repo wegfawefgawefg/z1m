@@ -1,17 +1,21 @@
-void tick_keese(GameSession* session, const World* world, Enemy* enemy, float dt_seconds) {
-    tick_rom_flyer(session, world, enemy, nullptr, dt_seconds, kKeeseSpeed, 0xA0, false);
+#include "game/play_core.hpp"
+
+namespace z1m {
+
+void tick_keese(Play* play, const World* world, Enemy* enemy, float dt_seconds) {
+    tick_rom_flyer(play, world, enemy, nullptr, dt_seconds, kKeeseSpeed, 0xA0, false);
 }
 
-void tick_pols_voice(GameSession* session, const World* world, Enemy* enemy, float dt_seconds) {
+void tick_pols_voice(Play* play, const World* world, Enemy* enemy, float dt_seconds) {
     enemy->action_seconds_remaining -= dt_seconds;
     enemy->move_seconds_remaining -= dt_seconds;
 
     if (enemy->move_seconds_remaining <= 0.0F && enemy->action_seconds_remaining <= 0.0F) {
         const glm::vec2 direction = glm::normalize(
-            glm::vec2(random_unit(session) * 2.0F - 1.0F, random_unit(session) * 2.0F - 1.0F));
+            glm::vec2(random_unit(play) * 2.0F - 1.0F, random_unit(play) * 2.0F - 1.0F));
         enemy->velocity = direction * kPolsVoiceSpeed;
-        enemy->move_seconds_remaining = 0.20F + random_unit(session) * 0.10F;
-        enemy->action_seconds_remaining = 0.38F + random_unit(session) * 0.25F;
+        enemy->move_seconds_remaining = 0.20F + random_unit(play) * 0.10F;
+        enemy->action_seconds_remaining = 0.38F + random_unit(play) * 0.25F;
     }
 
     if (enemy->move_seconds_remaining > 0.0F) {
@@ -19,7 +23,7 @@ void tick_pols_voice(GameSession* session, const World* world, Enemy* enemy, flo
     }
 }
 
-void tick_wallmaster(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+void tick_wallmaster(Play* play, const World* world, Enemy* enemy, const Player* player,
                      float dt_seconds) {
     if (player == nullptr) {
         return;
@@ -70,10 +74,10 @@ void tick_wallmaster(GameSession* session, const World* world, Enemy* enemy, con
 
     enemy->hidden = true;
     enemy->velocity = glm::vec2(0.0F);
-    enemy->action_seconds_remaining = 0.8F + random_unit(session) * 0.8F;
+    enemy->action_seconds_remaining = 0.8F + random_unit(play) * 0.8F;
 }
 
-void tick_dodongo(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+void tick_dodongo(Play* play, const World* world, Enemy* enemy, const Player* player,
                   float dt_seconds) {
     enemy->state_seconds_remaining -= dt_seconds;
     if (enemy->state_seconds_remaining > 0.0F) {
@@ -86,12 +90,12 @@ void tick_dodongo(GameSession* session, const World* world, Enemy* enemy, const 
 
     enemy->move_seconds_remaining -= dt_seconds;
     if (enemy->move_seconds_remaining <= 0.0F) {
-        if (player != nullptr && random_unit(session) < 0.55F) {
+        if (player != nullptr && random_unit(play) < 0.55F) {
             choose_player_axis_direction(*enemy, *player, &enemy->facing);
         } else {
-            choose_cardinal_direction(session, world, enemy);
+            choose_cardinal_direction(play, world, enemy);
         }
-        enemy->move_seconds_remaining = 0.8F + random_unit(session) * 0.7F;
+        enemy->move_seconds_remaining = 0.8F + random_unit(play) * 0.7F;
     }
 
     const glm::vec2 candidate =
@@ -103,14 +107,14 @@ void tick_dodongo(GameSession* session, const World* world, Enemy* enemy, const 
     }
 }
 
-void tick_gohma(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+void tick_gohma(Play* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
 
     enemy->action_seconds_remaining -= dt_seconds;
     if (enemy->action_seconds_remaining <= 0.0F) {
         enemy->velocity.x *= -1.0F;
-        enemy->action_seconds_remaining = 0.7F + random_unit(session) * 0.6F;
+        enemy->action_seconds_remaining = 0.7F + random_unit(play) * 0.6F;
     }
 
     enemy->state_seconds_remaining -= dt_seconds;
@@ -124,7 +128,7 @@ void tick_gohma(GameSession* session, const World* world, Enemy* enemy, const Pl
         if (player != nullptr) {
             Facing shot_facing = enemy->facing;
             choose_player_axis_direction(*enemy, *player, &shot_facing);
-            make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
+            make_projectile(play, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
                             enemy->position + facing_vector(shot_facing) * 0.8F,
                             facing_vector(shot_facing) * kFireSpeed, kProjectileLifetimeSeconds,
                             kFireRadius, 1);
@@ -133,14 +137,14 @@ void tick_gohma(GameSession* session, const World* world, Enemy* enemy, const Pl
     }
 
     enemy->special_counter = 0;
-    enemy->state_seconds_remaining = kGohmaEyeClosedSeconds + random_unit(session) * 0.6F;
+    enemy->state_seconds_remaining = kGohmaEyeClosedSeconds + random_unit(play) * 0.6F;
 }
 
-void tick_moldorm(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+void tick_moldorm(Play* play, const World* world, Enemy* enemy, const Player* player,
                   float dt_seconds) {
     if (enemy->subtype > 0) {
         Enemy* leader = nullptr;
-        for (Enemy& other : session->enemies) {
+        for (Enemy& other : play->enemies) {
             if (!other.active || other.kind != EnemyKind::Moldorm ||
                 other.area_kind != enemy->area_kind || other.cave_id != enemy->cave_id ||
                 other.respawn_group != enemy->respawn_group ||
@@ -167,8 +171,8 @@ void tick_moldorm(GameSession* session, const World* world, Enemy* enemy, const 
 
     enemy->action_seconds_remaining -= dt_seconds;
     if (enemy->action_seconds_remaining <= 0.0F) {
-        glm::vec2 direction(random_unit(session) * 2.0F - 1.0F, random_unit(session) * 2.0F - 1.0F);
-        if (player != nullptr && random_unit(session) < 0.5F) {
+        glm::vec2 direction(random_unit(play) * 2.0F - 1.0F, random_unit(play) * 2.0F - 1.0F);
+        if (player != nullptr && random_unit(play) < 0.5F) {
             direction = player->position - enemy->position;
         }
         if (glm::length(direction) < 0.1F) {
@@ -177,13 +181,13 @@ void tick_moldorm(GameSession* session, const World* world, Enemy* enemy, const 
             direction = glm::normalize(direction);
         }
         enemy->velocity = direction * kMoldormSpeed;
-        enemy->action_seconds_remaining = 0.25F + random_unit(session) * 0.35F;
+        enemy->action_seconds_remaining = 0.25F + random_unit(play) * 0.35F;
     }
 
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
 }
 
-void tick_digdogger(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+void tick_digdogger(Play* play, const World* world, Enemy* enemy, const Player* player,
                     float dt_seconds) {
     const float speed = enemy->special_counter == 0 ? kDigdoggerSpeed : kDigdoggerSpeed * 1.35F;
     if (enemy->special_counter == 0) {
@@ -192,8 +196,8 @@ void tick_digdogger(GameSession* session, const World* world, Enemy* enemy, cons
 
     enemy->action_seconds_remaining -= dt_seconds;
     if (enemy->action_seconds_remaining <= 0.0F) {
-        glm::vec2 direction(random_unit(session) * 2.0F - 1.0F, random_unit(session) * 2.0F - 1.0F);
-        if (player != nullptr && random_unit(session) < 0.6F) {
+        glm::vec2 direction(random_unit(play) * 2.0F - 1.0F, random_unit(play) * 2.0F - 1.0F);
+        if (player != nullptr && random_unit(play) < 0.6F) {
             direction = player->position - enemy->position;
         }
         if (glm::length(direction) < 0.1F) {
@@ -202,13 +206,13 @@ void tick_digdogger(GameSession* session, const World* world, Enemy* enemy, cons
             direction = glm::normalize(direction);
         }
         enemy->velocity = direction * speed;
-        enemy->action_seconds_remaining = 0.35F + random_unit(session) * 0.25F;
+        enemy->action_seconds_remaining = 0.35F + random_unit(play) * 0.25F;
     }
 
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
 }
 
-void tick_manhandla(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+void tick_manhandla(Play* play, const World* world, Enemy* enemy, const Player* player,
                     float dt_seconds) {
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
     enemy->action_seconds_remaining -= dt_seconds;
@@ -226,7 +230,7 @@ void tick_manhandla(GameSession* session, const World* world, Enemy* enemy, cons
         const std::array<glm::vec2, 4> shots = {glm::vec2(1.0F, 0.0F), glm::vec2(-1.0F, 0.0F),
                                                 glm::vec2(0.0F, 1.0F), glm::vec2(0.0F, -1.0F)};
         for (const glm::vec2& shot : shots) {
-            make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
+            make_projectile(play, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
                             enemy->position + shot * 0.9F, shot * kFireSpeed,
                             kProjectileLifetimeSeconds, kFireRadius, 1);
         }
@@ -234,7 +238,7 @@ void tick_manhandla(GameSession* session, const World* world, Enemy* enemy, cons
     }
 }
 
-void tick_gleeok(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+void tick_gleeok(Play* play, const World* world, Enemy* enemy, const Player* player,
                  float dt_seconds) {
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
     enemy->action_seconds_remaining -= dt_seconds;
@@ -256,14 +260,14 @@ void tick_gleeok(GameSession* session, const World* world, Enemy* enemy, const P
             direction = glm::normalize(direction);
         }
 
-        make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
+        make_projectile(play, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
                         enemy->position + glm::vec2(head_offset, -0.6F), direction * kFireSpeed,
                         kProjectileLifetimeSeconds, kFireRadius, 1);
     }
     enemy->action_seconds_remaining = 1.2F;
 }
 
-void tick_patra(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+void tick_patra(Play* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
     enemy->state_seconds_remaining -= dt_seconds;
@@ -277,7 +281,7 @@ void tick_patra(GameSession* session, const World* world, Enemy* enemy, const Pl
         glm::vec2 direction = player->position - enemy->position;
         if (glm::length(direction) > 0.1F) {
             direction = glm::normalize(direction);
-            make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
+            make_projectile(play, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
                             enemy->position + direction * 0.8F, direction * kFireSpeed,
                             kProjectileLifetimeSeconds, kFireRadius, 1);
         }
@@ -285,7 +289,7 @@ void tick_patra(GameSession* session, const World* world, Enemy* enemy, const Pl
     }
 }
 
-void tick_ganon(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+void tick_ganon(Play* play, const World* world, Enemy* enemy, const Player* player,
                 float dt_seconds) {
     if (enemy->special_counter > 0) {
         enemy->state_seconds_remaining -= dt_seconds;
@@ -298,11 +302,11 @@ void tick_ganon(GameSession* session, const World* world, Enemy* enemy, const Pl
         return;
     }
 
-    tick_blue_wizzrobe(session, world, enemy, player, dt_seconds);
+    tick_blue_wizzrobe(play, world, enemy, player, dt_seconds);
     enemy->hidden = true;
 }
 
-void tick_zora(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+void tick_zora(Play* play, const World* world, Enemy* enemy, const Player* player,
                float dt_seconds) {
     enemy->state_seconds_remaining -= dt_seconds;
     enemy->action_seconds_remaining -= dt_seconds;
@@ -313,7 +317,7 @@ void tick_zora(GameSession* session, const World* world, Enemy* enemy, const Pla
         }
 
         enemy->hidden = false;
-        enemy->state_seconds_remaining = 1.6F + random_unit(session) * 0.7F;
+        enemy->state_seconds_remaining = 1.6F + random_unit(play) * 0.7F;
         enemy->action_seconds_remaining = 0.45F;
         return;
     }
@@ -322,7 +326,7 @@ void tick_zora(GameSession* session, const World* world, Enemy* enemy, const Pla
         glm::vec2 toward_player = player->position - enemy->position;
         if (glm::length(toward_player) > 0.001F) {
             toward_player = glm::normalize(toward_player);
-            make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
+            make_projectile(play, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
                             enemy->position + toward_player * 0.8F, toward_player * kFireSpeed,
                             kProjectileLifetimeSeconds, kFireRadius, 1);
         }
@@ -334,7 +338,7 @@ void tick_zora(GameSession* session, const World* world, Enemy* enemy, const Pla
     }
 
     enemy->hidden = true;
-    enemy->state_seconds_remaining = 1.2F + random_unit(session) * 0.8F;
+    enemy->state_seconds_remaining = 1.2F + random_unit(play) * 0.8F;
 
     const glm::ivec2 base(static_cast<int>(enemy->position.x), static_cast<int>(enemy->position.y));
     for (int radius = 0; radius <= 6; ++radius) {
@@ -354,11 +358,11 @@ void tick_zora(GameSession* session, const World* world, Enemy* enemy, const Pla
     }
 }
 
-void tick_peahat(GameSession* session, const World* world, Enemy* enemy, float dt_seconds) {
-    tick_rom_flyer(session, world, enemy, nullptr, dt_seconds, kPeahatSpeed, 0xB0, true);
+void tick_peahat(Play* play, const World* world, Enemy* enemy, float dt_seconds) {
+    tick_rom_flyer(play, world, enemy, nullptr, dt_seconds, kPeahatSpeed, 0xB0, true);
 }
 
-void tick_aquamentus(GameSession* session, const World* world, Enemy* enemy, const Player* player,
+void tick_aquamentus(Play* play, const World* world, Enemy* enemy, const Player* player,
                      float dt_seconds) {
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
     enemy->action_seconds_remaining -= dt_seconds;
@@ -374,6 +378,8 @@ void tick_aquamentus(GameSession* session, const World* world, Enemy* enemy, con
         toward_player = glm::vec2(0.0F, 1.0F);
     }
 
-    throw_spread_rocks(session, *enemy, toward_player);
-    enemy->action_seconds_remaining = 1.1F + random_unit(session) * 0.4F;
+    throw_spread_rocks(play, *enemy, toward_player);
+    enemy->action_seconds_remaining = 1.1F + random_unit(play) * 0.4F;
 }
+
+} // namespace z1m

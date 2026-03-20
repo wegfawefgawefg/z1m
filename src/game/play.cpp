@@ -1,5 +1,11 @@
-void try_enter_overworld_cave(GameSession* session, const World* overworld_world, Player* player) {
-    if (session->area_kind != AreaKind::Overworld || session->warp_cooldown_seconds > 0.0F) {
+#include "game/play_core.hpp"
+
+namespace z1m {
+
+namespace {
+
+void try_enter_overworld_cave(Play* play, const World* overworld_world, Player* player) {
+    if (play->area_kind != AreaKind::Overworld || play->warp_cooldown_seconds > 0.0F) {
         return;
     }
 
@@ -9,29 +15,28 @@ void try_enter_overworld_cave(GameSession* session, const World* overworld_world
 
     std::array<OverworldWarp, kMaxRoomWarps> warps = {};
     int warp_count = 0;
-    const OverworldWarp* warp =
-        find_triggered_overworld_warp(&overworld_world->overworld, session->current_room_id,
-                                      player->position, &warps, &warp_count);
+    const OverworldWarp* warp = find_triggered_overworld_warp(
+        &overworld_world->overworld, play->current_room_id, player->position, &warps, &warp_count);
     if (warp == nullptr) {
         return;
     }
 
-    session->cave_return_room_id = session->current_room_id;
-    session->cave_return_position = warp->return_position;
+    play->cave_return_room_id = play->current_room_id;
+    play->cave_return_position = warp->return_position;
     const CaveDef* cave = get_cave_def(warp->cave_id);
     if (cave == nullptr) {
         return;
     }
 
-    set_area_kind(session, player, AreaKind::Cave, warp->cave_id, cave->player_spawn);
+    set_area_kind(play, player, AreaKind::Cave, warp->cave_id, cave->player_spawn);
 }
 
-void try_exit_cave(GameSession* session, Player* player) {
-    if (session->area_kind != AreaKind::Cave || session->warp_cooldown_seconds > 0.0F) {
+void try_exit_cave(Play* play, Player* player) {
+    if (play->area_kind != AreaKind::Cave || play->warp_cooldown_seconds > 0.0F) {
         return;
     }
 
-    const CaveDef* cave = get_cave_def(session->current_cave_id);
+    const CaveDef* cave = get_cave_def(play->current_cave_id);
     if (cave == nullptr) {
         return;
     }
@@ -41,23 +46,23 @@ void try_exit_cave(GameSession* session, Player* player) {
         return;
     }
 
-    set_area_kind(session, player, AreaKind::Overworld, -1, session->cave_return_position);
+    set_area_kind(play, player, AreaKind::Overworld, -1, play->cave_return_position);
 }
 
-void try_area_portals(GameSession* session, Player* player) {
-    if (session->warp_cooldown_seconds > 0.0F) {
+void try_area_portals(Play* play, Player* player) {
+    if (play->warp_cooldown_seconds > 0.0F) {
         return;
     }
 
     std::array<AreaPortal, kMaxAreaPortals> portals = {};
-    const int portal_count = gather_area_portals(session, &portals);
+    const int portal_count = gather_area_portals(play, &portals);
     for (int index = 0; index < portal_count; ++index) {
         const AreaPortal& portal = portals[static_cast<std::size_t>(index)];
         if (portal.requires_raft && !player->has_raft) {
             const glm::vec2 delta = player->position - portal.center;
             if (std::abs(delta.x) <= portal.half_size.x + 0.7F &&
                 std::abs(delta.y) <= portal.half_size.y + 0.7F) {
-                set_message(session, "need raft", 0.2F);
+                set_message(play, "need raft", 0.2F);
             }
             continue;
         }
@@ -67,13 +72,13 @@ void try_area_portals(GameSession* session, Player* player) {
             continue;
         }
 
-        set_area_kind(session, player, portal.target_area_kind, portal.target_cave_id,
+        set_area_kind(play, player, portal.target_area_kind, portal.target_cave_id,
                       portal.target_position);
         return;
     }
 }
 
-void process_player_command(GameSession* session, const World* overworld_world, Player* player,
+void process_player_command(Play* play, const World* overworld_world, Player* player,
                             const PlayerCommand* command) {
     if (command->previous_item_pressed) {
         select_next_item(player, -1);
@@ -84,14 +89,13 @@ void process_player_command(GameSession* session, const World* overworld_world, 
     }
 
     if (command->use_item_pressed) {
-        use_selected_item(session, overworld_world, player);
+        use_selected_item(play, overworld_world, player);
     }
 }
 
-void resolve_npc_collisions(const GameSession* session, Player* player,
-                            const glm::vec2& previous_position) {
-    for (const Npc& npc : session->npcs) {
-        if (!npc.active || npc.solved || !in_area(session, npc.area_kind, npc.cave_id)) {
+void resolve_npc_collisions(const Play* play, Player* player, const glm::vec2& previous_position) {
+    for (const Npc& npc : play->npcs) {
+        if (!npc.active || npc.solved || !in_area(play, npc.area_kind, npc.cave_id)) {
             continue;
         }
 
@@ -108,8 +112,8 @@ void resolve_npc_collisions(const GameSession* session, Player* player,
     }
 }
 
-void tick_npcs(GameSession* session, Player* player, float dt_seconds) {
-    for (Npc& npc : session->npcs) {
+void tick_npcs(Play* play, Player* player, float dt_seconds) {
+    for (Npc& npc : play->npcs) {
         if (!npc.active) {
             continue;
         }
@@ -120,10 +124,10 @@ void tick_npcs(GameSession* session, Player* player, float dt_seconds) {
             npc.state_seconds_remaining += dt_seconds;
             const float phase = npc.state_seconds_remaining * 6.0F;
             npc.position = npc.origin + glm::vec2(std::cos(phase) * 0.55F, std::sin(phase) * 0.35F);
-            if (in_area(session, npc.area_kind, npc.cave_id) &&
+            if (in_area(play, npc.area_kind, npc.cave_id) &&
                 overlaps_circle(player->position, npc.position, 0.8F)) {
                 player->health = player->max_health;
-                set_message(session, "fairy healed", 1.0F);
+                set_message(play, "fairy healed", 1.0F);
             }
             continue;
         }
@@ -134,7 +138,7 @@ void tick_npcs(GameSession* session, Player* player, float dt_seconds) {
             continue;
         }
 
-        Projectile* food = find_active_food(session, npc.area_kind, npc.cave_id);
+        Projectile* food = find_active_food(play, npc.area_kind, npc.cave_id);
         if (food == nullptr || !overlaps_circle(food->position, npc.position, 1.2F)) {
             continue;
         }
@@ -142,17 +146,17 @@ void tick_npcs(GameSession* session, Player* player, float dt_seconds) {
         food->active = false;
         npc.solved = true;
         npc.active = false;
-        set_message(session, "hungry goriya ate bait", 1.4F);
+        set_message(play, "hungry goriya ate bait", 1.4F);
     }
 }
 
-void update_npc_messages(GameSession* session, const Player* player) {
-    if (session->message_seconds_remaining > 0.0F) {
+void update_npc_messages(Play* play, const Player* player) {
+    if (play->message_seconds_remaining > 0.0F) {
         return;
     }
 
-    for (const Npc& npc : session->npcs) {
-        if (!npc.active || !in_area(session, npc.area_kind, npc.cave_id)) {
+    for (const Npc& npc : play->npcs) {
+        if (!npc.active || !in_area(play, npc.area_kind, npc.cave_id)) {
             continue;
         }
 
@@ -161,16 +165,16 @@ void update_npc_messages(GameSession* session, const Player* player) {
         }
 
         if (npc.kind == NpcKind::ShopKeeper) {
-            set_message(session, "shop: touch item to buy", 0.2F);
+            set_message(play, "shop: touch item to buy", 0.2F);
         } else if (npc.kind == NpcKind::OldWoman) {
-            set_message(session, player->has_letter ? "potion shop is open" : "show me the letter",
+            set_message(play, player->has_letter ? "potion shop is open" : "show me the letter",
                         0.2F);
         } else if (npc.kind == NpcKind::HungryGoriya) {
-            set_message(session, "hungry goriya needs bait", 0.2F);
+            set_message(play, "hungry goriya needs bait", 0.2F);
         } else if (npc.kind == NpcKind::Fairy) {
-            set_message(session, "fairy restores hearts", 0.2F);
+            set_message(play, "fairy restores hearts", 0.2F);
         } else {
-            set_message(session, npc.label, 0.2F);
+            set_message(play, npc.label, 0.2F);
         }
         return;
     }
@@ -178,137 +182,135 @@ void update_npc_messages(GameSession* session, const Player* player) {
 
 } // namespace
 
-void respawn_enemy_group(GameSession* session, int respawn_group) {
-    respawn_enemy_group_internal(session, respawn_group);
+void respawn_enemy_group(Play* play, int respawn_group) {
+    respawn_enemy_group_internal(play, respawn_group);
 }
 
-GameSession make_game_session() {
-    GameSession session;
-    session.cave_world = make_world();
-    resize_world(&session.cave_world, 16, 11);
-    fill_world(&session.cave_world, TileKind::Ground);
-    fill_world_rect(&session.cave_world, 0, 0, 16, 1, TileKind::Wall);
-    fill_world_rect(&session.cave_world, 0, 0, 1, 11, TileKind::Wall);
-    fill_world_rect(&session.cave_world, 15, 0, 1, 11, TileKind::Wall);
-    fill_world_rect(&session.cave_world, 0, 10, 16, 1, TileKind::Wall);
-    fill_world_rect(&session.cave_world, 7, 10, 3, 1, TileKind::Ground);
+Play make_play() {
+    Play play;
+    play.cave_world = make_world();
+    resize_world(&play.cave_world, 16, 11);
+    fill_world(&play.cave_world, TileKind::Ground);
+    fill_world_rect(&play.cave_world, 0, 0, 16, 1, TileKind::Wall);
+    fill_world_rect(&play.cave_world, 0, 0, 1, 11, TileKind::Wall);
+    fill_world_rect(&play.cave_world, 15, 0, 1, 11, TileKind::Wall);
+    fill_world_rect(&play.cave_world, 0, 10, 16, 1, TileKind::Wall);
+    fill_world_rect(&play.cave_world, 7, 10, 3, 1, TileKind::Ground);
 
-    session.enemy_zoo_world = make_world();
-    session.item_zoo_world = make_world();
-    build_enemy_zoo_world(&session.enemy_zoo_world);
-    build_item_zoo_world(&session.item_zoo_world);
+    play.enemy_zoo_world = make_world();
+    play.item_zoo_world = make_world();
+    build_enemy_zoo_world(&play.enemy_zoo_world);
+    build_item_zoo_world(&play.item_zoo_world);
 
-    session.enemies.reserve(256);
-    session.projectiles.reserve(512);
-    session.pickups.reserve(256);
-    session.npcs.reserve(32);
-    return session;
+    play.enemies.reserve(256);
+    play.projectiles.reserve(512);
+    play.pickups.reserve(256);
+    play.npcs.reserve(32);
+    return play;
 }
 
-void init_game_session(GameSession* session, Player* player) {
-    *session = make_game_session();
+void init_play(Play* play, Player* player) {
+    *play = make_play();
     *player = make_player();
     player->position = get_opening_start_position();
     player->facing = Facing::Down;
     player->selected_item = UseItemKind::Bombs;
-    session->area_kind = AreaKind::Overworld;
-    session->current_cave_id = -1;
-    init_opening_overworld_enemies(session);
-    populate_sandbox_entities(session);
-    ensure_sword_cave_pickup(session);
-    update_current_room(session, player);
+    play->area_kind = AreaKind::Overworld;
+    play->current_cave_id = -1;
+    init_opening_overworld_enemies(play);
+    populate_sandbox_entities(play);
+    ensure_sword_cave_pickup(play);
+    update_current_room(play, player);
 }
 
-const World* get_active_world(const GameSession* session, const World* overworld_world) {
-    switch (session->area_kind) {
+const World* get_active_world(const Play* play, const World* overworld_world) {
+    switch (play->area_kind) {
     case AreaKind::Overworld:
         return overworld_world;
     case AreaKind::Cave:
-        return &session->cave_world;
+        return &play->cave_world;
     case AreaKind::EnemyZoo:
-        return &session->enemy_zoo_world;
+        return &play->enemy_zoo_world;
     case AreaKind::ItemZoo:
-        return &session->item_zoo_world;
+        return &play->item_zoo_world;
     }
 
     return overworld_world;
 }
 
-void tick_game_session(GameSession* session, const World* overworld_world, Player* player,
-                       const PlayerCommand* command, float dt_seconds) {
+void tick_play(Play* play, const World* overworld_world, Player* player,
+               const PlayerCommand* command, float dt_seconds) {
     player->invincibility_seconds = glm::max(0.0F, player->invincibility_seconds - dt_seconds);
-    session->warp_cooldown_seconds = glm::max(0.0F, session->warp_cooldown_seconds - dt_seconds);
-    session->message_seconds_remaining =
-        glm::max(0.0F, session->message_seconds_remaining - dt_seconds);
-    if (session->message_seconds_remaining <= 0.0F) {
-        session->message_text.clear();
+    play->warp_cooldown_seconds = glm::max(0.0F, play->warp_cooldown_seconds - dt_seconds);
+    play->message_seconds_remaining = glm::max(0.0F, play->message_seconds_remaining - dt_seconds);
+    if (play->message_seconds_remaining <= 0.0F) {
+        play->message_text.clear();
     }
 
     PlayerCommand resolved = *command;
     if (!player->has_sword) {
         resolved.attack_pressed = false;
     }
-    resolved.ignore_world_collision = session->area_kind == AreaKind::EnemyZoo;
+    resolved.ignore_world_collision = play->area_kind == AreaKind::EnemyZoo;
 
-    const World* active_world = get_active_world(session, overworld_world);
+    const World* active_world = get_active_world(play, overworld_world);
     const glm::vec2 previous_player_position = player->position;
     tick_player(player, active_world, &resolved, dt_seconds);
-    resolve_npc_collisions(session, player, previous_player_position);
-    process_player_command(session, overworld_world, player, &resolved);
-    update_current_room(session, player);
+    resolve_npc_collisions(play, player, previous_player_position);
+    process_player_command(play, overworld_world, player, &resolved);
+    update_current_room(play, player);
 
     if (resolved.attack_pressed && player->has_sword && player->health == player->max_health) {
-        create_player_sword_beam(session, player);
+        create_player_sword_beam(play, player);
     }
 
-    process_player_attacks(session, player);
-    tick_enemies(session, overworld_world, player, dt_seconds);
-    tick_enemy_respawns(session, dt_seconds);
-    tick_projectiles(session, overworld_world, player, dt_seconds);
-    tick_pickups(session, overworld_world, player, dt_seconds);
-    tick_npcs(session, player, dt_seconds);
+    process_player_attacks(play, player);
+    tick_enemies(play, overworld_world, player, dt_seconds);
+    tick_enemy_respawns(play, dt_seconds);
+    tick_projectiles(play, overworld_world, player, dt_seconds);
+    tick_pickups(play, overworld_world, player, dt_seconds);
+    tick_npcs(play, player, dt_seconds);
 
-    if (session->area_kind == AreaKind::Overworld) {
-        try_enter_overworld_cave(session, overworld_world, player);
-    } else if (session->area_kind == AreaKind::Cave) {
-        try_exit_cave(session, player);
+    if (play->area_kind == AreaKind::Overworld) {
+        try_enter_overworld_cave(play, overworld_world, player);
+    } else if (play->area_kind == AreaKind::Cave) {
+        try_exit_cave(play, player);
     } else {
-        try_area_portals(session, player);
+        try_area_portals(play, player);
     }
 
-    update_npc_messages(session, player);
-    compact_vectors(session);
-    update_current_room(session, player);
+    update_npc_messages(play, player);
+    compact_vectors(play);
+    update_current_room(play, player);
 }
 
-void set_area_kind(GameSession* session, Player* player, AreaKind area_kind, int cave_id,
+void set_area_kind(Play* play, Player* player, AreaKind area_kind, int cave_id,
                    const glm::vec2& position) {
-    session->area_kind = area_kind;
-    session->current_cave_id = area_kind == AreaKind::Cave ? cave_id : -1;
+    play->area_kind = area_kind;
+    play->current_cave_id = area_kind == AreaKind::Cave ? cave_id : -1;
     player->position = position;
     player->move_direction = MoveDirection::None;
     player->sword_cursed = false;
     player->sword_disabled_seconds = 0.0F;
-    session->warp_cooldown_seconds = kAreaTransitionCooldownSeconds;
-    update_current_room(session, player);
+    play->warp_cooldown_seconds = kAreaTransitionCooldownSeconds;
+    update_current_room(play, player);
     if (area_kind == AreaKind::Cave) {
-        ensure_sword_cave_pickup(session);
+        ensure_sword_cave_pickup(play);
     }
 
     if (area_kind == AreaKind::Cave) {
-        set_message(session, "entered cave", 1.0F);
+        set_message(play, "entered cave", 1.0F);
     } else {
-        set_message(session, std::string("entered ") + area_name(session), 1.0F);
+        set_message(play, std::string("entered ") + area_name(play), 1.0F);
     }
 }
 
-int gather_area_portals(const GameSession* session,
-                        std::array<AreaPortal, kMaxAreaPortals>* portals) {
-    return gather_sandbox_portals(session, portals);
+int gather_area_portals(const Play* play, std::array<AreaPortal, kMaxAreaPortals>* portals) {
+    return gather_sandbox_portals(play, portals);
 }
 
-const char* area_name(const GameSession* session) {
-    switch (session->area_kind) {
+const char* area_name(const Play* play) {
+    switch (play->area_kind) {
     case AreaKind::Overworld:
         return "overworld";
     case AreaKind::Cave:

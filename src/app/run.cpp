@@ -3,7 +3,7 @@
 #include "app/app_config.hpp"
 #include "app/input_state.hpp"
 #include "debug/debug_ui.hpp"
-#include "game/game_session.hpp"
+#include "game/play.hpp"
 #include "render/scene_renderer.hpp"
 
 #include <SDL3/SDL.h>
@@ -159,8 +159,8 @@ bool init_app(AppState* app) {
         return false;
     }
 
-    init_game_session(&app->session, &app->player);
-    app->current_room_id = app->session.current_room_id;
+    init_play(&app->play, &app->player);
+    app->current_room_id = app->play.current_room_id;
 
     request_i3_floating_window();
     update_window_title(app);
@@ -290,16 +290,15 @@ void update_app(AppState* app, double dt_seconds) {
     command.next_item_pressed = input.next_item_pressed;
     command.previous_item_pressed = input.previous_item_pressed;
 
-    tick_game_session(&app->session, &app->world, &app->player, &command,
-                      static_cast<float>(dt_seconds));
-    app->current_room_id = app->session.current_room_id;
+    tick_play(&app->play, &app->world, &app->player, &command, static_cast<float>(dt_seconds));
+    app->current_room_id = app->play.current_room_id;
     ++app->tick_count;
     update_window_title(app);
 }
 
 void render_app(AppState* app) {
     begin_debug_ui_frame();
-    render_scene(app->renderer, &app->debug_tileset, &app->debug_view, &app->session, &app->world,
+    render_scene(app->renderer, &app->debug_tileset, &app->debug_view, &app->play, &app->world,
                  &app->player, app->zoom);
     render_debug_ui(app);
     SDL_RenderPresent(app->renderer);
@@ -312,7 +311,7 @@ void update_window_title(AppState* app) {
 
     const std::string title =
         "z1m | SDL3 + GLM | 960x540 | fps=" + std::to_string(app->displayed_fps) +
-        " | sim=60Hz | area=" + std::string(area_name(&app->session)) +
+        " | sim=60Hz | area=" + std::string(area_name(&app->play)) +
         " | room=" + std::to_string(app->current_room_id) +
         " | hp=" + std::to_string(app->player.health) + "/" +
         std::to_string(app->player.max_health) + " | rupees=" + std::to_string(app->player.rupees) +
