@@ -198,12 +198,22 @@ bool can_move_to(const Player* player, const World* world, const glm::vec2& posi
 }
 
 void move_with_collision(Player* player, const World* world, MoveDirection move_direction,
-                         float distance) {
+                         float distance, bool ignore_world_collision) {
     if (move_direction == MoveDirection::None) {
         return;
     }
 
     const glm::vec2 candidate = player->position + move_vector(move_direction) * distance;
+    if (ignore_world_collision) {
+        const float min_x = 0.5F;
+        const float min_y = 0.5F;
+        const float max_x = static_cast<float>(world_width(world)) - 0.5F;
+        const float max_y = static_cast<float>(world_height(world)) - 0.5F;
+        player->position.x = glm::clamp(candidate.x, min_x, max_x);
+        player->position.y = glm::clamp(candidate.y, min_y, max_y);
+        return;
+    }
+
     if (!can_move_to(player, world, candidate, move_direction)) {
         return;
     }
@@ -227,7 +237,8 @@ void tick_player(Player* player, const World* world, const PlayerCommand* comman
 
     if (move_direction != MoveDirection::None) {
         player->facing = facing_from_move_direction(move_direction);
-        move_with_collision(player, world, move_direction, kMoveSpeedTilesPerSecond * dt_seconds);
+        move_with_collision(player, world, move_direction, kMoveSpeedTilesPerSecond * dt_seconds,
+                            command->ignore_world_collision);
     }
 
     if (command->attack_pressed) {

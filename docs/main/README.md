@@ -21,6 +21,11 @@ Read these as supporting docs:
 - `overworld-debug-status.md`: current status of the overworld loader/debug work
 - `nes-rom-offsets.md`: how ROM CPU addresses map to file offsets
 - `debug-tools.md`: runtime overlay/debug UI controls and expectations
+- `enemy-catalog.md`: enemy and boss implementation checklist
+- `item-catalog.md`: item, pickup, and inventory checklist
+- `dungeon-catalog.md`: dungeon-by-dungeon content checklist
+- `script-catalog.md`: room/world script checklist
+- `content-assembly-checklist.md`: suggested implementation/validation order
 
 The rule for now is simple: if implementation and docs disagree, update one of
 them immediately instead of letting the mismatch sit around.

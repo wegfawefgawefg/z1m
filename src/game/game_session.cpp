@@ -34,6 +34,8 @@ constexpr float kFireRadius = 0.44F;
 constexpr float kRockRadius = 0.30F;
 constexpr float kBombRadius = 0.42F;
 constexpr float kExplosionRadius = 1.10F;
+constexpr float kShootAlignThreshold = 1.0F;
+constexpr float kShootMaxDistance = 14.0F;
 constexpr float kOctorokSpeed = 4.5F;
 constexpr float kMoblinSpeed = 5.0F;
 constexpr float kKeeseSpeed = 5.7F;
@@ -82,6 +84,30 @@ glm::vec2 facing_vector(Facing facing) {
     }
 
     return glm::vec2(0.0F, 1.0F);
+}
+
+bool choose_cardinal_shot_direction(const GameSession* session, const Enemy& enemy,
+                                    const Player& player, Facing* facing_out) {
+    if (enemy.area_kind == AreaKind::Overworld && enemy.room_id != session->current_room_id) {
+        return false;
+    }
+
+    const glm::vec2 delta = player.position - enemy.position;
+    if (glm::length(delta) > kShootMaxDistance) {
+        return false;
+    }
+
+    if (std::abs(delta.x) <= kShootAlignThreshold) {
+        *facing_out = delta.y < 0.0F ? Facing::Up : Facing::Down;
+        return true;
+    }
+
+    if (std::abs(delta.y) <= kShootAlignThreshold) {
+        *facing_out = delta.x < 0.0F ? Facing::Left : Facing::Right;
+        return true;
+    }
+
+    return false;
 }
 
 bool overlaps_circle(const glm::vec2& a, const glm::vec2& b, float radius) {
@@ -593,6 +619,11 @@ void spawn_pickup_drop(GameSession* session, const Enemy& enemy) {
 
 void damage_player_from(GameSession* session, const World* world, Player* player, int damage,
                         const glm::vec2& source_position) {
+    if (session->area_kind == AreaKind::EnemyZoo || session->area_kind == AreaKind::ItemZoo) {
+        player->health = player->max_health;
+        return;
+    }
+
     if (player->invincibility_seconds > 0.0F || player->health <= 0) {
         return;
     }
@@ -700,12 +731,18 @@ void tick_octorok_like(GameSession* session, const World* world, Enemy* enemy, c
     }
 
     if (player != nullptr) {
-        const glm::vec2 toward_player = player->position - enemy->position;
-        if (glm::length(toward_player) > 0.001F) {
+        Facing shot_facing = enemy->facing;
+        if (choose_cardinal_shot_direction(session, *enemy, *player, &shot_facing)) {
+            enemy->facing = shot_facing;
             if (shot_kind == ProjectileKind::SwordBeam) {
-                create_sword_beam(session, *enemy, toward_player);
+                create_sword_beam(session, *enemy, facing_vector(enemy->facing));
+            } else if (shot_kind == ProjectileKind::Arrow) {
+                make_projectile(session, enemy->area_kind, enemy->cave_id, ProjectileKind::Arrow,
+                                false, enemy->position + facing_vector(enemy->facing) * 0.9F,
+                                facing_vector(enemy->facing) * kArrowSpeed,
+                                kProjectileLifetimeSeconds, kArrowRadius, 1);
             } else {
-                const glm::vec2 velocity = glm::normalize(toward_player) * kRockSpeed;
+                const glm::vec2 velocity = facing_vector(enemy->facing) * kRockSpeed;
                 throw_enemy_rock(session, *enemy, velocity);
             }
         }
@@ -1359,6 +1396,8 @@ void tick_game_session(GameSession* session, const World* overworld_world, Playe
     if (!player->has_sword) {
         resolved.attack_pressed = false;
     }
+    resolved.ignore_world_collision =
+        session->area_kind == AreaKind::EnemyZoo || session->area_kind == AreaKind::ItemZoo;
 
     const World* active_world = get_active_world(session, overworld_world);
     tick_player(player, active_world, &resolved, dt_seconds);

@@ -86,6 +86,9 @@ main campaign world.
 
 The session now keeps sandbox entities alive across area changes instead of
 despawning everything outside the currently viewed room.
+The player is also treated as a zoo inspector there right now: effectively
+infinite health, and no collision against zoo walls, while enemies still obey
+their pen collision.
 
 Recorder now uses real visible dungeon warp metadata from the overworld loader
 to cycle between dungeon entrances instead of using a fake hardcoded list.

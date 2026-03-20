@@ -37,6 +37,7 @@ struct PlayerCommand {
     bool use_item_pressed = false;
     bool next_item_pressed = false;
     bool previous_item_pressed = false;
+    bool ignore_world_collision = false;
 };
 
 struct Player {
