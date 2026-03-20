@@ -2,6 +2,7 @@
 
 #include "game/area_state.hpp"
 #include "game/combat.hpp"
+#include "game/enemy_ticks.hpp"
 #include "game/geometry.hpp"
 #include "game/items.hpp"
 #include "game/tuning.hpp"
@@ -237,25 +238,31 @@ void tick_projectiles(GameState* play, const World* overworld_world, Player* pla
                 }
 
                 if (enemy.kind == EnemyKind::Dodongo) {
+                    if (enemy.subtype != 0) {
+                        continue;
+                    }
+
                     if (!projectile_hits_dodongo_mouth(enemy, projectile)) {
                         continue;
                     }
 
-                    if (enemy.special_counter == 0) {
-                        enemy.special_counter += 1;
-                        enemy.state_seconds_remaining = kDodongoBloatedSeconds;
-                        set_message(play, "dodongo ate bomb", 0.8F);
-                    } else {
-                        damage_enemy(play, &enemy, enemy.health);
-                        set_message(play, "dodongo down", 0.8F);
-                    }
+                    enemy.special_counter += 1;
+                    enemy.subtype = 1;
+                    enemy.state_seconds_remaining = frames_to_seconds(0x20);
+                    enemy.move_seconds_remaining = 0.0F;
+                    enemy.action_seconds_remaining = 0.0F;
+                    enemy.velocity = glm::vec2(0.0F);
+                    set_message(play,
+                                enemy.special_counter >= 2 ? "dodongo doomed" : "dodongo ate bomb",
+                                0.8F);
 
                     projectile.active = false;
                     continue;
                 }
 
                 if (enemy.kind == EnemyKind::Gohma) {
-                    if (projectile.kind != ProjectileKind::Arrow || enemy.special_counter == 0) {
+                    if (projectile.kind != ProjectileKind::Arrow ||
+                        (enemy.special_counter & 0x03) != 0x03 || projectile.velocity.y >= 0.0F) {
                         continue;
                     }
                 }

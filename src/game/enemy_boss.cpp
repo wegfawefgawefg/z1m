@@ -117,69 +117,6 @@ void tick_wallmaster(GameState* play, const World* world, Enemy* enemy, const Pl
     enemy->special_counter = 0;
 }
 
-void tick_dodongo(GameState* play, const World* world, Enemy* enemy, const Player* player,
-                  float dt_seconds) {
-    enemy->state_seconds_remaining -= dt_seconds;
-    if (enemy->state_seconds_remaining > 0.0F) {
-        return;
-    }
-
-    if (enemy->special_counter == 1) {
-        enemy->special_counter = 0;
-    }
-
-    enemy->move_seconds_remaining -= dt_seconds;
-    if (enemy->move_seconds_remaining <= 0.0F) {
-        if (player != nullptr && random_unit(play) < 0.55F) {
-            choose_player_axis_direction(*enemy, *player, &enemy->facing);
-        } else {
-            choose_cardinal_direction(play, world, enemy);
-        }
-        enemy->move_seconds_remaining = 0.8F + random_unit(play) * 0.7F;
-    }
-
-    const glm::vec2 candidate =
-        enemy->position + facing_vector(enemy->facing) * kDodongoSpeed * dt_seconds;
-    if (world_is_walkable_tile(world, candidate)) {
-        enemy->position = candidate;
-    } else {
-        enemy->move_seconds_remaining = 0.0F;
-    }
-}
-
-void tick_gohma(GameState* play, const World* world, Enemy* enemy, const Player* player,
-                float dt_seconds) {
-    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
-
-    enemy->action_seconds_remaining -= dt_seconds;
-    if (enemy->action_seconds_remaining <= 0.0F) {
-        enemy->velocity.x *= -1.0F;
-        enemy->action_seconds_remaining = 0.7F + random_unit(play) * 0.6F;
-    }
-
-    enemy->state_seconds_remaining -= dt_seconds;
-    if (enemy->state_seconds_remaining > 0.0F) {
-        return;
-    }
-
-    if (enemy->special_counter == 0) {
-        enemy->special_counter = 1;
-        enemy->state_seconds_remaining = kGohmaEyeOpenSeconds;
-        if (player != nullptr) {
-            Facing shot_facing = enemy->facing;
-            choose_player_axis_direction(*enemy, *player, &shot_facing);
-            make_projectile(play, enemy->area_kind, enemy->cave_id, ProjectileKind::Fire, false,
-                            enemy->position + facing_vector(shot_facing) * 0.8F,
-                            facing_vector(shot_facing) * kFireSpeed, kProjectileLifetimeSeconds,
-                            kFireRadius, 1);
-        }
-        return;
-    }
-
-    enemy->special_counter = 0;
-    enemy->state_seconds_remaining = kGohmaEyeClosedSeconds + random_unit(play) * 0.6F;
-}
-
 void tick_moldorm(GameState* play, const World* world, Enemy* enemy, const Player* player,
                   float dt_seconds) {
     if (enemy->subtype > 0) {
@@ -222,31 +159,6 @@ void tick_moldorm(GameState* play, const World* world, Enemy* enemy, const Playe
         }
         enemy->velocity = direction * kMoldormSpeed;
         enemy->action_seconds_remaining = 0.25F + random_unit(play) * 0.35F;
-    }
-
-    bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);
-}
-
-void tick_digdogger(GameState* play, const World* world, Enemy* enemy, const Player* player,
-                    float dt_seconds) {
-    const float speed = enemy->special_counter == 0 ? kDigdoggerSpeed : kDigdoggerSpeed * 1.35F;
-    if (enemy->special_counter == 0) {
-        enemy->invulnerable = true;
-    }
-
-    enemy->action_seconds_remaining -= dt_seconds;
-    if (enemy->action_seconds_remaining <= 0.0F) {
-        glm::vec2 direction(random_unit(play) * 2.0F - 1.0F, random_unit(play) * 2.0F - 1.0F);
-        if (player != nullptr && random_unit(play) < 0.6F) {
-            direction = player->position - enemy->position;
-        }
-        if (glm::length(direction) < 0.1F) {
-            direction = glm::vec2(1.0F, 0.0F);
-        } else {
-            direction = glm::normalize(direction);
-        }
-        enemy->velocity = direction * speed;
-        enemy->action_seconds_remaining = 0.35F + random_unit(play) * 0.25F;
     }
 
     bounce_velocity(world, &enemy->position, &enemy->velocity, dt_seconds);

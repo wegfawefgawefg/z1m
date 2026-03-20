@@ -140,14 +140,20 @@ void reset_enemy_state(GameState* play, Enemy* enemy) {
         break;
     case EnemyKind::Dodongo:
         enemy->facing = Facing::Right;
-        enemy->move_seconds_remaining = 0.9F + random_unit(play) * 0.6F;
+        enemy->subtype = 0;
+        enemy->special_counter = 0;
+        enemy->move_seconds_remaining = 0.25F + random_unit(play) * 0.35F;
         enemy->action_seconds_remaining = 0.0F;
         enemy->state_seconds_remaining = 0.0F;
+        enemy->invulnerable = false;
         break;
     case EnemyKind::Digdogger:
-        enemy->velocity = glm::vec2(kDigdoggerSpeed, 0.0F);
-        enemy->action_seconds_remaining = 0.45F;
-        enemy->move_seconds_remaining = 9999.0F;
+        enemy->special_counter = enemy->subtype == 0 ? 0 : 2;
+        enemy->action_seconds_remaining = frames_to_seconds(0x10);
+        enemy->move_seconds_remaining = frames_to_seconds(0x10);
+        enemy->state_seconds_remaining = 0.0F;
+        enemy->velocity = glm::vec2(1.0F, 0.0F);
+        enemy->invulnerable = enemy->subtype == 0;
         break;
     case EnemyKind::Manhandla:
         enemy->special_counter = 4;
@@ -157,10 +163,12 @@ void reset_enemy_state(GameState* play, Enemy* enemy) {
         break;
     case EnemyKind::Gohma:
         enemy->facing = Facing::Right;
-        enemy->velocity = glm::vec2(enemy->subtype == 0 ? kGohmaSpeed : kGohmaSpeed * 1.15F, 0.0F);
-        enemy->action_seconds_remaining = enemy->subtype == 0 ? 1.0F : 0.7F;
-        enemy->state_seconds_remaining =
-            enemy->subtype == 0 ? kGohmaEyeClosedSeconds : kGohmaEyeClosedSeconds * 0.7F;
+        enemy->special_counter = 0;
+        enemy->velocity = glm::vec2(0.0F);
+        enemy->move_seconds_remaining = 0.0F;
+        enemy->action_seconds_remaining = frames_to_seconds(0x60 | random_byte(play));
+        enemy->state_seconds_remaining = 0.0F;
+        enemy->respawn_seconds_remaining = frames_to_seconds(0x41);
         break;
     case EnemyKind::Moldorm:
         enemy->facing = Facing::Right;

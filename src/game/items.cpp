@@ -4,6 +4,7 @@
 #include "content/overworld_warps.hpp"
 #include "game/area_state.hpp"
 #include "game/enemy_state.hpp"
+#include "game/enemy_ticks.hpp"
 #include "game/geometry.hpp"
 #include "game/rng.hpp"
 #include "game/tuning.hpp"
@@ -283,32 +284,17 @@ int gather_recorder_dungeons(const World* overworld_world,
 bool try_trigger_digdogger_split(GameState* play) {
     for (Enemy& enemy : play->enemies) {
         if (!enemy.active || !in_area(play, enemy.area_kind, enemy.cave_id) ||
-            enemy.kind != EnemyKind::Digdogger || enemy.special_counter != 0) {
+            enemy.kind != EnemyKind::Digdogger || enemy.subtype != 0 ||
+            enemy.special_counter == 1) {
             continue;
         }
 
-        enemy.active = false;
-        for (int index = 0; index < 3; ++index) {
-            Enemy child;
-            child.active = true;
-            child.kind = EnemyKind::Digdogger;
-            child.area_kind = enemy.area_kind;
-            child.cave_id = enemy.cave_id;
-            child.position =
-                enemy.position + orbit_offset(static_cast<float>(index) * 2.09439510239F, 1.2F);
-            child.spawn_position = child.position;
-            child.origin = child.position;
-            child.max_health = 2;
-            child.health = 2;
-            child.special_counter = 1;
-            child.respawn_group = -1;
-            child.zoo_respawn = false;
-            reset_enemy_state(play, &child);
-            child.special_counter = 1;
-            play->enemies.push_back(child);
-        }
-
-        set_message(play, "digdogger split", 1.0F);
+        enemy.special_counter = 1;
+        enemy.state_seconds_remaining = frames_to_seconds(0x40);
+        enemy.action_seconds_remaining = 0.0F;
+        enemy.move_seconds_remaining = 0.0F;
+        enemy.velocity = glm::vec2(0.0F);
+        set_message(play, "digdogger stunned by recorder", 1.0F);
         return true;
     }
 

@@ -47,6 +47,7 @@ add_executable(z1m
     src/game/enemy_core.cpp
     src/game/enemy_ground.cpp
     src/game/enemy_boss.cpp
+    src/game/enemy_boss_dodongo_gohma.cpp
     src/game/enemy_update.cpp
     src/game/pickups.cpp
     src/game/player.cpp
