@@ -70,9 +70,13 @@ glm::vec2 manhandla_petal_position(const Enemy& enemy, int petal_index) {
 
 glm::vec2 gleeok_head_position(const Enemy& enemy, int head_index) {
     const int head_count = glm::max(enemy.special_counter, 1);
+    const float phase =
+        enemy.respawn_seconds_remaining * 2.4F +
+        static_cast<float>(head_index) * (6.28318530718F / static_cast<float>(head_count));
     const float head_offset =
-        (static_cast<float>(head_index) - static_cast<float>(head_count - 1) * 0.5F) * 0.8F;
-    return enemy.position + glm::vec2(head_offset, -0.9F);
+        (static_cast<float>(head_index) - static_cast<float>(head_count - 1) * 0.5F) * 0.8F +
+        std::sin(phase) * 0.25F;
+    return enemy.position + glm::vec2(head_offset, -0.9F + std::cos(phase) * 0.18F);
 }
 
 glm::vec2 orbit_offset(float angle_radians, float radius) {
@@ -80,9 +84,10 @@ glm::vec2 orbit_offset(float angle_radians, float radius) {
 }
 
 glm::vec2 patra_orbiter_position(const Enemy& enemy, int orbiter_index) {
-    const float radius =
-        enemy.state_seconds_remaining > 2.0F ? kPatraOrbitRadiusWide : kPatraOrbitRadiusTight;
-    const float phase = enemy.action_seconds_remaining * 3.2F;
+    const bool tight_ring = enemy.subtype != 0;
+    const float radius = tight_ring ? kPatraOrbitRadiusTight : kPatraOrbitRadiusWide;
+    const float phase =
+        enemy.respawn_seconds_remaining * (tight_ring ? -4.2F : 3.0F);
     const float angle = phase + static_cast<float>(orbiter_index) * (6.28318530718F / 8.0F);
     return enemy.position + orbit_offset(angle, radius);
 }
