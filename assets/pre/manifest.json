@@ -1,0 +1,294 @@
+{
+  "base_url": "https://www.spriters-resource.com/nes/legendofzelda/",
+  "count": 32,
+  "assets": [
+    {
+      "index": 1,
+      "name": "Link",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/8366/",
+      "download_url": "https://www.spriters-resource.com/media/assets/8/8366.png?updated=1755472449",
+      "file": "01 - Link.png",
+      "size_bytes": 19462,
+      "page_title": "Link - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 2,
+      "name": "Bosses",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/36632/",
+      "download_url": "https://www.spriters-resource.com/media/assets/34/36632.png?updated=1755472737",
+      "file": "02 - Bosses.png",
+      "size_bytes": 24440,
+      "page_title": "Bosses - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 3,
+      "name": "Dungeon Enemies",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/31806/",
+      "download_url": "https://www.spriters-resource.com/media/assets/29/31806.png?updated=1755472667",
+      "file": "03 - Dungeon Enemies.png",
+      "size_bytes": 18943,
+      "page_title": "Dungeon Enemies - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 4,
+      "name": "Overworld Enemies",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/31805/",
+      "download_url": "https://www.spriters-resource.com/media/assets/29/31805.png?updated=1755472667",
+      "file": "04 - Overworld Enemies.png",
+      "size_bytes": 13494,
+      "page_title": "Overworld Enemies - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 5,
+      "name": "Overworld (First Quest)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119176/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119176.png?updated=1755479005",
+      "file": "05 - Overworld (First Quest).png",
+      "size_bytes": 319278,
+      "page_title": "Overworld (First Quest) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 6,
+      "name": "Level 1 (Eagle)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/8381/",
+      "download_url": "https://www.spriters-resource.com/media/assets/8/8381.png?updated=1755472449",
+      "file": "06 - Level 1 (Eagle).png",
+      "size_bytes": 58937,
+      "page_title": "Level 1 (Eagle) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 7,
+      "name": "Level 2 (Crescent)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/8373/",
+      "download_url": "https://www.spriters-resource.com/media/assets/8/8373.png?updated=1755472449",
+      "file": "07 - Level 2 (Crescent).png",
+      "size_bytes": 64473,
+      "page_title": "Level 2 (Crescent) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 8,
+      "name": "Level 3 (Manji)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/8380/",
+      "download_url": "https://www.spriters-resource.com/media/assets/8/8380.png?updated=1755472449",
+      "file": "08 - Level 3 (Manji).png",
+      "size_bytes": 59401,
+      "page_title": "Level 3 (Manji) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 9,
+      "name": "Level 4 (Snake)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/8371/",
+      "download_url": "https://www.spriters-resource.com/media/assets/8/8371.png?updated=1755472449",
+      "file": "09 - Level 4 (Snake).png",
+      "size_bytes": 67253,
+      "page_title": "Level 4 (Snake) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 10,
+      "name": "Level 5 (Lizard)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/8374/",
+      "download_url": "https://www.spriters-resource.com/media/assets/8/8374.png?updated=1755472449",
+      "file": "10 - Level 5 (Lizard).png",
+      "size_bytes": 68865,
+      "page_title": "Level 5 (Lizard) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 11,
+      "name": "Level 6 (Dragon)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/8377/",
+      "download_url": "https://www.spriters-resource.com/media/assets/8/8377.png?updated=1755472449",
+      "file": "11 - Level 6 (Dragon).png",
+      "size_bytes": 78866,
+      "page_title": "Level 6 (Dragon) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 12,
+      "name": "Level 7 (Demon)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/8378/",
+      "download_url": "https://www.spriters-resource.com/media/assets/8/8378.png?updated=1755472449",
+      "file": "12 - Level 7 (Demon).png",
+      "size_bytes": 94149,
+      "page_title": "Level 7 (Demon) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 13,
+      "name": "Level 8 (Lion)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/8379/",
+      "download_url": "https://www.spriters-resource.com/media/assets/8/8379.png?updated=1755472449",
+      "file": "13 - Level 8 (Lion).png",
+      "size_bytes": 82697,
+      "page_title": "Level 8 (Lion) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 14,
+      "name": "Level 9 (Death Mountain)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119163/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119163.png?updated=1755479002",
+      "file": "14 - Level 9 (Death Mountain).png",
+      "size_bytes": 125103,
+      "page_title": "Level 9 (Death Mountain) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 15,
+      "name": "Level 1 (E)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119164/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119164.png?updated=1755479002",
+      "file": "15 - Level 1 (E).png",
+      "size_bytes": 50360,
+      "page_title": "Level 1 (E) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 16,
+      "name": "Level 2 (A)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119166/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119166.png?updated=1755479003",
+      "file": "16 - Level 2 (A).png",
+      "size_bytes": 63834,
+      "page_title": "Level 2 (A) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 17,
+      "name": "Level 3 (L)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119167/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119167.png?updated=1755479003",
+      "file": "17 - Level 3 (L).png",
+      "size_bytes": 48893,
+      "page_title": "Level 3 (L) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 18,
+      "name": "Level 4 (D)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119169/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119169.png?updated=1755479004",
+      "file": "18 - Level 4 (D).png",
+      "size_bytes": 82951,
+      "page_title": "Level 4 (D) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 19,
+      "name": "Level 5 (Z)",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119170/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119170.png?updated=1755479005",
+      "file": "19 - Level 5 (Z).png",
+      "size_bytes": 60475,
+      "page_title": "Level 5 (Z) - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 20,
+      "name": "Level 6",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119171/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119171.png?updated=1755479005",
+      "file": "20 - Level 6.png",
+      "size_bytes": 82395,
+      "page_title": "Level 6 - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 21,
+      "name": "Level 7",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119173/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119173.png?updated=1755479005",
+      "file": "21 - Level 7.png",
+      "size_bytes": 84277,
+      "page_title": "Level 7 - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 22,
+      "name": "Level 8",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119174/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119174.png?updated=1755479005",
+      "file": "22 - Level 8.png",
+      "size_bytes": 103780,
+      "page_title": "Level 8 - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 23,
+      "name": "Level 9",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119175/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119175.png?updated=1755479005",
+      "file": "23 - Level 9.png",
+      "size_bytes": 117546,
+      "page_title": "Level 9 - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 24,
+      "name": "Dungeon Tileset",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/8376/",
+      "download_url": "https://www.spriters-resource.com/media/assets/8/8376.png?updated=1755472449",
+      "file": "24 - Dungeon Tileset.png",
+      "size_bytes": 74546,
+      "page_title": "Dungeon Tileset - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 25,
+      "name": "Overworld Tileset",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/8375/",
+      "download_url": "https://www.spriters-resource.com/media/assets/8/8375.png?updated=1755472449",
+      "file": "25 - Overworld Tileset.png",
+      "size_bytes": 24755,
+      "page_title": "Overworld Tileset - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 26,
+      "name": "Enemy Death",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/168096/",
+      "download_url": "https://www.spriters-resource.com/media/assets/165/168096.png?updated=1755485963",
+      "file": "26 - Enemy Death.png",
+      "size_bytes": 426,
+      "page_title": "Enemy Death - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 27,
+      "name": "File Select",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119236/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119236.png?updated=1755479017",
+      "file": "27 - File Select.png",
+      "size_bytes": 9825,
+      "page_title": "File Select - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 28,
+      "name": "Fonts",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/37005/",
+      "download_url": "https://www.spriters-resource.com/media/assets/34/37005.png?updated=1755472739",
+      "file": "28 - Fonts.png",
+      "size_bytes": 28184,
+      "page_title": "Fonts - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 29,
+      "name": "HUD & Pause Screen",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/119278/",
+      "download_url": "https://www.spriters-resource.com/media/assets/116/119278.png?updated=1755479020",
+      "file": "29 - HUD & Pause Screen.png",
+      "size_bytes": 9615,
+      "page_title": "HUD & Pause Screen - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 30,
+      "name": "Items & Weapons",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/54720/",
+      "download_url": "https://www.spriters-resource.com/media/assets/52/54720.png?updated=1755473108",
+      "file": "30 - Items & Weapons.png",
+      "size_bytes": 6408,
+      "page_title": "Items & Weapons - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 31,
+      "name": "NPCs",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/21189/",
+      "download_url": "https://www.spriters-resource.com/media/assets/20/21189.png?updated=1755472539",
+      "file": "31 - NPCs.png",
+      "size_bytes": 5129,
+      "page_title": "NPCs - The Legend of Zelda - NES - The Spriters Resource"
+    },
+    {
+      "index": 32,
+      "name": "Title Screen & Story / All of Treasures",
+      "asset_page": "https://www.spriters-resource.com/nes/legendofzelda/asset/32134/",
+      "download_url": "https://www.spriters-resource.com/media/assets/29/32134.png?updated=1755472674",
+      "file": "32 - Title Screen & Story - All of Treasures.png",
+      "size_bytes": 47877,
+      "page_title": "Title Screen & Story / All of Treasures - The Legend of Zelda - NES - The Spriters Resource"
+    }
+  ]
+}

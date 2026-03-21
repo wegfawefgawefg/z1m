@@ -49,16 +49,16 @@ std::uint8_t enemy_walk_frame(const Enemy* enemy) {
 }
 
 SpriteClipId link_clip_id(const Player* player) {
-    const bool shielded = player->has_magic_shield;
+    const bool magic_shield = player->has_magic_shield;
     switch (player->facing) {
     case Facing::Down:
-        return shielded ? SpriteClipId::LinkShieldDown : SpriteClipId::LinkNoShieldDown;
+        return magic_shield ? SpriteClipId::LinkMagicShieldDown : SpriteClipId::LinkShieldDown;
     case Facing::Up:
-        return shielded ? SpriteClipId::LinkShieldUp : SpriteClipId::LinkNoShieldUp;
+        return magic_shield ? SpriteClipId::LinkMagicShieldUp : SpriteClipId::LinkShieldUp;
     case Facing::Left:
-        return shielded ? SpriteClipId::LinkShieldLeft : SpriteClipId::LinkNoShieldLeft;
+        return magic_shield ? SpriteClipId::LinkMagicShieldLeft : SpriteClipId::LinkShieldLeft;
     case Facing::Right:
-        return shielded ? SpriteClipId::LinkShieldRight : SpriteClipId::LinkNoShieldRight;
+        return magic_shield ? SpriteClipId::LinkMagicShieldRight : SpriteClipId::LinkShieldRight;
     }
 
     return SpriteClipId::LinkShieldDown;

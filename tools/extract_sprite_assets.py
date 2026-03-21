@@ -289,7 +289,7 @@ def save_clip(path_stem: str, frames: Iterable[Image.Image], metadata: ClipMetad
 
 
 def export_link_clips(pattern_data: bytes) -> None:
-    for shielded, prefix in ((False, "no_shield"), (True, "shield")):
+    for shielded, prefix in ((False, "shield"), (True, "magic_shield")):
         for direction in ("down", "up", "left", "right"):
             frames = []
             for walk_frame in (0, 1):

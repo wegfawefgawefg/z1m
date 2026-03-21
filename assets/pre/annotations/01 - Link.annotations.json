@@ -1,0 +1,21 @@
+{
+  "image": "01 - Link.png",
+  "annotations": [
+    {
+      "id": "7bc230f1-ccdf-4c04-994a-8ff2855aff71",
+      "name": "link_neutral_1",
+      "type": "sprite",
+      "x": 1,
+      "y": 11,
+      "width": 16,
+      "height": 16,
+      "frame_width": 32,
+      "frame_height": 32,
+      "frame_count": 1,
+      "direction": "down",
+      "variant": "",
+      "tags": "",
+      "notes": ""
+    }
+  ]
+}

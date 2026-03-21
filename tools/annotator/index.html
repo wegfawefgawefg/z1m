@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Z1M Sprite Annotator</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app">
+      <aside class="sidebar">
+        <div class="panel-header">
+          <h1>Sheets</h1>
+          <button id="refreshSheetsButton" type="button">Refresh</button>
+        </div>
+        <input
+          id="sheetSearchInput"
+          class="search-input"
+          type="search"
+          placeholder="Filter sheets"
+          autocomplete="off"
+        />
+        <div id="sheetList" class="sheet-list"></div>
+      </aside>
+
+      <main class="workspace">
+        <div class="toolbar">
+          <div class="toolbar-group">
+            <button id="addAnnotationButton" type="button">Add Sprite</button>
+            <button id="duplicateAnnotationButton" type="button">Duplicate</button>
+            <button id="deleteAnnotationButton" type="button">Delete</button>
+            <button id="saveButton" type="button">Save</button>
+          </div>
+          <div class="toolbar-group">
+            <label>
+              Zoom
+              <input id="zoomInput" type="range" min="0.5" max="8" step="0.25" value="2" />
+            </label>
+            <span id="zoomLabel" class="zoom-label">200%</span>
+            <label class="snap-toggle">
+              <input id="snapEnabledInput" type="checkbox" checked />
+              Snap
+            </label>
+            <label>
+              Grid
+              <input id="gridSizeInput" type="number" min="1" max="128" value="8" />
+            </label>
+          </div>
+          <div id="statusLabel" class="status-label">Loading sheets…</div>
+        </div>
+
+        <div class="canvas-shell">
+          <div id="canvasScroller" class="canvas-scroller">
+            <div id="canvasStage" class="canvas-stage">
+              <img id="sheetImage" class="sheet-image" alt="" draggable="false" />
+              <div id="annotationLayer" class="annotation-layer"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <aside class="inspector">
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Selection</h2>
+          </div>
+          <div id="selectionEmpty" class="empty-state">Select a sprite on the sheet.</div>
+          <form id="inspectorForm" class="inspector-form" hidden>
+            <label>
+              Name
+              <input id="fieldName" data-field="name" type="text" />
+            </label>
+            <label>
+              Type
+              <select id="fieldType" data-field="type">
+                <option value="sprite">sprite</option>
+                <option value="strip">strip</option>
+                <option value="tile">tile</option>
+              </select>
+            </label>
+            <label>
+              X
+              <input id="fieldX" data-field="x" type="number" />
+            </label>
+            <label>
+              Y
+              <input id="fieldY" data-field="y" type="number" />
+            </label>
+            <label>
+              Width
+              <input id="fieldWidth" data-field="width" type="number" min="1" />
+            </label>
+            <label>
+              Height
+              <input id="fieldHeight" data-field="height" type="number" min="1" />
+            </label>
+            <label>
+              Frame Width
+              <input id="fieldFrameWidth" data-field="frame_width" type="number" min="1" />
+            </label>
+            <label>
+              Frame Height
+              <input id="fieldFrameHeight" data-field="frame_height" type="number" min="1" />
+            </label>
+            <label>
+              Frame Count
+              <input id="fieldFrameCount" data-field="frame_count" type="number" min="1" />
+            </label>
+            <label>
+              Direction
+              <input id="fieldDirection" data-field="direction" type="text" />
+            </label>
+            <label>
+              Variant
+              <input id="fieldVariant" data-field="variant" type="text" />
+            </label>
+            <label>
+              Tags
+              <input id="fieldTags" data-field="tags" type="text" placeholder="comma,separated" />
+            </label>
+            <label>
+              Notes
+              <textarea id="fieldNotes" data-field="notes" rows="4"></textarea>
+            </label>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Sprites In Sheet</h2>
+            <span id="annotationCountLabel" class="pill">0</span>
+          </div>
+          <div id="annotationList" class="annotation-list"></div>
+        </section>
+      </aside>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
