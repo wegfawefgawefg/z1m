@@ -1,18 +1,15 @@
 :root {
   color-scheme: dark;
-  --bg: #121313;
-  --panel: #1a1c1f;
-  --panel-border: #2c3035;
-  --panel-muted: #20242a;
-  --text: #f3f0e6;
-  --text-muted: #b8b2a3;
-  --accent: #d4a84f;
-  --accent-strong: #ffd37a;
-  --danger: #d95f5f;
-  --selection: rgba(255, 211, 122, 0.15);
-  --overlay: rgba(212, 168, 79, 0.16);
-  --overlay-selected: rgba(255, 211, 122, 0.3);
-  --shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
+  --bg: #101113;
+  --panel: #17191c;
+  --panel-muted: #1e2227;
+  --panel-border: #30353c;
+  --text: #f0ebdf;
+  --text-muted: #b7af9c;
+  --accent: #d8a84f;
+  --accent-strong: #ffe09c;
+  --overlay: rgba(216, 168, 79, 0.14);
+  --overlay-selected: rgba(255, 224, 156, 0.24);
 }
 
 * {
@@ -21,10 +18,9 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top, rgba(212, 168, 79, 0.14), transparent 28%),
-    linear-gradient(180deg, #171819, #101112);
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(180deg, #16181a, #0f1012);
   color: var(--text);
   font: 14px/1.4 "Trebuchet MS", "Segoe UI", sans-serif;
 }
@@ -33,33 +29,21 @@ button,
 input,
 select,
 textarea {
-  font: inherit;
-}
-
-button,
-input,
-select,
-textarea {
+  width: 100%;
+  padding: 8px 10px;
   border: 1px solid var(--panel-border);
   background: var(--panel-muted);
   color: var(--text);
-  border-radius: 8px;
+  border-radius: 0;
+  font: inherit;
 }
 
 button {
-  padding: 8px 12px;
   cursor: pointer;
 }
 
 button:hover {
   border-color: var(--accent);
-}
-
-input,
-select,
-textarea {
-  width: 100%;
-  padding: 8px 10px;
 }
 
 textarea {
@@ -69,19 +53,18 @@ textarea {
 .app {
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr) 340px;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .sidebar,
-.inspector,
-.workspace {
+.workspace,
+.inspector {
   min-height: 0;
 }
 
 .sidebar,
 .inspector {
-  background: rgba(22, 24, 27, 0.94);
-  backdrop-filter: blur(10px);
+  background: rgba(22, 24, 27, 0.96);
 }
 
 .sidebar {
@@ -90,6 +73,14 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  overflow: hidden;
+}
+
+.workspace {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) 280px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .inspector {
@@ -98,58 +89,51 @@ textarea {
   overflow: auto;
 }
 
-.workspace {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
 .toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  padding: 14px 18px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--panel-border);
-  background: rgba(24, 26, 29, 0.92);
+  background: var(--panel);
 }
 
 .toolbar-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
-.toolbar label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-muted);
-}
-
-.toolbar input[type="range"] {
-  width: 160px;
-}
-
-.toolbar input[type="number"] {
-  width: 72px;
-}
-
-.snap-toggle input {
+.toolbar-group button {
   width: auto;
+}
+
+.toolbar-help,
+.status-label,
+.sheet-meta,
+.annotation-meta,
+.gallery-meta,
+.empty-state,
+.zoom-label,
+.pill {
+  color: var(--text-muted);
 }
 
 .status-label {
   margin-left: auto;
-  color: var(--text-muted);
   white-space: nowrap;
 }
 
+.zoom-label {
+  min-width: 56px;
+  text-align: center;
+}
+
 .canvas-shell {
-  flex: 1;
   min-height: 0;
-  padding: 18px;
+  padding: 16px;
 }
 
 .canvas-scroller {
@@ -157,7 +141,6 @@ textarea {
   height: 100%;
   overflow: auto;
   border: 1px solid var(--panel-border);
-  border-radius: 16px;
   background:
     linear-gradient(45deg, rgba(255, 255, 255, 0.03) 25%, transparent 25%),
     linear-gradient(-45deg, rgba(255, 255, 255, 0.03) 25%, transparent 25%),
@@ -166,7 +149,6 @@ textarea {
     #0f1011;
   background-size: 32px 32px;
   background-position: 0 0, 0 16px, 16px -16px, -16px 0;
-  box-shadow: var(--shadow);
 }
 
 .canvas-stage {
@@ -188,11 +170,16 @@ textarea {
   inset: 0;
 }
 
+.annotation-layer.color-pick-armed {
+  cursor: crosshair;
+}
+
 .annotation-box {
   position: absolute;
   border: 2px solid var(--accent);
   background: var(--overlay);
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.55);
+  touch-action: none;
 }
 
 .annotation-box.selected {
@@ -200,23 +187,18 @@ textarea {
   background: var(--overlay-selected);
 }
 
-.annotation-box:hover {
-  border-color: var(--accent-strong);
-}
-
 .annotation-label {
   position: absolute;
   left: 0;
-  top: -24px;
-  max-width: 240px;
-  padding: 2px 8px;
-  background: rgba(16, 17, 18, 0.94);
+  top: -22px;
+  max-width: 220px;
+  padding: 1px 6px;
   border: 1px solid var(--panel-border);
-  border-radius: 999px;
+  background: rgba(15, 16, 18, 0.96);
   color: var(--text);
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
   pointer-events: none;
 }
 
@@ -226,19 +208,38 @@ textarea {
   bottom: -6px;
   width: 12px;
   height: 12px;
-  border-radius: 3px;
-  background: var(--accent-strong);
   border: 1px solid rgba(0, 0, 0, 0.55);
+  background: var(--accent-strong);
   cursor: nwse-resize;
 }
 
-.panel {
-  background: rgba(24, 26, 29, 0.92);
+.inline-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.inline-field button {
+  width: auto;
+  white-space: nowrap;
+}
+
+.panel,
+.gallery-panel {
+  background: var(--panel);
   border: 1px solid var(--panel-border);
-  border-radius: 16px;
-  padding: 14px;
+  padding: 12px;
+}
+
+.gallery-panel {
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  overflow: auto;
+}
+
+.panel {
   margin-bottom: 16px;
-  box-shadow: var(--shadow);
 }
 
 .panel-header {
@@ -268,46 +269,34 @@ textarea {
 }
 
 .sheet-list {
+  flex: 1;
   overflow: auto;
 }
 
 .sheet-card,
-.annotation-card {
+.annotation-card,
+.gallery-card {
   padding: 10px 12px;
   border: 1px solid var(--panel-border);
   background: var(--panel-muted);
-  border-radius: 12px;
-  cursor: pointer;
-}
-
-.sheet-card:hover,
-.annotation-card:hover {
-  border-color: var(--accent);
+  color: var(--text);
+  text-align: left;
 }
 
 .sheet-card.selected,
-.annotation-card.selected {
-  border-color: var(--accent-strong);
-  background: rgba(212, 168, 79, 0.12);
+.annotation-card.selected,
+.gallery-card.current-sheet {
+  border-color: var(--accent);
 }
 
 .sheet-name,
-.annotation-name {
+.annotation-name,
+.gallery-name {
   font-weight: 600;
-}
-
-.sheet-meta,
-.annotation-meta,
-.empty-state,
-.zoom-label,
-.pill {
-  color: var(--text-muted);
 }
 
 .pill {
   padding: 2px 8px;
-  border-radius: 999px;
-  background: var(--panel-muted);
   border: 1px solid var(--panel-border);
 }
 
@@ -324,17 +313,40 @@ textarea {
   color: var(--text-muted);
 }
 
-.inspector-form label:last-child,
-.inspector-form label:first-child,
-.inspector-form label:nth-child(2) {
+.inspector-form label:nth-child(1),
+.inspector-form label:nth-child(2),
+.inspector-form label:last-child {
   grid-column: 1 / -1;
 }
 
-.empty-state {
-  padding: 12px 0;
+.gallery-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
 }
 
-@media (max-width: 1280px) {
+.gallery-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gallery-preview {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  image-rendering: pixelated;
+  border: 1px solid var(--panel-border);
+  background:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.04) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.04) 75%),
+    #111316;
+  background-size: 16px 16px;
+}
+
+@media (max-width: 1200px) {
   .app {
     grid-template-columns: 240px minmax(0, 1fr) 300px;
   }
@@ -352,11 +364,7 @@ textarea {
     border-bottom: 1px solid var(--panel-border);
   }
 
-  .inspector {
-    border-top: 1px solid var(--panel-border);
-  }
-
-  .sheet-list {
-    max-height: 220px;
+  .workspace {
+    grid-template-rows: auto minmax(320px, 1fr) 240px;
   }
 }
